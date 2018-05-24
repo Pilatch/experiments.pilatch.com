@@ -1,0 +1,215 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+pilatch-card {
+  transition-duration: 1s;
+}
+:root {
+  --player-deck-scale: 0.25;
+  --player-deck-left: calc(50vw - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --player-deck-top: 85vh;
+  --deck-stack-increment: 3px;
+  --placed-card-scale: 0.33;
+  --opponent-hand-scale: 0.25;
+  --opponent-hand-card-overlap: calc(var(--scaled-card-width) * var(--opponent-hand-scale) / 2);
+  --opponent-1-deck-left: calc(16.7vw - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --opponent-1-deck-top: 25vh;
+  --opponent-2-deck-left: calc(100vw - 16.7vw - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --opponent-2-deck-top: 25vh;
+}
+
+.table-top {
+  border: 1px dashed purple;
+  display: block;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.table-top pilatch-card {
+  position: absolute;
+}
+
+/* player */
+
+.player-hand {
+  top: calc(100vh - var(--scaled-card-height) / 3);
+}
+
+.card-1 {
+  left: 0;
+  z-index: 0;
+}
+.card-2 {
+  left: 25vw;
+  z-index: 1;
+}
+.card-3 {
+  left: 50vw;
+  z-index: 2;
+}
+.card-4 {
+  left: 75vw;
+  z-index: 2;
+}
+
+.player-placed-card-area { /* TODO use something like player.placed-card-area */
+  left: calc(50vw - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: 60vh;
+  transform-origin: top left;
+  transform: scale(var(--placed-card-scale));
+}
+
+.player-deck, .opponent-1-deck, .opponent-2-deck {
+  transform: rotate(-90deg) scale(var(--player-deck-scale));
+  transform-origin: top left;
+}
+.player-deck.card-1 {
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 1);
+}
+.player-deck.card-2 {
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 2);
+}
+.player-deck.card-3 {
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 3);
+}
+.player-deck.card-4 {
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 4);
+}
+.player-deck.card-5, .player-deck {
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 5);
+}
+
+/* center */
+
+pilatch-card[binary] {
+  left: calc(50vw - var(--scaled-card-height) * 0.5 / 2);
+  top: calc(50vh - var(--scaled-card-width) * 0.5 / 2);
+  transform: scale(0.5);
+  transform-origin: top left;
+}
+
+.claimed-suit {
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: calc(50vh - var(--scaled-card-width) * 0.5 / 2);
+  width: 33vw;
+}
+
+.wins-in-a-row {
+  left: 66vw;
+  position: absolute;
+  text-align: center;
+  top: calc(50vh - var(--scaled-card-width) * 0.5 / 2);
+  width: 33vw;
+}
+
+/* opponents */
+
+.opponent-1-hand, .opponent-2-hand {
+  top: calc(var(--scaled-card-height) * var(--opponent-hand-scale) / -3);
+  transform: scale(var(--opponent-hand-scale));
+  transform-origin: top left;
+}
+
+/* opponent 1 */
+
+.opponent-1-hand.card-1 {
+  left: 0;
+  z-index: 0;
+}
+.opponent-1-hand.card-2 {
+  left: calc(var(--opponent-hand-card-overlap) * 1);
+  z-index: 1;
+}
+.opponent-1-hand.card-3 {
+  left: calc(var(--opponent-hand-card-overlap) * 2);
+  z-index: 2;
+}
+.opponent-1-hand.card-4 {
+  left: calc(var(--opponent-hand-card-overlap) * 3);
+  z-index: 2;
+}
+
+.opponent-1-placed-card-area { /* TODO use something like player.placed-card-area */
+  left: calc(16.7vw - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: 26vh;
+  transform-origin: top left;
+  transform: scale(var(--placed-card-scale));
+}
+
+.opponent-1-deck.card-1 {
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 1);
+}
+.opponent-1-deck.card-2 {
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 2);
+}
+.opponent-1-deck.card-3 {
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 3);
+}
+.opponent-1-deck.card-4 {
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 4);
+}
+.opponent-1-deck.card-5, .opponent-1-deck {
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 5);
+}
+
+/* opponent 2 */
+
+.opponent-2-hand.card-1 {
+  left: calc(100vw - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 3);
+  z-index: 0;
+}
+.opponent-2-hand.card-2 {
+  left: calc(100vw - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 2);
+  z-index: 1;
+}
+.opponent-2-hand.card-3 {
+  left: calc(100vw - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 1);
+  z-index: 2;
+}
+.opponent-2-hand.card-4 {
+  left: calc(100vw - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 0);
+  z-index: 2;
+}
+
+.opponent-2-placed-card-area { /* TODO use something like player.placed-card-area */
+  left: calc(100vw - 16.7vw - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: 26vh;
+  transform-origin: top left;
+  transform: scale(var(--placed-card-scale));
+}
+
+.opponent-2-deck.card-1 {
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 1);
+}
+.opponent-2-deck.card-2 {
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 2);
+}
+.opponent-2-deck.card-3 {
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 3);
+}
+.opponent-2-deck.card-4 {
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 4);
+}
+.opponent-2-deck.card-5, .opponent-2-deck {
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 5);
+}

@@ -1,0 +1,15 @@
+:root {
+  --pilatch-card-scale: 1;
+  --pilatch-card-height: 350px;
+  --pilatch-card-width: 250px;
+}
+
+:root {
+  /*
+    TODO calculate scaled card height and width based on viewport width
+    TODO calculate the pilatch-card-scale based on the relationship between the card height and scaled height,
+    if possible, as pilatch-card.css uses that in a few places.
+  */
+  --scaled-card-height: calc(var(--pilatch-card-height) * var(--pilatch-card-scale));
+  --scaled-card-width: calc(var(--pilatch-card-width) * var(--pilatch-card-scale));
+}

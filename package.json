@@ -1,0 +1,21 @@
+{
+  "name": "experiments-top-level-directory",
+  "version": "0.1.0",
+  "private": true,
+  "description": "trying stuff",
+  "main": "index.html",
+  "dependencies": {
+    "express": "^4.15.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "play",
+    "games",
+    "cards"
+  ],
+  "author": "Ethan B. Martin",
+  "license": "ISC"
+}
