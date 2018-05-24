@@ -8766,9 +8766,24 @@ var _user$project$View$view = function (model) {
 						}),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$tableTop(
-							{ctor: '[]'}),
-						_1: {ctor: '[]'}
+						_0: A2(
+							_elm_lang$html$Html$a,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$href('https://github.com/Pilatch/experiments.pilatch.com/blob/master/card-animation/source/elm/View.elm'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Elm view source codez'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$tableTop(
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}
 					}
 				});
 	}

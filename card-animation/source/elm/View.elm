@@ -2,7 +2,7 @@ module View exposing (view)
 
 import Model exposing (..)
 import Html exposing (..)
-import Html.Attributes exposing (attribute, class, placeholder, type_, value)
+import Html.Attributes exposing (attribute, class, href, placeholder, type_, value)
 import Html.Events exposing (..)
 
 
@@ -203,5 +203,6 @@ view model =
         _ ->
             section []
                 [ button [ onClick <| DoAnimation 0 ] [ text "START OVER" ]
+                , a [ href "https://github.com/Pilatch/experiments.pilatch.com/blob/master/card-animation/source/elm/View.elm" ] [ text "Elm view source codez" ]
                 , tableTop []
                 ]
