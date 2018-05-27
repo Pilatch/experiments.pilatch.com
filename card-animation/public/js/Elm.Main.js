@@ -8330,31 +8330,22 @@ var _user$project$View$blank = A2(_elm_lang$html$Html_Attributes$attribute, 'not
 var _user$project$View$suit = _elm_lang$html$Html_Attributes$attribute('suit');
 var _user$project$View$rank = _elm_lang$html$Html_Attributes$attribute('rank');
 var _user$project$View$up = A2(_elm_lang$html$Html_Attributes$attribute, 'up', '');
-var _user$project$View$fiveOfPaper_ = F2(
-	function (attribute1, attribute2) {
-		return _user$project$View$pCard(
-			{
+var _user$project$View$fiveOfPaperDown = function (attribute) {
+	return _user$project$View$pCard(
+		{
+			ctor: '::',
+			_0: attribute,
+			_1: {
 				ctor: '::',
-				_0: attribute1,
+				_0: _user$project$View$rank('5'),
 				_1: {
 					ctor: '::',
-					_0: attribute2,
-					_1: {
-						ctor: '::',
-						_0: _user$project$View$up,
-						_1: {
-							ctor: '::',
-							_0: _user$project$View$rank('5'),
-							_1: {
-								ctor: '::',
-								_0: _user$project$View$suit('paper'),
-								_1: {ctor: '[]'}
-							}
-						}
-					}
+					_0: _user$project$View$suit('paper'),
+					_1: {ctor: '[]'}
 				}
-			});
-	});
+			}
+		});
+};
 var _user$project$View$fiveOfPaper = function (attribute) {
 	return _user$project$View$pCard(
 		{
@@ -8554,7 +8545,24 @@ var _user$project$View$view = function (model) {
 								_0: _user$project$View$threeOfRock(_user$project$View$card4),
 								_1: {
 									ctor: '::',
-									_0: A2(_user$project$View$fiveOfPaper_, _user$project$View$card2, _user$project$View$placedAreaClass),
+									_0: _user$project$View$pCard(
+										{
+											ctor: '::',
+											_0: _user$project$View$card2,
+											_1: {
+												ctor: '::',
+												_0: _user$project$View$placedAreaClass,
+												_1: {
+													ctor: '::',
+													_0: _user$project$View$rank('5'),
+													_1: {
+														ctor: '::',
+														_0: _user$project$View$suit('paper'),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										}),
 									_1: {
 										ctor: '::',
 										_0: _user$project$View$emptyArea,
@@ -8584,7 +8592,7 @@ var _user$project$View$view = function (model) {
 								_0: _user$project$View$threeOfRock(_user$project$View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$fiveOfPaper(_user$project$View$placedAreaClass),
+									_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
 									_1: {
 										ctor: '::',
 										_0: _user$project$View$emptyArea,
@@ -8614,7 +8622,7 @@ var _user$project$View$view = function (model) {
 								_0: _user$project$View$threeOfRock(_user$project$View$card3),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$fiveOfPaper(_user$project$View$placedAreaClass),
+									_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
 									_1: {
 										ctor: '::',
 										_0: _user$project$View$emptyArea,
@@ -8644,7 +8652,7 @@ var _user$project$View$view = function (model) {
 								_0: _user$project$View$threeOfRock(_user$project$View$card3),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$fiveOfPaper(_user$project$View$placedAreaClass),
+									_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
 									_1: {
 										ctor: '::',
 										_0: _user$project$View$emptyArea,
@@ -8674,7 +8682,7 @@ var _user$project$View$view = function (model) {
 								_0: _user$project$View$threeOfRock(_user$project$View$hidden),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$fiveOfPaper(_user$project$View$placedAreaClass),
+									_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
 									_1: {
 										ctor: '::',
 										_0: _user$project$View$emptyArea,

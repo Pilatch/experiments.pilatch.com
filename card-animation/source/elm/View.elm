@@ -34,8 +34,8 @@ fiveOfPaper attribute =
     pCard (attribute :: [ up, rank "5", suit "paper" ])
 
 
-fiveOfPaper_ attribute1 attribute2 =
-    pCard (attribute1 :: attribute2 :: [ up, rank "5", suit "paper" ])
+fiveOfPaperDown attribute =
+    pCard (attribute :: [ rank "5", suit "paper" ])
 
 
 up =
@@ -130,7 +130,7 @@ view model =
                 , invisible
                 , kingOfRock card3
                 , threeOfRock card4
-                , fiveOfPaper_ card2 placedAreaClass
+                , pCard [ card2, placedAreaClass, rank "5", suit "paper" ]
                 , emptyArea
                 ]
 
@@ -141,7 +141,7 @@ view model =
                 , invisible
                 , kingOfRock card3
                 , threeOfRock card4
-                , fiveOfPaper placedAreaClass
+                , fiveOfPaperDown placedAreaClass
                 , emptyArea
                 ]
 
@@ -152,7 +152,7 @@ view model =
                 , kingOfRock hidden
                 , kingOfRock card2
                 , threeOfRock card3
-                , fiveOfPaper placedAreaClass
+                , fiveOfPaperDown placedAreaClass
                 , emptyArea
                 ]
 
@@ -163,7 +163,7 @@ view model =
                 , kingOfRock card2
                 , kingOfRock hidden
                 , threeOfRock card3
-                , fiveOfPaper placedAreaClass
+                , fiveOfPaperDown placedAreaClass
                 , emptyArea
                 ]
 
@@ -174,7 +174,7 @@ view model =
                 , kingOfRock card2
                 , threeOfRock card3
                 , threeOfRock hidden
-                , fiveOfPaper placedAreaClass
+                , fiveOfPaperDown placedAreaClass
                 , emptyArea
                 ]
 
