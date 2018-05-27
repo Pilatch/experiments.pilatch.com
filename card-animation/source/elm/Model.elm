@@ -3,8 +3,17 @@ module Model exposing (..)
 
 type alias Model =
     { animationNumber : Int
+    , implementation : Implementation
     }
 
 
 type Msg
-    = DoAnimation Int
+    = ChooseImplementation Implementation
+    | DoAnimation Int
+    | StartOver
+
+
+type Implementation
+    = InvisibleCard
+    | Naive
+    | NoneChosen

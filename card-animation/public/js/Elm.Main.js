@@ -8260,13 +8260,33 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _user$project$Model$Model = function (a) {
-	return {animationNumber: a};
-};
+var _user$project$Model$Model = F2(
+	function (a, b) {
+		return {animationNumber: a, implementation: b};
+	});
+var _user$project$Model$StartOver = {ctor: 'StartOver'};
 var _user$project$Model$DoAnimation = function (a) {
 	return {ctor: 'DoAnimation', _0: a};
 };
+var _user$project$Model$ChooseImplementation = function (a) {
+	return {ctor: 'ChooseImplementation', _0: a};
+};
+var _user$project$Model$NoneChosen = {ctor: 'NoneChosen'};
+var _user$project$Model$Naive = {ctor: 'Naive'};
+var _user$project$Model$InvisibleCard = {ctor: 'InvisibleCard'};
 
+var _user$project$View$sourceCodezLink = A2(
+	_elm_lang$html$Html$a,
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html_Attributes$href('https://github.com/Pilatch/experiments.pilatch.com/blob/master/card-animation/source/elm/View.elm'),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: _elm_lang$html$Html$text('Source codez'),
+		_1: {ctor: '[]'}
+	});
 var _user$project$View$tableTop = _elm_lang$html$Html$div(
 	{
 		ctor: '::',
@@ -8289,13 +8309,13 @@ var _user$project$View$next = function (animationNumber) {
 		});
 };
 var _user$project$View$render = F3(
-	function (model, comment, cards) {
+	function (animationNumber, comment, cards) {
 		return A2(
 			_elm_lang$html$Html$section,
 			{ctor: '[]'},
 			{
 				ctor: '::',
-				_0: _user$project$View$next(model.animationNumber + 1),
+				_0: _user$project$View$next(animationNumber + 1),
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html$text(
@@ -8305,7 +8325,7 @@ var _user$project$View$render = F3(
 							A2(
 								_elm_lang$core$Basics_ops['++'],
 								' Animation: ',
-								_elm_lang$core$Basics$toString(model.animationNumber + 1)))),
+								_elm_lang$core$Basics$toString(animationNumber + 1)))),
 					_1: {
 						ctor: '::',
 						_0: _user$project$View$tableTop(cards),
@@ -8463,13 +8483,194 @@ var _user$project$View$emptyArea = _user$project$View$pCard(
 			_1: {ctor: '[]'}
 		}
 	});
-var _user$project$View$view = function (model) {
-	var _p0 = model.animationNumber;
+var _user$project$View$naiveImplementation = function (animationNumber) {
+	var _p0 = animationNumber;
 	switch (_p0) {
 		case 0:
 			return A3(
 				_user$project$View$render,
-				model,
+				animationNumber,
+				'Initial setup with four cards in hand and an empty placed card area',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$fiveOfPaper(_user$project$View$card2),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 1:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'add new attributes/classes to make the five of paper card animate',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$pCard(
+							{
+								ctor: '::',
+								_0: _user$project$View$card2,
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$placedAreaClass,
+									_1: {
+										ctor: '::',
+										_0: _user$project$View$rank('5'),
+										_1: {
+											ctor: '::',
+											_0: _user$project$View$suit('paper'),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 2:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'remove classes from animated card\'s previous spot in hand',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 3:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'rearrange cards to match new layout',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 4:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'return five of paper to end of hand',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$fiveOfPaper(_user$project$View$card4),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		default:
+			return A2(
+				_elm_lang$html$Html$section,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$button,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_user$project$Model$StartOver),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('START OVER'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$sourceCodezLink,
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$tableTop(
+								{ctor: '[]'}),
+							_1: {ctor: '[]'}
+						}
+					}
+				});
+	}
+};
+var _user$project$View$invisibleCardImplementation = function (animationNumber) {
+	var _p1 = animationNumber;
+	switch (_p1) {
+		case 0:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
 				'Initial setup with invisible card between placed area and hand',
 				{
 					ctor: '::',
@@ -8499,7 +8700,7 @@ var _user$project$View$view = function (model) {
 		case 1:
 			return A3(
 				_user$project$View$render,
-				model,
+				animationNumber,
 				'Swap invisible card with card to move\'s attributes, and hide the original (clicked card)',
 				{
 					ctor: '::',
@@ -8529,7 +8730,7 @@ var _user$project$View$view = function (model) {
 		case 2:
 			return A3(
 				_user$project$View$render,
-				model,
+				animationNumber,
 				'add new attributes/classes to make the card animate',
 				{
 					ctor: '::',
@@ -8576,7 +8777,7 @@ var _user$project$View$view = function (model) {
 		case 3:
 			return A3(
 				_user$project$View$render,
-				model,
+				animationNumber,
 				'remove classes from animated card\'s previous spot',
 				{
 					ctor: '::',
@@ -8606,7 +8807,7 @@ var _user$project$View$view = function (model) {
 		case 4:
 			return A3(
 				_user$project$View$render,
-				model,
+				animationNumber,
 				'remaining hand slides left',
 				{
 					ctor: '::',
@@ -8636,7 +8837,7 @@ var _user$project$View$view = function (model) {
 		case 5:
 			return A3(
 				_user$project$View$render,
-				model,
+				animationNumber,
 				'move invisible card down one notch',
 				{
 					ctor: '::',
@@ -8666,7 +8867,7 @@ var _user$project$View$view = function (model) {
 		case 6:
 			return A3(
 				_user$project$View$render,
-				model,
+				animationNumber,
 				'move invisible card down again',
 				{
 					ctor: '::',
@@ -8696,7 +8897,7 @@ var _user$project$View$view = function (model) {
 		case 7:
 			return A3(
 				_user$project$View$render,
-				model,
+				animationNumber,
 				'return five of paper to end of hand',
 				{
 					ctor: '::',
@@ -8726,7 +8927,7 @@ var _user$project$View$view = function (model) {
 		case 8:
 			return A3(
 				_user$project$View$render,
-				model,
+				animationNumber,
 				'swap invisible card to initial spot',
 				{
 					ctor: '::',
@@ -8763,8 +8964,7 @@ var _user$project$View$view = function (model) {
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(
-								_user$project$Model$DoAnimation(0)),
+							_0: _elm_lang$html$Html_Events$onClick(_user$project$Model$StartOver),
 							_1: {ctor: '[]'}
 						},
 						{
@@ -8774,18 +8974,7 @@ var _user$project$View$view = function (model) {
 						}),
 					_1: {
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$a,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$href('https://github.com/Pilatch/experiments.pilatch.com/blob/master/card-animation/source/elm/View.elm'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Elm view source codez'),
-								_1: {ctor: '[]'}
-							}),
+						_0: _user$project$View$sourceCodezLink,
 						_1: {
 							ctor: '::',
 							_0: _user$project$View$tableTop(
@@ -8796,16 +8985,90 @@ var _user$project$View$view = function (model) {
 				});
 	}
 };
+var _user$project$View$view = function (model) {
+	var _p2 = model.implementation;
+	switch (_p2.ctor) {
+		case 'NoneChosen':
+			return A2(
+				_elm_lang$html$Html$section,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h1,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Choose implementation'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('button'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(
+										_user$project$Model$ChooseImplementation(_user$project$Model$Naive)),
+									_1: {ctor: '[]'}
+								}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Naïve'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$button,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$type_('button'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(
+											_user$project$Model$ChooseImplementation(_user$project$Model$InvisibleCard)),
+										_1: {ctor: '[]'}
+									}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Invisible Card'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				});
+		case 'InvisibleCard':
+			return _user$project$View$invisibleCardImplementation(model.animationNumber);
+		default:
+			return _user$project$View$naiveImplementation(model.animationNumber);
+	}
+};
 
 var _user$project$Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		return {animationNumber: _p0._0};
+		switch (_p0.ctor) {
+			case 'ChooseImplementation':
+				return {implementation: _p0._0, animationNumber: 0};
+			case 'DoAnimation':
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{animationNumber: _p0._0});
+			default:
+				return {implementation: _user$project$Model$NoneChosen, animationNumber: 0};
+		}
 	});
 
 var _user$project$Main$main = _elm_lang$html$Html$beginnerProgram(
 	{
-		model: {animationNumber: 0},
+		model: {animationNumber: 0, implementation: _user$project$Model$NoneChosen},
 		view: _user$project$View$view,
 		update: _user$project$Update$update
 	})();

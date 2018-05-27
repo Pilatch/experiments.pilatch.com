@@ -9,7 +9,7 @@ import Html exposing (beginnerProgram)
 main : Program Never Model.Model Model.Msg
 main =
     beginnerProgram
-        { model = { animationNumber = 0 }
+        { model = { animationNumber = 0, implementation = Model.NoneChosen }
         , view = View.view
         , update = Update.update
         }

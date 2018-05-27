@@ -90,19 +90,99 @@ tableTop =
     div [ class "table-top" ]
 
 
-render model comment cards =
+sourceCodezLink =
+    a [ href "https://github.com/Pilatch/experiments.pilatch.com/blob/master/card-animation/source/elm/View.elm" ] [ text "Source codez" ]
+
+
+render animationNumber comment cards =
     section []
-        [ next (model.animationNumber + 1)
-        , text <| comment ++ " Animation: " ++ toString (model.animationNumber + 1)
+        [ next (animationNumber + 1)
+        , text <| comment ++ " Animation: " ++ toString (animationNumber + 1)
         , tableTop
             cards
         ]
 
 
 view model =
-    case model.animationNumber of
+    case model.implementation of
+        NoneChosen ->
+            section []
+                [ h1 [] [ text "Choose implementation" ]
+                , button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ]
+                , button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ]
+                ]
+
+        InvisibleCard ->
+            invisibleCardImplementation model.animationNumber
+
+        Naive ->
+            naiveImplementation model.animationNumber
+
+
+naiveImplementation animationNumber =
+    case animationNumber of
         0 ->
-            render model
+            render animationNumber
+                "Initial setup with four cards in hand and an empty placed card area"
+                [ queenOfScissors card1
+                , fiveOfPaper card2
+                , kingOfRock card3
+                , threeOfRock card4
+                , emptyArea
+                ]
+
+        1 ->
+            render animationNumber
+                "add new attributes/classes to make the five of paper card animate"
+                [ queenOfScissors card1
+                , pCard [ card2, placedAreaClass, rank "5", suit "paper" ]
+                , kingOfRock card3
+                , threeOfRock card4
+                , emptyArea
+                ]
+
+        2 ->
+            render animationNumber
+                "remove classes from animated card's previous spot in hand"
+                [ queenOfScissors card1
+                , fiveOfPaperDown placedAreaClass
+                , kingOfRock card3
+                , threeOfRock card4
+                , emptyArea
+                ]
+
+        3 ->
+            render animationNumber
+                "rearrange cards to match new layout"
+                [ queenOfScissors card1
+                , kingOfRock card2
+                , threeOfRock card3
+                , fiveOfPaperDown placedAreaClass
+                , emptyArea
+                ]
+
+        4 ->
+            render animationNumber
+                "return five of paper to end of hand"
+                [ queenOfScissors card1
+                , kingOfRock card2
+                , threeOfRock card3
+                , fiveOfPaper card4
+                , emptyArea
+                ]
+
+        _ ->
+            section []
+                [ button [ onClick <| StartOver ] [ text "START OVER" ]
+                , sourceCodezLink
+                , tableTop []
+                ]
+
+
+invisibleCardImplementation animationNumber =
+    case animationNumber of
+        0 ->
+            render animationNumber
                 "Initial setup with invisible card between placed area and hand"
                 [ queenOfScissors card1
                 , fiveOfPaper card2
@@ -113,7 +193,7 @@ view model =
                 ]
 
         1 ->
-            render model
+            render animationNumber
                 "Swap invisible card with card to move's attributes, and hide the original (clicked card)"
                 [ queenOfScissors card1
                 , fiveOfPaper hidden
@@ -124,7 +204,7 @@ view model =
                 ]
 
         2 ->
-            render model
+            render animationNumber
                 "add new attributes/classes to make the card animate"
                 [ queenOfScissors card1
                 , invisible
@@ -135,7 +215,7 @@ view model =
                 ]
 
         3 ->
-            render model
+            render animationNumber
                 "remove classes from animated card's previous spot"
                 [ queenOfScissors card1
                 , invisible
@@ -146,7 +226,7 @@ view model =
                 ]
 
         4 ->
-            render model
+            render animationNumber
                 "remaining hand slides left"
                 [ queenOfScissors card1
                 , kingOfRock hidden
@@ -157,7 +237,7 @@ view model =
                 ]
 
         5 ->
-            render model
+            render animationNumber
                 "move invisible card down one notch"
                 [ queenOfScissors card1
                 , kingOfRock card2
@@ -168,7 +248,7 @@ view model =
                 ]
 
         6 ->
-            render model
+            render animationNumber
                 "move invisible card down again"
                 [ queenOfScissors card1
                 , kingOfRock card2
@@ -179,7 +259,7 @@ view model =
                 ]
 
         7 ->
-            render model
+            render animationNumber
                 "return five of paper to end of hand"
                 [ queenOfScissors card1
                 , kingOfRock card2
@@ -190,7 +270,7 @@ view model =
                 ]
 
         8 ->
-            render model
+            render animationNumber
                 "swap invisible card to initial spot"
                 [ queenOfScissors card1
                 , kingOfRock card2
@@ -202,7 +282,7 @@ view model =
 
         _ ->
             section []
-                [ button [ onClick <| DoAnimation 0 ] [ text "START OVER" ]
-                , a [ href "https://github.com/Pilatch/experiments.pilatch.com/blob/master/card-animation/source/elm/View.elm" ] [ text "Elm view source codez" ]
+                [ button [ onClick <| StartOver ] [ text "START OVER" ]
+                , sourceCodezLink
                 , tableTop []
                 ]
