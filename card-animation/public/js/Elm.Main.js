@@ -8271,9 +8271,10 @@ var _user$project$Model$DoAnimation = function (a) {
 var _user$project$Model$ChooseImplementation = function (a) {
 	return {ctor: 'ChooseImplementation', _0: a};
 };
-var _user$project$Model$NoneChosen = {ctor: 'NoneChosen'};
-var _user$project$Model$Naive = {ctor: 'Naive'};
+var _user$project$Model$DisablingTransitions = {ctor: 'DisablingTransitions'};
 var _user$project$Model$InvisibleCard = {ctor: 'InvisibleCard'};
+var _user$project$Model$Naive = {ctor: 'Naive'};
+var _user$project$Model$NoneChosen = {ctor: 'NoneChosen'};
 
 var _user$project$View$sourceCodezLink = A2(
 	_elm_lang$html$Html$a,
@@ -8287,11 +8288,51 @@ var _user$project$View$sourceCodezLink = A2(
 		_0: _elm_lang$html$Html$text('Source codez'),
 		_1: {ctor: '[]'}
 	});
+var _user$project$View$tableTop1 = function (attribute) {
+	return _elm_lang$html$Html$div(
+		{
+			ctor: '::',
+			_0: attribute,
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('table-top'),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$View$tableTop = _elm_lang$html$Html$div(
 	{
 		ctor: '::',
 		_0: _elm_lang$html$Html_Attributes$class('table-top'),
 		_1: {ctor: '[]'}
+	});
+var _user$project$View$startOver = A2(
+	_elm_lang$html$Html$section,
+	{ctor: '[]'},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$button,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(_user$project$Model$StartOver),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text('START OVER'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {
+			ctor: '::',
+			_0: _user$project$View$sourceCodezLink,
+			_1: {
+				ctor: '::',
+				_0: _user$project$View$tableTop(
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			}
+		}
 	});
 var _user$project$View$next = function (animationNumber) {
 	return A2(
@@ -8350,6 +8391,27 @@ var _user$project$View$blank = A2(_elm_lang$html$Html_Attributes$attribute, 'not
 var _user$project$View$suit = _elm_lang$html$Html_Attributes$attribute('suit');
 var _user$project$View$rank = _elm_lang$html$Html_Attributes$attribute('rank');
 var _user$project$View$up = A2(_elm_lang$html$Html_Attributes$attribute, 'up', '');
+var _user$project$View$fiveOfPaperDown2 = F2(
+	function (attribute1, attribute2) {
+		return _user$project$View$pCard(
+			{
+				ctor: '::',
+				_0: attribute1,
+				_1: {
+					ctor: '::',
+					_0: attribute2,
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$rank('5'),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$suit('paper'),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			});
+	});
 var _user$project$View$fiveOfPaperDown = function (attribute) {
 	return _user$project$View$pCard(
 		{
@@ -8366,6 +8428,31 @@ var _user$project$View$fiveOfPaperDown = function (attribute) {
 			}
 		});
 };
+var _user$project$View$fiveOfPaper2 = F2(
+	function (attribute1, attribute2) {
+		return _user$project$View$pCard(
+			{
+				ctor: '::',
+				_0: attribute1,
+				_1: {
+					ctor: '::',
+					_0: attribute2,
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$up,
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$rank('5'),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$suit('paper'),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			});
+	});
 var _user$project$View$fiveOfPaper = function (attribute) {
 	return _user$project$View$pCard(
 		{
@@ -8386,6 +8473,31 @@ var _user$project$View$fiveOfPaper = function (attribute) {
 			}
 		});
 };
+var _user$project$View$threeOfRock2 = F2(
+	function (attribute1, attribute2) {
+		return _user$project$View$pCard(
+			{
+				ctor: '::',
+				_0: attribute1,
+				_1: {
+					ctor: '::',
+					_0: attribute2,
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$up,
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$rank('3'),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$suit('rock'),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			});
+	});
 var _user$project$View$threeOfRock = function (attribute) {
 	return _user$project$View$pCard(
 		{
@@ -8406,6 +8518,31 @@ var _user$project$View$threeOfRock = function (attribute) {
 			}
 		});
 };
+var _user$project$View$kingOfRock2 = F2(
+	function (attribute1, attribute2) {
+		return _user$project$View$pCard(
+			{
+				ctor: '::',
+				_0: attribute1,
+				_1: {
+					ctor: '::',
+					_0: attribute2,
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$up,
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$rank('13'),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$suit('rock'),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			});
+	});
 var _user$project$View$kingOfRock = function (attribute) {
 	return _user$project$View$pCard(
 		{
@@ -8426,6 +8563,31 @@ var _user$project$View$kingOfRock = function (attribute) {
 			}
 		});
 };
+var _user$project$View$queenOfScissors2 = F2(
+	function (attribute1, attribute2) {
+		return _user$project$View$pCard(
+			{
+				ctor: '::',
+				_0: attribute1,
+				_1: {
+					ctor: '::',
+					_0: attribute2,
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$up,
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$rank('12'),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$suit('scissors'),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			});
+	});
 var _user$project$View$queenOfScissors = function (attribute) {
 	return _user$project$View$pCard(
 		{
@@ -8466,6 +8628,33 @@ var _user$project$View$aceOfScissors = function (attribute) {
 			}
 		});
 };
+var _user$project$View$noTransition = A2(_elm_lang$html$Html_Attributes$attribute, 'no-transition', '');
+var _user$project$View$renderNoTransition = F3(
+	function (animationNumber, comment, cards) {
+		return A2(
+			_elm_lang$html$Html$section,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _user$project$View$next(animationNumber + 1),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							comment,
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								' Animation: ',
+								_elm_lang$core$Basics$toString(animationNumber + 1)))),
+					_1: {
+						ctor: '::',
+						_0: A2(_user$project$View$tableTop1, _user$project$View$noTransition, cards),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
 var _user$project$View$hidden = A2(_elm_lang$html$Html_Attributes$attribute, 'hidden', '');
 var _user$project$View$invisible = _user$project$View$pCard(
 	{
@@ -8634,34 +8823,7 @@ var _user$project$View$naiveImplementation = function (animationNumber) {
 					}
 				});
 		default:
-			return A2(
-				_elm_lang$html$Html$section,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(_user$project$Model$StartOver),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('START OVER'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: _user$project$View$sourceCodezLink,
-						_1: {
-							ctor: '::',
-							_0: _user$project$View$tableTop(
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}
-					}
-				});
+			return _user$project$View$startOver;
 	}
 };
 var _user$project$View$invisibleCardImplementation = function (animationNumber) {
@@ -8955,43 +9117,200 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 					}
 				});
 		default:
-			return A2(
-				_elm_lang$html$Html$section,
-				{ctor: '[]'},
+			return _user$project$View$startOver;
+	}
+};
+var _user$project$View$hybridImplementation = function (animationNumber) {
+	var _p2 = animationNumber;
+	switch (_p2) {
+		case 0:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'Initial setup with four cards in hand and an empty placed card area',
 				{
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(_user$project$Model$StartOver),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('START OVER'),
-							_1: {ctor: '[]'}
-						}),
+					_0: A2(_user$project$View$queenOfScissors2, _user$project$View$card1, _user$project$View$noTransition),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$sourceCodezLink,
+						_0: A2(_user$project$View$fiveOfPaper2, _user$project$View$card2, _user$project$View$noTransition),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$tableTop(
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
+							_0: A2(_user$project$View$kingOfRock2, _user$project$View$card3, _user$project$View$noTransition),
+							_1: {
+								ctor: '::',
+								_0: A2(_user$project$View$threeOfRock2, _user$project$View$card4, _user$project$View$noTransition),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
 						}
 					}
 				});
+		case 1:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'add new attributes/classes to make the five of paper card animate',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$pCard(
+							{
+								ctor: '::',
+								_0: _user$project$View$card2,
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$placedAreaClass,
+									_1: {
+										ctor: '::',
+										_0: _user$project$View$rank('5'),
+										_1: {
+											ctor: '::',
+											_0: _user$project$View$suit('paper'),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 2:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'remove classes from animated card\'s previous spot in hand, then manually setPilatchCardAnimationDuration(0)',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 3:
+			return A3(
+				_user$project$View$renderNoTransition,
+				animationNumber,
+				'move it in the DOM with transitions disabled in CSS',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: A2(_user$project$View$kingOfRock2, _user$project$View$card3, _user$project$View$noTransition),
+						_1: {
+							ctor: '::',
+							_0: A2(_user$project$View$threeOfRock2, _user$project$View$card4, _user$project$View$noTransition),
+							_1: {
+								ctor: '::',
+								_0: A2(_user$project$View$fiveOfPaperDown2, _user$project$View$placedAreaClass, _user$project$View$noTransition),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 4:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'slide the cards in hand to the left',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 5:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'return five of paper to end of hand',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$fiveOfPaper(_user$project$View$card4),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		default:
+			return _user$project$View$startOver;
 	}
 };
 var _user$project$View$view = function (model) {
-	var _p2 = model.implementation;
-	switch (_p2.ctor) {
+	var _p3 = model.implementation;
+	switch (_p3.ctor) {
 		case 'NoneChosen':
 			return A2(
 				_elm_lang$html$Html$section,
-				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('explanation'),
+					_1: {ctor: '[]'}
+				},
 				{
 					ctor: '::',
 					_0: A2(
@@ -8999,55 +9318,131 @@ var _user$project$View$view = function (model) {
 						{ctor: '[]'},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text('Choose implementation'),
+							_0: _elm_lang$html$Html$text('Demonstrations'),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_elm_lang$html$Html$button,
+							_elm_lang$html$Html$p,
+							{ctor: '[]'},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$type_('button'),
-								_1: {
-									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(
-										_user$project$Model$ChooseImplementation(_user$project$Model$Naive)),
-									_1: {ctor: '[]'}
-								}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('Naïve'),
+								_0: _elm_lang$html$Html$text('In each demonstration we can step through the animations by clicking the NEXT button that appears in the upper left corner.'),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$button,
+								_elm_lang$html$Html$p,
+								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$type_('button'),
-									_1: {
-										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onClick(
-											_user$project$Model$ChooseImplementation(_user$project$Model$InvisibleCard)),
-										_1: {ctor: '[]'}
-									}
-								},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('Invisible Card'),
+									_0: _elm_lang$html$Html$text('The goal is the same in both: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand.'),
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$h3,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Choose an implementation:'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$p,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$type_('button'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(
+															_user$project$Model$ChooseImplementation(_user$project$Model$Naive)),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Naïve'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$p,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$button,
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$type_('button'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$html$Html_Events$onClick(
+																_user$project$Model$ChooseImplementation(_user$project$Model$InvisibleCard)),
+															_1: {ctor: '[]'}
+														}
+													},
+													{
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('Invisible Card'),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$p,
+												{ctor: '[]'},
+												{
+													ctor: '::',
+													_0: A2(
+														_elm_lang$html$Html$button,
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html_Attributes$type_('button'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html_Events$onClick(
+																	_user$project$Model$ChooseImplementation(_user$project$Model$DisablingTransitions)),
+																_1: {ctor: '[]'}
+															}
+														},
+														{
+															ctor: '::',
+															_0: _elm_lang$html$Html$text('Disabling Transitions'),
+															_1: {ctor: '[]'}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
 						}
 					}
 				});
+		case 'Naive':
+			return _user$project$View$naiveImplementation(model.animationNumber);
 		case 'InvisibleCard':
 			return _user$project$View$invisibleCardImplementation(model.animationNumber);
 		default:
-			return _user$project$View$naiveImplementation(model.animationNumber);
+			return _user$project$View$hybridImplementation(model.animationNumber);
 	}
 };
 

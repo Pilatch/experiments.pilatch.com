@@ -49,8 +49,11 @@
   position: absolute;
   height: 100%;
   width: 100%;
+}
+:host(:not([no-transition])) #front,
+:host(:not([no-transition])) #back {
   /* flip speed goes here */
-  transition: transform 0.6s;
+  transition: transform var(--pilatch-card-flip-duration, 0.6s);
 }
 #back {
   background-position-x: calc(var(--negative-scaled-background-width) + var(--scaled-card-height));

@@ -14,28 +14,52 @@ hidden =
     attribute "hidden" ""
 
 
+noTransition =
+    attribute "no-transition" ""
+
+
 aceOfScissors attribute =
-    pCard (attribute :: [ up, rank "14", suit "scissors" ])
+    pCard [ attribute, up, rank "14", suit "scissors" ]
 
 
 queenOfScissors attribute =
-    pCard (attribute :: [ up, rank "12", suit "scissors" ])
+    pCard [ attribute, up, rank "12", suit "scissors" ]
+
+
+queenOfScissors2 attribute1 attribute2 =
+    pCard [ attribute1, attribute2, up, rank "12", suit "scissors" ]
 
 
 kingOfRock attribute =
-    pCard (attribute :: [ up, rank "13", suit "rock" ])
+    pCard [ attribute, up, rank "13", suit "rock" ]
+
+
+kingOfRock2 attribute1 attribute2 =
+    pCard [ attribute1, attribute2, up, rank "13", suit "rock" ]
 
 
 threeOfRock attribute =
-    pCard (attribute :: [ up, rank "3", suit "rock" ])
+    pCard [ attribute, up, rank "3", suit "rock" ]
+
+
+threeOfRock2 attribute1 attribute2 =
+    pCard [ attribute1, attribute2, up, rank "3", suit "rock" ]
 
 
 fiveOfPaper attribute =
-    pCard (attribute :: [ up, rank "5", suit "paper" ])
+    pCard [ attribute, up, rank "5", suit "paper" ]
+
+
+fiveOfPaper2 attribute1 attribute2 =
+    pCard [ attribute1, attribute2, up, rank "5", suit "paper" ]
 
 
 fiveOfPaperDown attribute =
-    pCard (attribute :: [ rank "5", suit "paper" ])
+    pCard [ attribute, rank "5", suit "paper" ]
+
+
+fiveOfPaperDown2 attribute1 attribute2 =
+    pCard [ attribute1, attribute2, rank "5", suit "paper" ]
 
 
 up =
@@ -90,8 +114,20 @@ tableTop =
     div [ class "table-top" ]
 
 
+tableTop1 attribute =
+    div [ attribute, class "table-top" ]
+
+
 sourceCodezLink =
     a [ href "https://github.com/Pilatch/experiments.pilatch.com/blob/master/card-animation/source/elm/View.elm" ] [ text "Source codez" ]
+
+
+startOver =
+    section []
+        [ button [ onClick <| StartOver ] [ text "START OVER" ]
+        , sourceCodezLink
+        , tableTop []
+        ]
 
 
 render animationNumber comment cards =
@@ -103,20 +139,36 @@ render animationNumber comment cards =
         ]
 
 
+renderNoTransition animationNumber comment cards =
+    section []
+        [ next (animationNumber + 1)
+        , text <| comment ++ " Animation: " ++ toString (animationNumber + 1)
+        , tableTop1 noTransition
+            cards
+        ]
+
+
 view model =
     case model.implementation of
         NoneChosen ->
-            section []
-                [ h1 [] [ text "Choose implementation" ]
-                , button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ]
-                , button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ]
+            section [ class "explanation" ]
+                [ h1 [] [ text "Demonstrations" ]
+                , p [] [ text "In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner." ]
+                , p [] [ text "The goal is the same in both: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand." ]
+                , h3 [] [ text "Choose an implementation:" ]
+                , p [] [ button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ] ]
+                , p [] [ button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ] ]
+                , p [] [ button [ type_ "button", onClick <| ChooseImplementation DisablingTransitions ] [ text "Disabling Transitions" ] ]
                 ]
+
+        Naive ->
+            naiveImplementation model.animationNumber
 
         InvisibleCard ->
             invisibleCardImplementation model.animationNumber
 
-        Naive ->
-            naiveImplementation model.animationNumber
+        DisablingTransitions ->
+            hybridImplementation model.animationNumber
 
 
 naiveImplementation animationNumber =
@@ -172,11 +224,7 @@ naiveImplementation animationNumber =
                 ]
 
         _ ->
-            section []
-                [ button [ onClick <| StartOver ] [ text "START OVER" ]
-                , sourceCodezLink
-                , tableTop []
-                ]
+            startOver
 
 
 invisibleCardImplementation animationNumber =
@@ -281,8 +329,70 @@ invisibleCardImplementation animationNumber =
                 ]
 
         _ ->
-            section []
-                [ button [ onClick <| StartOver ] [ text "START OVER" ]
-                , sourceCodezLink
-                , tableTop []
+            startOver
+
+
+hybridImplementation animationNumber =
+    case animationNumber of
+        0 ->
+            render animationNumber
+                "Initial setup with four cards in hand and an empty placed card area"
+                [ queenOfScissors2 card1 noTransition
+                , fiveOfPaper2 card2 noTransition
+                , kingOfRock2 card3 noTransition
+                , threeOfRock2 card4 noTransition
+                , emptyArea
                 ]
+
+        1 ->
+            render animationNumber
+                "add new attributes/classes to make the five of paper card animate"
+                [ queenOfScissors card1
+                , pCard [ card2, placedAreaClass, rank "5", suit "paper" ]
+                , kingOfRock card3
+                , threeOfRock card4
+                , emptyArea
+                ]
+
+        2 ->
+            render animationNumber
+                "remove classes from animated card's previous spot in hand, then manually setPilatchCardAnimationDuration(0)"
+                [ queenOfScissors card1
+                , fiveOfPaperDown placedAreaClass
+                , kingOfRock card3
+                , threeOfRock card4
+                , emptyArea
+                ]
+
+        3 ->
+            renderNoTransition animationNumber
+                "move it in the DOM with transitions disabled in CSS"
+                [ queenOfScissors card1
+                , kingOfRock2 card3 noTransition
+                , threeOfRock2 card4 noTransition
+                , fiveOfPaperDown2 placedAreaClass noTransition
+                , emptyArea
+                ]
+
+        4 ->
+            render animationNumber
+                "slide the cards in hand to the left"
+                [ queenOfScissors card1
+                , kingOfRock card2
+                , threeOfRock card3
+                , fiveOfPaperDown placedAreaClass
+                , emptyArea
+                ]
+
+        5 ->
+            render animationNumber
+                "return five of paper to end of hand"
+                [ queenOfScissors card1
+                , kingOfRock card2
+                , threeOfRock card3
+                , fiveOfPaper card4
+                , emptyArea
+                ]
+
+        _ ->
+            startOver

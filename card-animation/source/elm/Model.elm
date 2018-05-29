@@ -14,6 +14,7 @@ type Msg
 
 
 type Implementation
-    = InvisibleCard
+    = NoneChosen
     | Naive
-    | NoneChosen
+    | InvisibleCard
+    | DisablingTransitions

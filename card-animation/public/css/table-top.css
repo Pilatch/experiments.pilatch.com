@@ -2,8 +2,8 @@ body {
   margin: 0;
   padding: 0;
 }
-pilatch-card {
-  transition-duration: 1s;
+.table-top:not([no-transition]) pilatch-card {
+  transition-duration: var(--pilatch-card-transition-duration, 1s);
 }
 :root {
   --player-deck-scale: 0.25;
