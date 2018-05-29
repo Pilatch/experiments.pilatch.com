@@ -8271,6 +8271,7 @@ var _user$project$Model$DoAnimation = function (a) {
 var _user$project$Model$ChooseImplementation = function (a) {
 	return {ctor: 'ChooseImplementation', _0: a};
 };
+var _user$project$Model$Collapsed = {ctor: 'Collapsed'};
 var _user$project$Model$DisablingTransitions = {ctor: 'DisablingTransitions'};
 var _user$project$Model$InvisibleCard = {ctor: 'InvisibleCard'};
 var _user$project$Model$Naive = {ctor: 'Naive'};
@@ -8365,7 +8366,7 @@ var _user$project$View$render = F3(
 							comment,
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								' Animation: ',
+								'. Animation: ',
 								_elm_lang$core$Basics$toString(animationNumber + 1)))),
 					_1: {
 						ctor: '::',
@@ -8645,7 +8646,7 @@ var _user$project$View$renderNoTransition = F3(
 							comment,
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								' Animation: ',
+								'. Animation: ',
 								_elm_lang$core$Basics$toString(animationNumber + 1)))),
 					_1: {
 						ctor: '::',
@@ -9120,7 +9121,7 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 			return _user$project$View$startOver;
 	}
 };
-var _user$project$View$hybridImplementation = function (animationNumber) {
+var _user$project$View$disablingTransitionsImplementation = function (animationNumber) {
 	var _p2 = animationNumber;
 	switch (_p2) {
 		case 0:
@@ -9196,7 +9197,7 @@ var _user$project$View$hybridImplementation = function (animationNumber) {
 			return A3(
 				_user$project$View$render,
 				animationNumber,
-				'remove classes from animated card\'s previous spot in hand, then manually setPilatchCardAnimationDuration(0)',
+				'remove classes from animated card\'s previous spot in hand',
 				{
 					ctor: '::',
 					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
@@ -9300,9 +9301,163 @@ var _user$project$View$hybridImplementation = function (animationNumber) {
 			return _user$project$View$startOver;
 	}
 };
+var _user$project$View$collapsedImplementation = function (animationNumber) {
+	var _p3 = animationNumber;
+	switch (_p3) {
+		case 0:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'Initial setup with four cards in hand and an empty placed card area',
+				{
+					ctor: '::',
+					_0: A2(_user$project$View$queenOfScissors2, _user$project$View$card1, _user$project$View$noTransition),
+					_1: {
+						ctor: '::',
+						_0: A2(_user$project$View$fiveOfPaper2, _user$project$View$card2, _user$project$View$noTransition),
+						_1: {
+							ctor: '::',
+							_0: A2(_user$project$View$kingOfRock2, _user$project$View$card3, _user$project$View$noTransition),
+							_1: {
+								ctor: '::',
+								_0: A2(_user$project$View$threeOfRock2, _user$project$View$card4, _user$project$View$noTransition),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 1:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'add new attributes/classes to make the five of paper card animate, and slide cards in hand to the left',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$pCard(
+							{
+								ctor: '::',
+								_0: _user$project$View$card2,
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$placedAreaClass,
+									_1: {
+										ctor: '::',
+										_0: _user$project$View$rank('5'),
+										_1: {
+											ctor: '::',
+											_0: _user$project$View$suit('paper'),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$kingOfRock(_user$project$View$card2),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$threeOfRock(_user$project$View$card3),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 2:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'remove classes from animated card\'s previous spot in hand',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$kingOfRock(_user$project$View$card2),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$threeOfRock(_user$project$View$card3),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 3:
+			return A3(
+				_user$project$View$renderNoTransition,
+				animationNumber,
+				'move it in the DOM with transitions disabled in CSS',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: A2(_user$project$View$kingOfRock2, _user$project$View$card2, _user$project$View$noTransition),
+						_1: {
+							ctor: '::',
+							_0: A2(_user$project$View$threeOfRock2, _user$project$View$card3, _user$project$View$noTransition),
+							_1: {
+								ctor: '::',
+								_0: A2(_user$project$View$fiveOfPaperDown2, _user$project$View$placedAreaClass, _user$project$View$noTransition),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 4:
+			return A3(
+				_user$project$View$render,
+				animationNumber,
+				'return five of paper to end of hand',
+				{
+					ctor: '::',
+					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_1: {
+						ctor: '::',
+						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_1: {
+							ctor: '::',
+							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_1: {
+								ctor: '::',
+								_0: _user$project$View$fiveOfPaper(_user$project$View$card4),
+								_1: {
+									ctor: '::',
+									_0: _user$project$View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		default:
+			return _user$project$View$startOver;
+	}
+};
 var _user$project$View$view = function (model) {
-	var _p3 = model.implementation;
-	switch (_p3.ctor) {
+	var _p4 = model.implementation;
+	switch (_p4.ctor) {
 		case 'NoneChosen':
 			return A2(
 				_elm_lang$html$Html$section,
@@ -9328,7 +9483,7 @@ var _user$project$View$view = function (model) {
 							{ctor: '[]'},
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html$text('In each demonstration we can step through the animations by clicking the NEXT button that appears in the upper left corner.'),
+								_0: _elm_lang$html$Html$text('In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner.'),
 								_1: {ctor: '[]'}
 							}),
 						_1: {
@@ -9338,7 +9493,7 @@ var _user$project$View$view = function (model) {
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html$text('The goal is the same in both: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand.'),
+									_0: _elm_lang$html$Html$text('The goal is the same in each: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand.'),
 									_1: {ctor: '[]'}
 								}),
 							_1: {
@@ -9429,7 +9584,34 @@ var _user$project$View$view = function (model) {
 														}),
 													_1: {ctor: '[]'}
 												}),
-											_1: {ctor: '[]'}
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_elm_lang$html$Html$p,
+													{ctor: '[]'},
+													{
+														ctor: '::',
+														_0: A2(
+															_elm_lang$html$Html$button,
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html_Attributes$type_('button'),
+																_1: {
+																	ctor: '::',
+																	_0: _elm_lang$html$Html_Events$onClick(
+																		_user$project$Model$ChooseImplementation(_user$project$Model$Collapsed)),
+																	_1: {ctor: '[]'}
+																}
+															},
+															{
+																ctor: '::',
+																_0: _elm_lang$html$Html$text('Collapsed'),
+																_1: {ctor: '[]'}
+															}),
+														_1: {ctor: '[]'}
+													}),
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}
@@ -9441,8 +9623,10 @@ var _user$project$View$view = function (model) {
 			return _user$project$View$naiveImplementation(model.animationNumber);
 		case 'InvisibleCard':
 			return _user$project$View$invisibleCardImplementation(model.animationNumber);
+		case 'DisablingTransitions':
+			return _user$project$View$disablingTransitionsImplementation(model.animationNumber);
 		default:
-			return _user$project$View$hybridImplementation(model.animationNumber);
+			return _user$project$View$collapsedImplementation(model.animationNumber);
 	}
 };
 

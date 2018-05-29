@@ -18,3 +18,4 @@ type Implementation
     | Naive
     | InvisibleCard
     | DisablingTransitions
+    | Collapsed
