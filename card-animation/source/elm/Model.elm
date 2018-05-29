@@ -11,6 +11,7 @@ type Msg
     = ChooseImplementation Implementation
     | DoAnimation Int
     | StartOver
+    | ScrollToChoose
 
 
 type Implementation

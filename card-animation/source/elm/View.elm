@@ -1,9 +1,28 @@
 module View exposing (view)
 
 import Model exposing (..)
+import View.Explanation
 import Html exposing (..)
-import Html.Attributes exposing (attribute, class, href, placeholder, type_, value)
-import Html.Events exposing (..)
+import Html.Attributes exposing (attribute, class, href, id, placeholder, property, type_, value)
+import Html.Events exposing (onClick)
+
+
+view model =
+    case model.implementation of
+        NoneChosen ->
+            View.Explanation.view
+
+        Naive ->
+            naiveImplementation model.animationNumber
+
+        InvisibleCard ->
+            invisibleCardImplementation model.animationNumber
+
+        DisablingTransitions ->
+            disablingTransitionsImplementation model.animationNumber
+
+        Collapsed ->
+            collapsedImplementation model.animationNumber
 
 
 emptyArea =
@@ -132,8 +151,10 @@ startOver =
 
 render animationNumber comment cards =
     section []
-        [ next (animationNumber + 1)
-        , text <| comment ++ ". Animation: " ++ toString (animationNumber + 1)
+        [ div [ class "interaction" ]
+            [ next (animationNumber + 1)
+            , text <| comment ++ ". Animation: " ++ toString (animationNumber + 1)
+            ]
         , tableTop
             cards
         ]
@@ -141,38 +162,13 @@ render animationNumber comment cards =
 
 renderNoTransition animationNumber comment cards =
     section []
-        [ next (animationNumber + 1)
-        , text <| comment ++ ". Animation: " ++ toString (animationNumber + 1)
+        [ div [ class "interaction" ]
+            [ next (animationNumber + 1)
+            , text <| comment ++ ". Animation: " ++ toString (animationNumber + 1)
+            ]
         , tableTop1 noTransition
             cards
         ]
-
-
-view model =
-    case model.implementation of
-        NoneChosen ->
-            section [ class "explanation" ]
-                [ h1 [] [ text "Demonstrations" ]
-                , p [] [ text "In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner." ]
-                , p [] [ text "The goal is the same in each: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand." ]
-                , h3 [] [ text "Choose an implementation:" ]
-                , p [] [ button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ] ]
-                , p [] [ button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ] ]
-                , p [] [ button [ type_ "button", onClick <| ChooseImplementation DisablingTransitions ] [ text "Disabling Transitions" ] ]
-                , p [] [ button [ type_ "button", onClick <| ChooseImplementation Collapsed ] [ text "Collapsed" ] ]
-                ]
-
-        Naive ->
-            naiveImplementation model.animationNumber
-
-        InvisibleCard ->
-            invisibleCardImplementation model.animationNumber
-
-        DisablingTransitions ->
-            disablingTransitionsImplementation model.animationNumber
-
-        Collapsed ->
-            collapsedImplementation model.animationNumber
 
 
 naiveImplementation animationNumber =
@@ -425,16 +421,6 @@ collapsedImplementation animationNumber =
                 ]
 
         2 ->
-            render animationNumber
-                "remove classes from animated card's previous spot in hand"
-                [ queenOfScissors card1
-                , fiveOfPaperDown placedAreaClass
-                , kingOfRock card2
-                , threeOfRock card3
-                , emptyArea
-                ]
-
-        3 ->
             renderNoTransition animationNumber
                 "move it in the DOM with transitions disabled in CSS"
                 [ queenOfScissors card1
@@ -444,7 +430,7 @@ collapsedImplementation animationNumber =
                 , emptyArea
                 ]
 
-        4 ->
+        3 ->
             render animationNumber
                 "return five of paper to end of hand"
                 [ queenOfScissors card1

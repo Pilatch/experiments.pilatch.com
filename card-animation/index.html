@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Play.Pilatch Index</title>
+  <title>Card Animation Demonstrations</title>
   <link rel="stylesheet" type="text/css" href="https://staticresource.com/template/css/basic.css">
   <script src="public/js/define-custom-element.js"></script>
   <link rel="stylesheet" href="public/css/variables.css">
@@ -14,12 +14,41 @@
   body {
     max-width: none;
   }
+  figure {
+    margin: 0;
+  }
+  figcaption {
+    text-align: center;
+  }
+  figure pre {
+    margin-bottom: 1em;
+  }
+  .interaction {
+    height: 1.5em;
+  }
+  .interaction button {
+    margin-right: 1em;
+  }
   .explanation {
-    padding: 0 1em;
+    margin: 0 auto;
+    max-width: 54em;
+    padding: 0 1em 2em;
+  }
+  .table-top {
+    height: calc(100vh - 1.5em);
   }
   </style>
 </head>
-<body onload="Elm.Main.fullscreen()">
-  <div id="ThreeFools"></div>
+<script>
+function startApp() {
+  var app = Elm.Main.fullscreen()
+
+  app.ports.goToHash.subscribe(hash => {
+    console.log(hash)
+    window.location.hash = hash
+  })
+}
+</script>
+<body onload="startApp()">
 </body>
 </html>

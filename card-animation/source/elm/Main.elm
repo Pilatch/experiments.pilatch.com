@@ -3,13 +3,14 @@ module Main exposing (..)
 import Model as Model
 import View as View
 import Update as Update
-import Html exposing (beginnerProgram)
+import Html
 
 
 main : Program Never Model.Model Model.Msg
 main =
-    beginnerProgram
-        { model = { animationNumber = 0, implementation = Model.NoneChosen }
+    Html.program
+        { init = ( { animationNumber = 0, implementation = Model.NoneChosen }, Cmd.none )
         , view = View.view
         , update = Update.update
+        , subscriptions = \_ -> Sub.none
         }
