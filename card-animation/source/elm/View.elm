@@ -10,7 +10,7 @@ import Html.Events exposing (onClick)
 view model =
     case model.implementation of
         NoneChosen ->
-            View.Explanation.view
+            View.Explanation.view model
 
         Naive ->
             naiveImplementation model.animationNumber

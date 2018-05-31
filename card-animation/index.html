@@ -23,6 +23,7 @@
   figure pre {
     margin-bottom: 1em;
   }
+  /* TODO delete the stuff that only appears on the iterations page, when that page is made */
   .interaction {
     height: 1.5em;
   }
@@ -37,11 +38,18 @@
   .table-top {
     height: calc(100vh - 1.5em);
   }
+  .explanation .table-top {
+    --table-top-height: 400px;
+    height: var(--table-top-height);
+  }
+  .explanation .player-placed-card-area {
+    top: 75px;
+  }
   </style>
 </head>
 <script>
 function startApp() {
-  var app = Elm.Main.fullscreen()
+  var app = Elm.Main.fullscreen(Math.floor(Math.random() * 10000))
 
   app.ports.goToHash.subscribe(hash => {
     console.log(hash)

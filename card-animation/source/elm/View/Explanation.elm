@@ -1,5 +1,6 @@
 module View.Explanation exposing (view)
 
+import View.TableTop as TableTop
 import Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (class, id, property, type_)
@@ -42,9 +43,11 @@ webComponentsApproachInnerHTML =
 """
 
 
-view =
+view : Model -> Html Msg
+view model =
     section [ class "explanation" ]
         [ h1 [] [ text "Card Animation Demonstrations" ]
+        , TableTop.view model.game
         , p [] [ text """
             This illustrates how I approached the problem of animating cards smoothly between a player's hand and the table-top.
             My initial attempt involved creating a web component for each spot in the game, like so:""" ]
@@ -83,7 +86,7 @@ view =
         , p [] [ text "When rearranging the cards in the DOM, I had to turn off CSS animations. It took a number of iterations to come to this conclusion." ]
         , p [] [ text "In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner." ]
         , p [] [ text "The goal is the same in each: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand." ]
-        , h2 [ id "choose" ] [ text "Choose an implementation:" ]
+        , h2 [ id "choose" ] [ text "Iterations" ]
         , p [] [ button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ] ]
         , p [] [ button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ] ]
         , p [] [ button [ type_ "button", onClick <| ChooseImplementation DisablingTransitions ] [ text "Disabling Transitions" ] ]

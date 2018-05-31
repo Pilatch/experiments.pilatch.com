@@ -4,12 +4,13 @@ import Model as Model
 import View as View
 import Update as Update
 import Html
+import Task
+import Process
 
 
-main : Program Never Model.Model Model.Msg
 main =
-    Html.program
-        { init = ( { animationNumber = 0, implementation = Model.NoneChosen }, Cmd.none )
+    Html.programWithFlags
+        { init = Model.initial
         , view = View.view
         , update = Update.update
         , subscriptions = \_ -> Sub.none
