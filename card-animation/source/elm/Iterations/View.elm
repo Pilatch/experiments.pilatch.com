@@ -1,7 +1,6 @@
-module View exposing (view)
+module Iterations.View exposing (view)
 
-import Model exposing (..)
-import View.Explanation
+import Iterations.Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (attribute, class, href, id, placeholder, property, type_, value)
 import Html.Events exposing (onClick)
@@ -10,7 +9,16 @@ import Html.Events exposing (onClick)
 view model =
     case model.implementation of
         NoneChosen ->
-            View.Explanation.view model
+            section []
+                [ header []
+                    [ h1 [] [ text "Iterative Development" ]
+                    , p [] [ text "The experiments and refinements I went through to make animations work with virtual DOM." ]
+                    ]
+                , p [] [ button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ] ]
+                , p [] [ button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ] ]
+                , p [] [ button [ type_ "button", onClick <| ChooseImplementation DisablingTransitions ] [ text "Disabling Transitions" ] ]
+                , p [] [ button [ type_ "button", onClick <| ChooseImplementation Collapsed ] [ text "Collapsed" ] ]
+                ]
 
         Naive ->
             naiveImplementation model.animationNumber
@@ -138,7 +146,7 @@ tableTop1 attribute =
 
 
 sourceCodezLink =
-    a [ href "https://github.com/Pilatch/experiments.pilatch.com/blob/master/card-animation/source/elm/View.elm" ] [ text "Source codez" ]
+    a [ href "https://github.com/Pilatch/experiments.pilatch.com/tree/master/card-animation" ] [ text "Source codez" ]
 
 
 startOver =

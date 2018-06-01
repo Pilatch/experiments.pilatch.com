@@ -1,2 +1,30 @@
-TODO split off the iterations into its own page
-so the debugger isn't overwhelmed.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Card Animation Demonstrations</title>
+  <link rel="stylesheet" type="text/css" href="https://staticresource.com/template/css/basic.css">
+  <script src="public/js/define-custom-element.js"></script>
+  <link rel="stylesheet" href="public/css/variables.css">
+  <link rel="stylesheet" href="public/css/table-top.css">
+  <link rel="import" href="public/html/pilatch-card.html">
+  <link rel="preload" href="public/img/sprite.png" as="image" type="image/png">
+  <script defer src="public/js/Elm.Iterations.Main.js"></script>
+  <style>
+  body {
+    max-width: none;
+  }
+  .interaction {
+    height: 1.5em;
+  }
+  .interaction button {
+    margin-right: 1em;
+  }
+  .table-top {
+    height: calc(100vh - 1.5em);
+  }
+  </style>
+</head>
+<body onload="Elm.Iterations.Main.fullscreen()">
+</body>
+</html>

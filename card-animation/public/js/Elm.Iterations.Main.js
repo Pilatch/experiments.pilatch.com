@@ -3183,137 +3183,6 @@ var _elm_lang$core$Dict$diff = F2(
 			t2);
 	});
 
-var _elm_lang$core$Set$foldr = F3(
-	function (f, b, _p0) {
-		var _p1 = _p0;
-		return A3(
-			_elm_lang$core$Dict$foldr,
-			F3(
-				function (k, _p2, b) {
-					return A2(f, k, b);
-				}),
-			b,
-			_p1._0);
-	});
-var _elm_lang$core$Set$foldl = F3(
-	function (f, b, _p3) {
-		var _p4 = _p3;
-		return A3(
-			_elm_lang$core$Dict$foldl,
-			F3(
-				function (k, _p5, b) {
-					return A2(f, k, b);
-				}),
-			b,
-			_p4._0);
-	});
-var _elm_lang$core$Set$toList = function (_p6) {
-	var _p7 = _p6;
-	return _elm_lang$core$Dict$keys(_p7._0);
-};
-var _elm_lang$core$Set$size = function (_p8) {
-	var _p9 = _p8;
-	return _elm_lang$core$Dict$size(_p9._0);
-};
-var _elm_lang$core$Set$member = F2(
-	function (k, _p10) {
-		var _p11 = _p10;
-		return A2(_elm_lang$core$Dict$member, k, _p11._0);
-	});
-var _elm_lang$core$Set$isEmpty = function (_p12) {
-	var _p13 = _p12;
-	return _elm_lang$core$Dict$isEmpty(_p13._0);
-};
-var _elm_lang$core$Set$Set_elm_builtin = function (a) {
-	return {ctor: 'Set_elm_builtin', _0: a};
-};
-var _elm_lang$core$Set$empty = _elm_lang$core$Set$Set_elm_builtin(_elm_lang$core$Dict$empty);
-var _elm_lang$core$Set$singleton = function (k) {
-	return _elm_lang$core$Set$Set_elm_builtin(
-		A2(
-			_elm_lang$core$Dict$singleton,
-			k,
-			{ctor: '_Tuple0'}));
-};
-var _elm_lang$core$Set$insert = F2(
-	function (k, _p14) {
-		var _p15 = _p14;
-		return _elm_lang$core$Set$Set_elm_builtin(
-			A3(
-				_elm_lang$core$Dict$insert,
-				k,
-				{ctor: '_Tuple0'},
-				_p15._0));
-	});
-var _elm_lang$core$Set$fromList = function (xs) {
-	return A3(_elm_lang$core$List$foldl, _elm_lang$core$Set$insert, _elm_lang$core$Set$empty, xs);
-};
-var _elm_lang$core$Set$map = F2(
-	function (f, s) {
-		return _elm_lang$core$Set$fromList(
-			A2(
-				_elm_lang$core$List$map,
-				f,
-				_elm_lang$core$Set$toList(s)));
-	});
-var _elm_lang$core$Set$remove = F2(
-	function (k, _p16) {
-		var _p17 = _p16;
-		return _elm_lang$core$Set$Set_elm_builtin(
-			A2(_elm_lang$core$Dict$remove, k, _p17._0));
-	});
-var _elm_lang$core$Set$union = F2(
-	function (_p19, _p18) {
-		var _p20 = _p19;
-		var _p21 = _p18;
-		return _elm_lang$core$Set$Set_elm_builtin(
-			A2(_elm_lang$core$Dict$union, _p20._0, _p21._0));
-	});
-var _elm_lang$core$Set$intersect = F2(
-	function (_p23, _p22) {
-		var _p24 = _p23;
-		var _p25 = _p22;
-		return _elm_lang$core$Set$Set_elm_builtin(
-			A2(_elm_lang$core$Dict$intersect, _p24._0, _p25._0));
-	});
-var _elm_lang$core$Set$diff = F2(
-	function (_p27, _p26) {
-		var _p28 = _p27;
-		var _p29 = _p26;
-		return _elm_lang$core$Set$Set_elm_builtin(
-			A2(_elm_lang$core$Dict$diff, _p28._0, _p29._0));
-	});
-var _elm_lang$core$Set$filter = F2(
-	function (p, _p30) {
-		var _p31 = _p30;
-		return _elm_lang$core$Set$Set_elm_builtin(
-			A2(
-				_elm_lang$core$Dict$filter,
-				F2(
-					function (k, _p32) {
-						return p(k);
-					}),
-				_p31._0));
-	});
-var _elm_lang$core$Set$partition = F2(
-	function (p, _p33) {
-		var _p34 = _p33;
-		var _p35 = A2(
-			_elm_lang$core$Dict$partition,
-			F2(
-				function (k, _p36) {
-					return p(k);
-				}),
-			_p34._0);
-		var p1 = _p35._0;
-		var p2 = _p35._1;
-		return {
-			ctor: '_Tuple2',
-			_0: _elm_lang$core$Set$Set_elm_builtin(p1),
-			_1: _elm_lang$core$Set$Set_elm_builtin(p2)
-		};
-	});
-
 var _elm_lang$core$Tuple$mapSecond = F2(
 	function (func, _p0) {
 		var _p1 = _p0;
@@ -4215,1443 +4084,6 @@ var _elm_lang$core$Platform$Program = {ctor: 'Program'};
 var _elm_lang$core$Platform$Task = {ctor: 'Task'};
 var _elm_lang$core$Platform$ProcessId = {ctor: 'ProcessId'};
 var _elm_lang$core$Platform$Router = {ctor: 'Router'};
-
-var _elm_community$list_extra$List_Extra$greedyGroupsOfWithStep = F3(
-	function (size, step, xs) {
-		var okayXs = _elm_lang$core$Native_Utils.cmp(
-			_elm_lang$core$List$length(xs),
-			0) > 0;
-		var okayArgs = (_elm_lang$core$Native_Utils.cmp(size, 0) > 0) && (_elm_lang$core$Native_Utils.cmp(step, 0) > 0);
-		var xs_ = A2(_elm_lang$core$List$drop, step, xs);
-		var group = A2(_elm_lang$core$List$take, size, xs);
-		return (okayArgs && okayXs) ? {
-			ctor: '::',
-			_0: group,
-			_1: A3(_elm_community$list_extra$List_Extra$greedyGroupsOfWithStep, size, step, xs_)
-		} : {ctor: '[]'};
-	});
-var _elm_community$list_extra$List_Extra$greedyGroupsOf = F2(
-	function (size, xs) {
-		return A3(_elm_community$list_extra$List_Extra$greedyGroupsOfWithStep, size, size, xs);
-	});
-var _elm_community$list_extra$List_Extra$groupsOfWithStep = F3(
-	function (size, step, xs) {
-		var okayArgs = (_elm_lang$core$Native_Utils.cmp(size, 0) > 0) && (_elm_lang$core$Native_Utils.cmp(step, 0) > 0);
-		var xs_ = A2(_elm_lang$core$List$drop, step, xs);
-		var group = A2(_elm_lang$core$List$take, size, xs);
-		var okayLength = _elm_lang$core$Native_Utils.eq(
-			size,
-			_elm_lang$core$List$length(group));
-		return (okayArgs && okayLength) ? {
-			ctor: '::',
-			_0: group,
-			_1: A3(_elm_community$list_extra$List_Extra$groupsOfWithStep, size, step, xs_)
-		} : {ctor: '[]'};
-	});
-var _elm_community$list_extra$List_Extra$groupsOf = F2(
-	function (size, xs) {
-		return A3(_elm_community$list_extra$List_Extra$groupsOfWithStep, size, size, xs);
-	});
-var _elm_community$list_extra$List_Extra$zip5 = _elm_lang$core$List$map5(
-	F5(
-		function (v0, v1, v2, v3, v4) {
-			return {ctor: '_Tuple5', _0: v0, _1: v1, _2: v2, _3: v3, _4: v4};
-		}));
-var _elm_community$list_extra$List_Extra$zip4 = _elm_lang$core$List$map4(
-	F4(
-		function (v0, v1, v2, v3) {
-			return {ctor: '_Tuple4', _0: v0, _1: v1, _2: v2, _3: v3};
-		}));
-var _elm_community$list_extra$List_Extra$zip3 = _elm_lang$core$List$map3(
-	F3(
-		function (v0, v1, v2) {
-			return {ctor: '_Tuple3', _0: v0, _1: v1, _2: v2};
-		}));
-var _elm_community$list_extra$List_Extra$zip = _elm_lang$core$List$map2(
-	F2(
-		function (v0, v1) {
-			return {ctor: '_Tuple2', _0: v0, _1: v1};
-		}));
-var _elm_community$list_extra$List_Extra$isSubsequenceOf = F2(
-	function (subseq, list) {
-		isSubsequenceOf:
-		while (true) {
-			var _p0 = {ctor: '_Tuple2', _0: subseq, _1: list};
-			if (_p0._0.ctor === '[]') {
-				return true;
-			} else {
-				if (_p0._1.ctor === '[]') {
-					return false;
-				} else {
-					var _p1 = _p0._1._1;
-					if (_elm_lang$core$Native_Utils.eq(_p0._0._0, _p0._1._0)) {
-						var _v1 = _p0._0._1,
-							_v2 = _p1;
-						subseq = _v1;
-						list = _v2;
-						continue isSubsequenceOf;
-					} else {
-						var _v3 = subseq,
-							_v4 = _p1;
-						subseq = _v3;
-						list = _v4;
-						continue isSubsequenceOf;
-					}
-				}
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$isPrefixOf = F2(
-	function (prefix, xs) {
-		var _p2 = {ctor: '_Tuple2', _0: prefix, _1: xs};
-		if (_p2._0.ctor === '[]') {
-			return true;
-		} else {
-			if (_p2._1.ctor === '[]') {
-				return false;
-			} else {
-				return _elm_lang$core$Native_Utils.eq(_p2._0._0, _p2._1._0) && A2(_elm_community$list_extra$List_Extra$isPrefixOf, _p2._0._1, _p2._1._1);
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$isSuffixOf = F2(
-	function (suffix, xs) {
-		return A2(
-			_elm_community$list_extra$List_Extra$isPrefixOf,
-			_elm_lang$core$List$reverse(suffix),
-			_elm_lang$core$List$reverse(xs));
-	});
-var _elm_community$list_extra$List_Extra$isInfixOfHelp = F3(
-	function (infixHead, infixTail, list) {
-		isInfixOfHelp:
-		while (true) {
-			var _p3 = list;
-			if (_p3.ctor === '[]') {
-				return false;
-			} else {
-				var _p4 = _p3._1;
-				if (_elm_lang$core$Native_Utils.eq(_p3._0, infixHead)) {
-					return A2(_elm_community$list_extra$List_Extra$isPrefixOf, infixTail, _p4);
-				} else {
-					var _v7 = infixHead,
-						_v8 = infixTail,
-						_v9 = _p4;
-					infixHead = _v7;
-					infixTail = _v8;
-					list = _v9;
-					continue isInfixOfHelp;
-				}
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$isInfixOf = F2(
-	function (infixList, list) {
-		var _p5 = infixList;
-		if (_p5.ctor === '[]') {
-			return true;
-		} else {
-			return A3(_elm_community$list_extra$List_Extra$isInfixOfHelp, _p5._0, _p5._1, list);
-		}
-	});
-var _elm_community$list_extra$List_Extra$selectSplit = function (xs) {
-	var _p6 = xs;
-	if (_p6.ctor === '[]') {
-		return {ctor: '[]'};
-	} else {
-		var _p10 = _p6._1;
-		var _p9 = _p6._0;
-		return {
-			ctor: '::',
-			_0: {
-				ctor: '_Tuple3',
-				_0: {ctor: '[]'},
-				_1: _p9,
-				_2: _p10
-			},
-			_1: A2(
-				_elm_lang$core$List$map,
-				function (_p7) {
-					var _p8 = _p7;
-					return {
-						ctor: '_Tuple3',
-						_0: {ctor: '::', _0: _p9, _1: _p8._0},
-						_1: _p8._1,
-						_2: _p8._2
-					};
-				},
-				_elm_community$list_extra$List_Extra$selectSplit(_p10))
-		};
-	}
-};
-var _elm_community$list_extra$List_Extra$select = function (xs) {
-	var _p11 = xs;
-	if (_p11.ctor === '[]') {
-		return {ctor: '[]'};
-	} else {
-		var _p15 = _p11._1;
-		var _p14 = _p11._0;
-		return {
-			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: _p14, _1: _p15},
-			_1: A2(
-				_elm_lang$core$List$map,
-				function (_p12) {
-					var _p13 = _p12;
-					return {
-						ctor: '_Tuple2',
-						_0: _p13._0,
-						_1: {ctor: '::', _0: _p14, _1: _p13._1}
-					};
-				},
-				_elm_community$list_extra$List_Extra$select(_p15))
-		};
-	}
-};
-var _elm_community$list_extra$List_Extra$tailsHelp = F2(
-	function (e, list) {
-		var _p16 = list;
-		if (_p16.ctor === '::') {
-			var _p17 = _p16._0;
-			return {
-				ctor: '::',
-				_0: {ctor: '::', _0: e, _1: _p17},
-				_1: {ctor: '::', _0: _p17, _1: _p16._1}
-			};
-		} else {
-			return {ctor: '[]'};
-		}
-	});
-var _elm_community$list_extra$List_Extra$tails = A2(
-	_elm_lang$core$List$foldr,
-	_elm_community$list_extra$List_Extra$tailsHelp,
-	{
-		ctor: '::',
-		_0: {ctor: '[]'},
-		_1: {ctor: '[]'}
-	});
-var _elm_community$list_extra$List_Extra$inits = A2(
-	_elm_lang$core$List$foldr,
-	F2(
-		function (e, acc) {
-			return {
-				ctor: '::',
-				_0: {ctor: '[]'},
-				_1: A2(
-					_elm_lang$core$List$map,
-					F2(
-						function (x, y) {
-							return {ctor: '::', _0: x, _1: y};
-						})(e),
-					acc)
-			};
-		}),
-	{
-		ctor: '::',
-		_0: {ctor: '[]'},
-		_1: {ctor: '[]'}
-	});
-var _elm_community$list_extra$List_Extra$groupWhileTransitivelyHelp = F4(
-	function (result, currentGroup, compare, list) {
-		groupWhileTransitivelyHelp:
-		while (true) {
-			var _p18 = list;
-			if (_p18.ctor === '[]') {
-				return _elm_lang$core$List$reverse(
-					_elm_lang$core$List$isEmpty(currentGroup) ? result : _elm_lang$core$List$reverse(
-						{ctor: '::', _0: currentGroup, _1: result}));
-			} else {
-				if (_p18._1.ctor === '[]') {
-					return _elm_lang$core$List$reverse(
-						{
-							ctor: '::',
-							_0: _elm_lang$core$List$reverse(
-								{ctor: '::', _0: _p18._0, _1: currentGroup}),
-							_1: result
-						});
-				} else {
-					var _p20 = _p18._1;
-					var _p19 = _p18._0;
-					if (A2(compare, _p19, _p18._1._0)) {
-						var _v17 = result,
-							_v18 = {ctor: '::', _0: _p19, _1: currentGroup},
-							_v19 = compare,
-							_v20 = _p20;
-						result = _v17;
-						currentGroup = _v18;
-						compare = _v19;
-						list = _v20;
-						continue groupWhileTransitivelyHelp;
-					} else {
-						var _v21 = {
-							ctor: '::',
-							_0: _elm_lang$core$List$reverse(
-								{ctor: '::', _0: _p19, _1: currentGroup}),
-							_1: result
-						},
-							_v22 = {ctor: '[]'},
-							_v23 = compare,
-							_v24 = _p20;
-						result = _v21;
-						currentGroup = _v22;
-						compare = _v23;
-						list = _v24;
-						continue groupWhileTransitivelyHelp;
-					}
-				}
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$groupWhileTransitively = F2(
-	function (compare, list) {
-		return A4(
-			_elm_community$list_extra$List_Extra$groupWhileTransitivelyHelp,
-			{ctor: '[]'},
-			{ctor: '[]'},
-			compare,
-			list);
-	});
-var _elm_community$list_extra$List_Extra$stripPrefix = F2(
-	function (prefix, xs) {
-		var step = F2(
-			function (e, m) {
-				var _p21 = m;
-				if (_p21.ctor === 'Nothing') {
-					return _elm_lang$core$Maybe$Nothing;
-				} else {
-					if (_p21._0.ctor === '[]') {
-						return _elm_lang$core$Maybe$Nothing;
-					} else {
-						return _elm_lang$core$Native_Utils.eq(e, _p21._0._0) ? _elm_lang$core$Maybe$Just(_p21._0._1) : _elm_lang$core$Maybe$Nothing;
-					}
-				}
-			});
-		return A3(
-			_elm_lang$core$List$foldl,
-			step,
-			_elm_lang$core$Maybe$Just(xs),
-			prefix);
-	});
-var _elm_community$list_extra$List_Extra$dropWhileRight = function (p) {
-	return A2(
-		_elm_lang$core$List$foldr,
-		F2(
-			function (x, xs) {
-				return (p(x) && _elm_lang$core$List$isEmpty(xs)) ? {ctor: '[]'} : {ctor: '::', _0: x, _1: xs};
-			}),
-		{ctor: '[]'});
-};
-var _elm_community$list_extra$List_Extra$takeWhileRight = function (p) {
-	var step = F2(
-		function (x, _p22) {
-			var _p23 = _p22;
-			var _p24 = _p23._0;
-			return (p(x) && _p23._1) ? {
-				ctor: '_Tuple2',
-				_0: {ctor: '::', _0: x, _1: _p24},
-				_1: true
-			} : {ctor: '_Tuple2', _0: _p24, _1: false};
-		});
-	return function (_p25) {
-		return _elm_lang$core$Tuple$first(
-			A3(
-				_elm_lang$core$List$foldr,
-				step,
-				{
-					ctor: '_Tuple2',
-					_0: {ctor: '[]'},
-					_1: true
-				},
-				_p25));
-	};
-};
-var _elm_community$list_extra$List_Extra$splitAt = F2(
-	function (n, xs) {
-		return {
-			ctor: '_Tuple2',
-			_0: A2(_elm_lang$core$List$take, n, xs),
-			_1: A2(_elm_lang$core$List$drop, n, xs)
-		};
-	});
-var _elm_community$list_extra$List_Extra$groupsOfVarying_ = F3(
-	function (listOflengths, list, accu) {
-		groupsOfVarying_:
-		while (true) {
-			var _p26 = {ctor: '_Tuple2', _0: listOflengths, _1: list};
-			if (((_p26.ctor === '_Tuple2') && (_p26._0.ctor === '::')) && (_p26._1.ctor === '::')) {
-				var _p27 = A2(_elm_community$list_extra$List_Extra$splitAt, _p26._0._0, list);
-				var head = _p27._0;
-				var tail = _p27._1;
-				var _v28 = _p26._0._1,
-					_v29 = tail,
-					_v30 = {ctor: '::', _0: head, _1: accu};
-				listOflengths = _v28;
-				list = _v29;
-				accu = _v30;
-				continue groupsOfVarying_;
-			} else {
-				return _elm_lang$core$List$reverse(accu);
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$groupsOfVarying = F2(
-	function (listOflengths, list) {
-		return A3(
-			_elm_community$list_extra$List_Extra$groupsOfVarying_,
-			listOflengths,
-			list,
-			{ctor: '[]'});
-	});
-var _elm_community$list_extra$List_Extra$unfoldr = F2(
-	function (f, seed) {
-		var _p28 = f(seed);
-		if (_p28.ctor === 'Nothing') {
-			return {ctor: '[]'};
-		} else {
-			return {
-				ctor: '::',
-				_0: _p28._0._0,
-				_1: A2(_elm_community$list_extra$List_Extra$unfoldr, f, _p28._0._1)
-			};
-		}
-	});
-var _elm_community$list_extra$List_Extra$mapAccumr = F3(
-	function (f, acc0, list) {
-		return A3(
-			_elm_lang$core$List$foldr,
-			F2(
-				function (x, _p29) {
-					var _p30 = _p29;
-					var _p31 = A2(f, _p30._0, x);
-					var acc2 = _p31._0;
-					var y = _p31._1;
-					return {
-						ctor: '_Tuple2',
-						_0: acc2,
-						_1: {ctor: '::', _0: y, _1: _p30._1}
-					};
-				}),
-			{
-				ctor: '_Tuple2',
-				_0: acc0,
-				_1: {ctor: '[]'}
-			},
-			list);
-	});
-var _elm_community$list_extra$List_Extra$mapAccuml = F3(
-	function (f, acc0, list) {
-		var _p32 = A3(
-			_elm_lang$core$List$foldl,
-			F2(
-				function (x, _p33) {
-					var _p34 = _p33;
-					var _p35 = A2(f, _p34._0, x);
-					var acc2 = _p35._0;
-					var y = _p35._1;
-					return {
-						ctor: '_Tuple2',
-						_0: acc2,
-						_1: {ctor: '::', _0: y, _1: _p34._1}
-					};
-				}),
-			{
-				ctor: '_Tuple2',
-				_0: acc0,
-				_1: {ctor: '[]'}
-			},
-			list);
-		var accFinal = _p32._0;
-		var generatedList = _p32._1;
-		return {
-			ctor: '_Tuple2',
-			_0: accFinal,
-			_1: _elm_lang$core$List$reverse(generatedList)
-		};
-	});
-var _elm_community$list_extra$List_Extra$scanr1 = F2(
-	function (f, xs_) {
-		var _p36 = xs_;
-		if (_p36.ctor === '[]') {
-			return {ctor: '[]'};
-		} else {
-			if (_p36._1.ctor === '[]') {
-				return {
-					ctor: '::',
-					_0: _p36._0,
-					_1: {ctor: '[]'}
-				};
-			} else {
-				var _p37 = A2(_elm_community$list_extra$List_Extra$scanr1, f, _p36._1);
-				if (_p37.ctor === '::') {
-					return {
-						ctor: '::',
-						_0: A2(f, _p36._0, _p37._0),
-						_1: _p37
-					};
-				} else {
-					return {ctor: '[]'};
-				}
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$scanr = F3(
-	function (f, acc, xs_) {
-		var _p38 = xs_;
-		if (_p38.ctor === '[]') {
-			return {
-				ctor: '::',
-				_0: acc,
-				_1: {ctor: '[]'}
-			};
-		} else {
-			var _p39 = A3(_elm_community$list_extra$List_Extra$scanr, f, acc, _p38._1);
-			if (_p39.ctor === '::') {
-				return {
-					ctor: '::',
-					_0: A2(f, _p38._0, _p39._0),
-					_1: _p39
-				};
-			} else {
-				return {ctor: '[]'};
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$scanl1 = F2(
-	function (f, xs_) {
-		var _p40 = xs_;
-		if (_p40.ctor === '[]') {
-			return {ctor: '[]'};
-		} else {
-			return A3(_elm_lang$core$List$scanl, f, _p40._0, _p40._1);
-		}
-	});
-var _elm_community$list_extra$List_Extra$indexedFoldr = F3(
-	function (func, acc, list) {
-		var step = F2(
-			function (x, _p41) {
-				var _p42 = _p41;
-				var _p43 = _p42._0;
-				return {
-					ctor: '_Tuple2',
-					_0: _p43 - 1,
-					_1: A3(func, _p43, x, _p42._1)
-				};
-			});
-		return _elm_lang$core$Tuple$second(
-			A3(
-				_elm_lang$core$List$foldr,
-				step,
-				{
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$List$length(list) - 1,
-					_1: acc
-				},
-				list));
-	});
-var _elm_community$list_extra$List_Extra$indexedFoldl = F3(
-	function (func, acc, list) {
-		var step = F2(
-			function (x, _p44) {
-				var _p45 = _p44;
-				var _p46 = _p45._0;
-				return {
-					ctor: '_Tuple2',
-					_0: _p46 + 1,
-					_1: A3(func, _p46, x, _p45._1)
-				};
-			});
-		return _elm_lang$core$Tuple$second(
-			A3(
-				_elm_lang$core$List$foldl,
-				step,
-				{ctor: '_Tuple2', _0: 0, _1: acc},
-				list));
-	});
-var _elm_community$list_extra$List_Extra$foldr1 = F2(
-	function (f, xs) {
-		var mf = F2(
-			function (x, m) {
-				return _elm_lang$core$Maybe$Just(
-					function () {
-						var _p47 = m;
-						if (_p47.ctor === 'Nothing') {
-							return x;
-						} else {
-							return A2(f, x, _p47._0);
-						}
-					}());
-			});
-		return A3(_elm_lang$core$List$foldr, mf, _elm_lang$core$Maybe$Nothing, xs);
-	});
-var _elm_community$list_extra$List_Extra$foldl1 = F2(
-	function (f, xs) {
-		var mf = F2(
-			function (x, m) {
-				return _elm_lang$core$Maybe$Just(
-					function () {
-						var _p48 = m;
-						if (_p48.ctor === 'Nothing') {
-							return x;
-						} else {
-							return A2(f, _p48._0, x);
-						}
-					}());
-			});
-		return A3(_elm_lang$core$List$foldl, mf, _elm_lang$core$Maybe$Nothing, xs);
-	});
-var _elm_community$list_extra$List_Extra$reverseAppend = F2(
-	function (list1, list2) {
-		return A3(
-			_elm_lang$core$List$foldl,
-			F2(
-				function (x, y) {
-					return {ctor: '::', _0: x, _1: y};
-				}),
-			list2,
-			list1);
-	});
-var _elm_community$list_extra$List_Extra$interweaveHelp = F3(
-	function (acc, list1, list2) {
-		interweaveHelp:
-		while (true) {
-			var _p49 = {ctor: '_Tuple2', _0: list1, _1: list2};
-			if (_p49._0.ctor === '::') {
-				if (_p49._1.ctor === '::') {
-					var _v44 = {
-						ctor: '::',
-						_0: _p49._1._0,
-						_1: {ctor: '::', _0: _p49._0._0, _1: acc}
-					},
-						_v45 = _p49._0._1,
-						_v46 = _p49._1._1;
-					acc = _v44;
-					list1 = _v45;
-					list2 = _v46;
-					continue interweaveHelp;
-				} else {
-					return A2(_elm_community$list_extra$List_Extra$reverseAppend, acc, list1);
-				}
-			} else {
-				return A2(_elm_community$list_extra$List_Extra$reverseAppend, acc, list2);
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$interweave = _elm_community$list_extra$List_Extra$interweaveHelp(
-	{ctor: '[]'});
-var _elm_community$list_extra$List_Extra$permutations = function (xs_) {
-	var _p50 = xs_;
-	if (_p50.ctor === '[]') {
-		return {
-			ctor: '::',
-			_0: {ctor: '[]'},
-			_1: {ctor: '[]'}
-		};
-	} else {
-		var f = function (_p51) {
-			var _p52 = _p51;
-			return A2(
-				_elm_lang$core$List$map,
-				F2(
-					function (x, y) {
-						return {ctor: '::', _0: x, _1: y};
-					})(_p52._0),
-				_elm_community$list_extra$List_Extra$permutations(_p52._1));
-		};
-		return A2(
-			_elm_lang$core$List$concatMap,
-			f,
-			_elm_community$list_extra$List_Extra$select(_p50));
-	}
-};
-var _elm_community$list_extra$List_Extra$isPermutationOf = F2(
-	function (permut, xs) {
-		return A2(
-			_elm_lang$core$List$member,
-			permut,
-			_elm_community$list_extra$List_Extra$permutations(xs));
-	});
-var _elm_community$list_extra$List_Extra$subsequencesNonEmpty = function (xs) {
-	var _p53 = xs;
-	if (_p53.ctor === '[]') {
-		return {ctor: '[]'};
-	} else {
-		var _p54 = _p53._0;
-		var f = F2(
-			function (ys, r) {
-				return {
-					ctor: '::',
-					_0: ys,
-					_1: {
-						ctor: '::',
-						_0: {ctor: '::', _0: _p54, _1: ys},
-						_1: r
-					}
-				};
-			});
-		return {
-			ctor: '::',
-			_0: {
-				ctor: '::',
-				_0: _p54,
-				_1: {ctor: '[]'}
-			},
-			_1: A3(
-				_elm_lang$core$List$foldr,
-				f,
-				{ctor: '[]'},
-				_elm_community$list_extra$List_Extra$subsequencesNonEmpty(_p53._1))
-		};
-	}
-};
-var _elm_community$list_extra$List_Extra$subsequences = function (xs) {
-	return {
-		ctor: '::',
-		_0: {ctor: '[]'},
-		_1: _elm_community$list_extra$List_Extra$subsequencesNonEmpty(xs)
-	};
-};
-var _elm_community$list_extra$List_Extra$rowsLength = function (listOfLists) {
-	var _p55 = listOfLists;
-	if (_p55.ctor === '[]') {
-		return 0;
-	} else {
-		return _elm_lang$core$List$length(_p55._0);
-	}
-};
-var _elm_community$list_extra$List_Extra$transpose = function (listOfLists) {
-	return A3(
-		_elm_lang$core$List$foldr,
-		_elm_lang$core$List$map2(
-			F2(
-				function (x, y) {
-					return {ctor: '::', _0: x, _1: y};
-				})),
-		A2(
-			_elm_lang$core$List$repeat,
-			_elm_community$list_extra$List_Extra$rowsLength(listOfLists),
-			{ctor: '[]'}),
-		listOfLists);
-};
-var _elm_community$list_extra$List_Extra$intercalate = function (xs) {
-	return function (_p56) {
-		return _elm_lang$core$List$concat(
-			A2(_elm_lang$core$List$intersperse, xs, _p56));
-	};
-};
-var _elm_community$list_extra$List_Extra$filterNot = F2(
-	function (pred, list) {
-		return A2(
-			_elm_lang$core$List$filter,
-			function (_p57) {
-				return !pred(_p57);
-			},
-			list);
-	});
-var _elm_community$list_extra$List_Extra$removeIfIndex = function (predicate) {
-	return A2(
-		_elm_community$list_extra$List_Extra$indexedFoldr,
-		F3(
-			function (index, item, acc) {
-				return predicate(index) ? acc : {ctor: '::', _0: item, _1: acc};
-			}),
-		{ctor: '[]'});
-};
-var _elm_community$list_extra$List_Extra$removeAt = F2(
-	function (index, l) {
-		if (_elm_lang$core$Native_Utils.cmp(index, 0) < 0) {
-			return l;
-		} else {
-			var tail = _elm_lang$core$List$tail(
-				A2(_elm_lang$core$List$drop, index, l));
-			var head = A2(_elm_lang$core$List$take, index, l);
-			var _p58 = tail;
-			if (_p58.ctor === 'Nothing') {
-				return l;
-			} else {
-				return A2(_elm_lang$core$List$append, head, _p58._0);
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$stableSortWith = F2(
-	function (pred, list) {
-		var predWithIndex = F2(
-			function (_p60, _p59) {
-				var _p61 = _p60;
-				var _p62 = _p59;
-				var result = A2(pred, _p61._0, _p62._0);
-				var _p63 = result;
-				if (_p63.ctor === 'EQ') {
-					return A2(_elm_lang$core$Basics$compare, _p61._1, _p62._1);
-				} else {
-					return result;
-				}
-			});
-		var listWithIndex = A2(
-			_elm_lang$core$List$indexedMap,
-			F2(
-				function (i, a) {
-					return {ctor: '_Tuple2', _0: a, _1: i};
-				}),
-			list);
-		return A2(
-			_elm_lang$core$List$map,
-			_elm_lang$core$Tuple$first,
-			A2(_elm_lang$core$List$sortWith, predWithIndex, listWithIndex));
-	});
-var _elm_community$list_extra$List_Extra$remove = F2(
-	function (x, xs) {
-		var _p64 = xs;
-		if (_p64.ctor === '[]') {
-			return {ctor: '[]'};
-		} else {
-			var _p66 = _p64._1;
-			var _p65 = _p64._0;
-			return _elm_lang$core$Native_Utils.eq(x, _p65) ? _p66 : {
-				ctor: '::',
-				_0: _p65,
-				_1: A2(_elm_community$list_extra$List_Extra$remove, x, _p66)
-			};
-		}
-	});
-var _elm_community$list_extra$List_Extra$updateIfIndex = F3(
-	function (predicate, update, list) {
-		return A2(
-			_elm_lang$core$List$indexedMap,
-			F2(
-				function (i, x) {
-					return predicate(i) ? update(x) : x;
-				}),
-			list);
-	});
-var _elm_community$list_extra$List_Extra$updateAt = F3(
-	function (index, fn, list) {
-		if (_elm_lang$core$Native_Utils.cmp(index, 0) < 0) {
-			return list;
-		} else {
-			var tail = A2(_elm_lang$core$List$drop, index, list);
-			var head = A2(_elm_lang$core$List$take, index, list);
-			var _p67 = tail;
-			if (_p67.ctor === '::') {
-				return A2(
-					_elm_lang$core$Basics_ops['++'],
-					head,
-					{
-						ctor: '::',
-						_0: fn(_p67._0),
-						_1: _p67._1
-					});
-			} else {
-				return list;
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$setAt = F2(
-	function (index, value) {
-		return A2(
-			_elm_community$list_extra$List_Extra$updateAt,
-			index,
-			_elm_lang$core$Basics$always(value));
-	});
-var _elm_community$list_extra$List_Extra$updateIf = F3(
-	function (predicate, update, list) {
-		return A2(
-			_elm_lang$core$List$map,
-			function (item) {
-				return predicate(item) ? update(item) : item;
-			},
-			list);
-	});
-var _elm_community$list_extra$List_Extra$replaceIf = F3(
-	function (predicate, replacement, list) {
-		return A3(
-			_elm_community$list_extra$List_Extra$updateIf,
-			predicate,
-			_elm_lang$core$Basics$always(replacement),
-			list);
-	});
-var _elm_community$list_extra$List_Extra$count = function (predicate) {
-	return A2(
-		_elm_lang$core$List$foldl,
-		F2(
-			function (x, acc) {
-				return predicate(x) ? (acc + 1) : acc;
-			}),
-		0);
-};
-var _elm_community$list_extra$List_Extra$findIndices = function (predicate) {
-	var consIndexIf = F3(
-		function (index, x, acc) {
-			return predicate(x) ? {ctor: '::', _0: index, _1: acc} : acc;
-		});
-	return A2(
-		_elm_community$list_extra$List_Extra$indexedFoldr,
-		consIndexIf,
-		{ctor: '[]'});
-};
-var _elm_community$list_extra$List_Extra$findIndexHelp = F3(
-	function (index, predicate, list) {
-		findIndexHelp:
-		while (true) {
-			var _p68 = list;
-			if (_p68.ctor === '[]') {
-				return _elm_lang$core$Maybe$Nothing;
-			} else {
-				if (predicate(_p68._0)) {
-					return _elm_lang$core$Maybe$Just(index);
-				} else {
-					var _v58 = index + 1,
-						_v59 = predicate,
-						_v60 = _p68._1;
-					index = _v58;
-					predicate = _v59;
-					list = _v60;
-					continue findIndexHelp;
-				}
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$findIndex = _elm_community$list_extra$List_Extra$findIndexHelp(0);
-var _elm_community$list_extra$List_Extra$splitWhen = F2(
-	function (predicate, list) {
-		return A2(
-			_elm_lang$core$Maybe$map,
-			function (i) {
-				return A2(_elm_community$list_extra$List_Extra$splitAt, i, list);
-			},
-			A2(_elm_community$list_extra$List_Extra$findIndex, predicate, list));
-	});
-var _elm_community$list_extra$List_Extra$elemIndices = function (x) {
-	return _elm_community$list_extra$List_Extra$findIndices(
-		F2(
-			function (x, y) {
-				return _elm_lang$core$Native_Utils.eq(x, y);
-			})(x));
-};
-var _elm_community$list_extra$List_Extra$elemIndex = function (x) {
-	return _elm_community$list_extra$List_Extra$findIndex(
-		F2(
-			function (x, y) {
-				return _elm_lang$core$Native_Utils.eq(x, y);
-			})(x));
-};
-var _elm_community$list_extra$List_Extra$find = F2(
-	function (predicate, list) {
-		find:
-		while (true) {
-			var _p69 = list;
-			if (_p69.ctor === '[]') {
-				return _elm_lang$core$Maybe$Nothing;
-			} else {
-				var _p70 = _p69._0;
-				if (predicate(_p70)) {
-					return _elm_lang$core$Maybe$Just(_p70);
-				} else {
-					var _v62 = predicate,
-						_v63 = _p69._1;
-					predicate = _v62;
-					list = _v63;
-					continue find;
-				}
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$notMember = function (x) {
-	return function (_p71) {
-		return !A2(_elm_lang$core$List$member, x, _p71);
-	};
-};
-var _elm_community$list_extra$List_Extra$reverseMap = F2(
-	function (f, xs) {
-		return A3(
-			_elm_lang$core$List$foldl,
-			F2(
-				function (x, acc) {
-					return {
-						ctor: '::',
-						_0: f(x),
-						_1: acc
-					};
-				}),
-			{ctor: '[]'},
-			xs);
-	});
-var _elm_community$list_extra$List_Extra$andThen = _elm_lang$core$List$concatMap;
-var _elm_community$list_extra$List_Extra$lift2 = F3(
-	function (f, la, lb) {
-		return A2(
-			_elm_community$list_extra$List_Extra$andThen,
-			function (a) {
-				return A2(
-					_elm_community$list_extra$List_Extra$andThen,
-					function (b) {
-						return {
-							ctor: '::',
-							_0: A2(f, a, b),
-							_1: {ctor: '[]'}
-						};
-					},
-					lb);
-			},
-			la);
-	});
-var _elm_community$list_extra$List_Extra$cartesianProduct = function (ll) {
-	var _p72 = ll;
-	if (_p72.ctor === '[]') {
-		return {
-			ctor: '::',
-			_0: {ctor: '[]'},
-			_1: {ctor: '[]'}
-		};
-	} else {
-		return A3(
-			_elm_community$list_extra$List_Extra$lift2,
-			F2(
-				function (x, y) {
-					return {ctor: '::', _0: x, _1: y};
-				}),
-			_p72._0,
-			_elm_community$list_extra$List_Extra$cartesianProduct(_p72._1));
-	}
-};
-var _elm_community$list_extra$List_Extra$lift3 = F4(
-	function (f, la, lb, lc) {
-		return A2(
-			_elm_community$list_extra$List_Extra$andThen,
-			function (a) {
-				return A2(
-					_elm_community$list_extra$List_Extra$andThen,
-					function (b) {
-						return A2(
-							_elm_community$list_extra$List_Extra$andThen,
-							function (c) {
-								return {
-									ctor: '::',
-									_0: A3(f, a, b, c),
-									_1: {ctor: '[]'}
-								};
-							},
-							lc);
-					},
-					lb);
-			},
-			la);
-	});
-var _elm_community$list_extra$List_Extra$lift4 = F5(
-	function (f, la, lb, lc, ld) {
-		return A2(
-			_elm_community$list_extra$List_Extra$andThen,
-			function (a) {
-				return A2(
-					_elm_community$list_extra$List_Extra$andThen,
-					function (b) {
-						return A2(
-							_elm_community$list_extra$List_Extra$andThen,
-							function (c) {
-								return A2(
-									_elm_community$list_extra$List_Extra$andThen,
-									function (d) {
-										return {
-											ctor: '::',
-											_0: A4(f, a, b, c, d),
-											_1: {ctor: '[]'}
-										};
-									},
-									ld);
-							},
-							lc);
-					},
-					lb);
-			},
-			la);
-	});
-var _elm_community$list_extra$List_Extra$andMap = F2(
-	function (l, fl) {
-		return A3(
-			_elm_lang$core$List$map2,
-			F2(
-				function (x, y) {
-					return x(y);
-				}),
-			fl,
-			l);
-	});
-var _elm_community$list_extra$List_Extra$uniqueHelp = F4(
-	function (f, existing, remaining, accumulator) {
-		uniqueHelp:
-		while (true) {
-			var _p73 = remaining;
-			if (_p73.ctor === '[]') {
-				return _elm_lang$core$List$reverse(accumulator);
-			} else {
-				var _p75 = _p73._1;
-				var _p74 = _p73._0;
-				var computedFirst = f(_p74);
-				if (A2(_elm_lang$core$Set$member, computedFirst, existing)) {
-					var _v66 = f,
-						_v67 = existing,
-						_v68 = _p75,
-						_v69 = accumulator;
-					f = _v66;
-					existing = _v67;
-					remaining = _v68;
-					accumulator = _v69;
-					continue uniqueHelp;
-				} else {
-					var _v70 = f,
-						_v71 = A2(_elm_lang$core$Set$insert, computedFirst, existing),
-						_v72 = _p75,
-						_v73 = {ctor: '::', _0: _p74, _1: accumulator};
-					f = _v70;
-					existing = _v71;
-					remaining = _v72;
-					accumulator = _v73;
-					continue uniqueHelp;
-				}
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$uniqueBy = F2(
-	function (f, list) {
-		return A4(
-			_elm_community$list_extra$List_Extra$uniqueHelp,
-			f,
-			_elm_lang$core$Set$empty,
-			list,
-			{ctor: '[]'});
-	});
-var _elm_community$list_extra$List_Extra$allDifferentBy = F2(
-	function (f, list) {
-		return _elm_lang$core$Native_Utils.eq(
-			_elm_lang$core$List$length(list),
-			_elm_lang$core$List$length(
-				A2(_elm_community$list_extra$List_Extra$uniqueBy, f, list)));
-	});
-var _elm_community$list_extra$List_Extra$allDifferent = function (list) {
-	return A2(_elm_community$list_extra$List_Extra$allDifferentBy, _elm_lang$core$Basics$identity, list);
-};
-var _elm_community$list_extra$List_Extra$unique = function (list) {
-	return A4(
-		_elm_community$list_extra$List_Extra$uniqueHelp,
-		_elm_lang$core$Basics$identity,
-		_elm_lang$core$Set$empty,
-		list,
-		{ctor: '[]'});
-};
-var _elm_community$list_extra$List_Extra$dropWhile = F2(
-	function (predicate, list) {
-		dropWhile:
-		while (true) {
-			var _p76 = list;
-			if (_p76.ctor === '[]') {
-				return {ctor: '[]'};
-			} else {
-				if (predicate(_p76._0)) {
-					var _v75 = predicate,
-						_v76 = _p76._1;
-					predicate = _v75;
-					list = _v76;
-					continue dropWhile;
-				} else {
-					return list;
-				}
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$takeWhile = function (predicate) {
-	var takeWhileMemo = F2(
-		function (memo, list) {
-			takeWhileMemo:
-			while (true) {
-				var _p77 = list;
-				if (_p77.ctor === '[]') {
-					return _elm_lang$core$List$reverse(memo);
-				} else {
-					var _p78 = _p77._0;
-					if (predicate(_p78)) {
-						var _v78 = {ctor: '::', _0: _p78, _1: memo},
-							_v79 = _p77._1;
-						memo = _v78;
-						list = _v79;
-						continue takeWhileMemo;
-					} else {
-						return _elm_lang$core$List$reverse(memo);
-					}
-				}
-			}
-		});
-	return takeWhileMemo(
-		{ctor: '[]'});
-};
-var _elm_community$list_extra$List_Extra$span = F2(
-	function (p, xs) {
-		return {
-			ctor: '_Tuple2',
-			_0: A2(_elm_community$list_extra$List_Extra$takeWhile, p, xs),
-			_1: A2(_elm_community$list_extra$List_Extra$dropWhile, p, xs)
-		};
-	});
-var _elm_community$list_extra$List_Extra$break = function (p) {
-	return _elm_community$list_extra$List_Extra$span(
-		function (_p79) {
-			return !p(_p79);
-		});
-};
-var _elm_community$list_extra$List_Extra$groupWhile = F2(
-	function (eq, xs_) {
-		var _p80 = xs_;
-		if (_p80.ctor === '[]') {
-			return {ctor: '[]'};
-		} else {
-			var _p82 = _p80._0;
-			var _p81 = A2(
-				_elm_community$list_extra$List_Extra$span,
-				eq(_p82),
-				_p80._1);
-			var ys = _p81._0;
-			var zs = _p81._1;
-			return {
-				ctor: '::',
-				_0: {ctor: '::', _0: _p82, _1: ys},
-				_1: A2(_elm_community$list_extra$List_Extra$groupWhile, eq, zs)
-			};
-		}
-	});
-var _elm_community$list_extra$List_Extra$group = _elm_community$list_extra$List_Extra$groupWhile(
-	F2(
-		function (x, y) {
-			return _elm_lang$core$Native_Utils.eq(x, y);
-		}));
-var _elm_community$list_extra$List_Extra$minimumBy = F2(
-	function (f, ls) {
-		var minBy = F2(
-			function (x, _p83) {
-				var _p84 = _p83;
-				var _p85 = _p84._1;
-				var fx = f(x);
-				return (_elm_lang$core$Native_Utils.cmp(fx, _p85) < 0) ? {ctor: '_Tuple2', _0: x, _1: fx} : {ctor: '_Tuple2', _0: _p84._0, _1: _p85};
-			});
-		var _p86 = ls;
-		if (_p86.ctor === '::') {
-			if (_p86._1.ctor === '[]') {
-				return _elm_lang$core$Maybe$Just(_p86._0);
-			} else {
-				var _p87 = _p86._0;
-				return _elm_lang$core$Maybe$Just(
-					_elm_lang$core$Tuple$first(
-						A3(
-							_elm_lang$core$List$foldl,
-							minBy,
-							{
-								ctor: '_Tuple2',
-								_0: _p87,
-								_1: f(_p87)
-							},
-							_p86._1)));
-			}
-		} else {
-			return _elm_lang$core$Maybe$Nothing;
-		}
-	});
-var _elm_community$list_extra$List_Extra$maximumBy = F2(
-	function (f, ls) {
-		var maxBy = F2(
-			function (x, _p88) {
-				var _p89 = _p88;
-				var _p90 = _p89._1;
-				var fx = f(x);
-				return (_elm_lang$core$Native_Utils.cmp(fx, _p90) > 0) ? {ctor: '_Tuple2', _0: x, _1: fx} : {ctor: '_Tuple2', _0: _p89._0, _1: _p90};
-			});
-		var _p91 = ls;
-		if (_p91.ctor === '::') {
-			if (_p91._1.ctor === '[]') {
-				return _elm_lang$core$Maybe$Just(_p91._0);
-			} else {
-				var _p92 = _p91._0;
-				return _elm_lang$core$Maybe$Just(
-					_elm_lang$core$Tuple$first(
-						A3(
-							_elm_lang$core$List$foldl,
-							maxBy,
-							{
-								ctor: '_Tuple2',
-								_0: _p92,
-								_1: f(_p92)
-							},
-							_p91._1)));
-			}
-		} else {
-			return _elm_lang$core$Maybe$Nothing;
-		}
-	});
-var _elm_community$list_extra$List_Extra$uncons = function (xs) {
-	var _p93 = xs;
-	if (_p93.ctor === '[]') {
-		return _elm_lang$core$Maybe$Nothing;
-	} else {
-		return _elm_lang$core$Maybe$Just(
-			{ctor: '_Tuple2', _0: _p93._0, _1: _p93._1});
-	}
-};
-var _elm_community$list_extra$List_Extra$swapAt = F3(
-	function (index1, index2, l) {
-		swapAt:
-		while (true) {
-			if (_elm_lang$core$Native_Utils.eq(index1, index2) || (_elm_lang$core$Native_Utils.cmp(index1, 0) < 0)) {
-				return l;
-			} else {
-				if (_elm_lang$core$Native_Utils.cmp(index1, index2) > 0) {
-					var _v86 = index2,
-						_v87 = index1,
-						_v88 = l;
-					index1 = _v86;
-					index2 = _v87;
-					l = _v88;
-					continue swapAt;
-				} else {
-					var _p94 = A2(_elm_community$list_extra$List_Extra$splitAt, index1, l);
-					var part1 = _p94._0;
-					var tail1 = _p94._1;
-					var _p95 = A2(_elm_community$list_extra$List_Extra$splitAt, index2 - index1, tail1);
-					var head2 = _p95._0;
-					var tail2 = _p95._1;
-					var _p96 = {
-						ctor: '_Tuple2',
-						_0: _elm_community$list_extra$List_Extra$uncons(head2),
-						_1: _elm_community$list_extra$List_Extra$uncons(tail2)
-					};
-					if (((((_p96.ctor === '_Tuple2') && (_p96._0.ctor === 'Just')) && (_p96._0._0.ctor === '_Tuple2')) && (_p96._1.ctor === 'Just')) && (_p96._1._0.ctor === '_Tuple2')) {
-						return _elm_lang$core$List$concat(
-							{
-								ctor: '::',
-								_0: part1,
-								_1: {
-									ctor: '::',
-									_0: {ctor: '::', _0: _p96._1._0._0, _1: _p96._0._0._1},
-									_1: {
-										ctor: '::',
-										_0: {ctor: '::', _0: _p96._0._0._0, _1: _p96._1._0._1},
-										_1: {ctor: '[]'}
-									}
-								}
-							});
-					} else {
-						return l;
-					}
-				}
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$cycleHelp = F3(
-	function (acc, n, list) {
-		cycleHelp:
-		while (true) {
-			if (_elm_lang$core$Native_Utils.cmp(n, 0) > 0) {
-				var _v90 = A2(_elm_community$list_extra$List_Extra$reverseAppend, list, acc),
-					_v91 = n - 1,
-					_v92 = list;
-				acc = _v90;
-				n = _v91;
-				list = _v92;
-				continue cycleHelp;
-			} else {
-				return acc;
-			}
-		}
-	});
-var _elm_community$list_extra$List_Extra$cycle = F2(
-	function (len, list) {
-		var cycleLength = _elm_lang$core$List$length(list);
-		return (_elm_lang$core$Native_Utils.eq(cycleLength, 0) || _elm_lang$core$Native_Utils.eq(cycleLength, len)) ? list : ((_elm_lang$core$Native_Utils.cmp(cycleLength, len) < 0) ? _elm_lang$core$List$reverse(
-			A2(
-				_elm_community$list_extra$List_Extra$reverseAppend,
-				A2(
-					_elm_lang$core$List$take,
-					A2(_elm_lang$core$Basics$rem, len, cycleLength),
-					list),
-				A3(
-					_elm_community$list_extra$List_Extra$cycleHelp,
-					{ctor: '[]'},
-					(len / cycleLength) | 0,
-					list))) : A2(_elm_lang$core$List$take, len, list));
-	});
-var _elm_community$list_extra$List_Extra$initialize = F2(
-	function (n, f) {
-		var step = F2(
-			function (i, acc) {
-				step:
-				while (true) {
-					if (_elm_lang$core$Native_Utils.cmp(i, 0) < 0) {
-						return acc;
-					} else {
-						var _v93 = i - 1,
-							_v94 = {
-							ctor: '::',
-							_0: f(i),
-							_1: acc
-						};
-						i = _v93;
-						acc = _v94;
-						continue step;
-					}
-				}
-			});
-		return A2(
-			step,
-			n - 1,
-			{ctor: '[]'});
-	});
-var _elm_community$list_extra$List_Extra$iterate = F2(
-	function (f, x) {
-		var _p97 = f(x);
-		if (_p97.ctor === 'Just') {
-			return {
-				ctor: '::',
-				_0: x,
-				_1: A2(_elm_community$list_extra$List_Extra$iterate, f, _p97._0)
-			};
-		} else {
-			return {
-				ctor: '::',
-				_0: x,
-				_1: {ctor: '[]'}
-			};
-		}
-	});
-var _elm_community$list_extra$List_Extra$getAt = F2(
-	function (idx, xs) {
-		return (_elm_lang$core$Native_Utils.cmp(idx, 0) < 0) ? _elm_lang$core$Maybe$Nothing : _elm_lang$core$List$head(
-			A2(_elm_lang$core$List$drop, idx, xs));
-	});
-var _elm_community$list_extra$List_Extra_ops = _elm_community$list_extra$List_Extra_ops || {};
-_elm_community$list_extra$List_Extra_ops['!!'] = _elm_lang$core$Basics$flip(_elm_community$list_extra$List_Extra$getAt);
-var _elm_community$list_extra$List_Extra$init = function (items) {
-	var _p98 = items;
-	if (_p98.ctor === '[]') {
-		return _elm_lang$core$Maybe$Nothing;
-	} else {
-		return A2(
-			_elm_lang$core$Maybe$map,
-			_elm_lang$core$List$reverse,
-			_elm_lang$core$List$tail(
-				_elm_lang$core$List$reverse(_p98)));
-	}
-};
-var _elm_community$list_extra$List_Extra$last = function (items) {
-	last:
-	while (true) {
-		var _p99 = items;
-		if (_p99.ctor === '[]') {
-			return _elm_lang$core$Maybe$Nothing;
-		} else {
-			if (_p99._1.ctor === '[]') {
-				return _elm_lang$core$Maybe$Just(_p99._0);
-			} else {
-				var _v98 = _p99._1;
-				items = _v98;
-				continue last;
-			}
-		}
-	}
-};
 
 //import Native.List //
 
@@ -6872,221 +5304,6 @@ var _elm_lang$core$Task$cmdMap = F2(
 	});
 _elm_lang$core$Native_Platform.effectManagers['Task'] = {pkg: 'elm-lang/core', init: _elm_lang$core$Task$init, onEffects: _elm_lang$core$Task$onEffects, onSelfMsg: _elm_lang$core$Task$onSelfMsg, tag: 'cmd', cmdMap: _elm_lang$core$Task$cmdMap};
 
-//import Native.Scheduler //
-
-var _elm_lang$core$Native_Time = function() {
-
-var now = _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
-{
-	callback(_elm_lang$core$Native_Scheduler.succeed(Date.now()));
-});
-
-function setInterval_(interval, task)
-{
-	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
-	{
-		var id = setInterval(function() {
-			_elm_lang$core$Native_Scheduler.rawSpawn(task);
-		}, interval);
-
-		return function() { clearInterval(id); };
-	});
-}
-
-return {
-	now: now,
-	setInterval_: F2(setInterval_)
-};
-
-}();
-var _elm_lang$core$Time$setInterval = _elm_lang$core$Native_Time.setInterval_;
-var _elm_lang$core$Time$spawnHelp = F3(
-	function (router, intervals, processes) {
-		var _p0 = intervals;
-		if (_p0.ctor === '[]') {
-			return _elm_lang$core$Task$succeed(processes);
-		} else {
-			var _p1 = _p0._0;
-			var spawnRest = function (id) {
-				return A3(
-					_elm_lang$core$Time$spawnHelp,
-					router,
-					_p0._1,
-					A3(_elm_lang$core$Dict$insert, _p1, id, processes));
-			};
-			var spawnTimer = _elm_lang$core$Native_Scheduler.spawn(
-				A2(
-					_elm_lang$core$Time$setInterval,
-					_p1,
-					A2(_elm_lang$core$Platform$sendToSelf, router, _p1)));
-			return A2(_elm_lang$core$Task$andThen, spawnRest, spawnTimer);
-		}
-	});
-var _elm_lang$core$Time$addMySub = F2(
-	function (_p2, state) {
-		var _p3 = _p2;
-		var _p6 = _p3._1;
-		var _p5 = _p3._0;
-		var _p4 = A2(_elm_lang$core$Dict$get, _p5, state);
-		if (_p4.ctor === 'Nothing') {
-			return A3(
-				_elm_lang$core$Dict$insert,
-				_p5,
-				{
-					ctor: '::',
-					_0: _p6,
-					_1: {ctor: '[]'}
-				},
-				state);
-		} else {
-			return A3(
-				_elm_lang$core$Dict$insert,
-				_p5,
-				{ctor: '::', _0: _p6, _1: _p4._0},
-				state);
-		}
-	});
-var _elm_lang$core$Time$inMilliseconds = function (t) {
-	return t;
-};
-var _elm_lang$core$Time$millisecond = 1;
-var _elm_lang$core$Time$second = 1000 * _elm_lang$core$Time$millisecond;
-var _elm_lang$core$Time$minute = 60 * _elm_lang$core$Time$second;
-var _elm_lang$core$Time$hour = 60 * _elm_lang$core$Time$minute;
-var _elm_lang$core$Time$inHours = function (t) {
-	return t / _elm_lang$core$Time$hour;
-};
-var _elm_lang$core$Time$inMinutes = function (t) {
-	return t / _elm_lang$core$Time$minute;
-};
-var _elm_lang$core$Time$inSeconds = function (t) {
-	return t / _elm_lang$core$Time$second;
-};
-var _elm_lang$core$Time$now = _elm_lang$core$Native_Time.now;
-var _elm_lang$core$Time$onSelfMsg = F3(
-	function (router, interval, state) {
-		var _p7 = A2(_elm_lang$core$Dict$get, interval, state.taggers);
-		if (_p7.ctor === 'Nothing') {
-			return _elm_lang$core$Task$succeed(state);
-		} else {
-			var tellTaggers = function (time) {
-				return _elm_lang$core$Task$sequence(
-					A2(
-						_elm_lang$core$List$map,
-						function (tagger) {
-							return A2(
-								_elm_lang$core$Platform$sendToApp,
-								router,
-								tagger(time));
-						},
-						_p7._0));
-			};
-			return A2(
-				_elm_lang$core$Task$andThen,
-				function (_p8) {
-					return _elm_lang$core$Task$succeed(state);
-				},
-				A2(_elm_lang$core$Task$andThen, tellTaggers, _elm_lang$core$Time$now));
-		}
-	});
-var _elm_lang$core$Time$subscription = _elm_lang$core$Native_Platform.leaf('Time');
-var _elm_lang$core$Time$State = F2(
-	function (a, b) {
-		return {taggers: a, processes: b};
-	});
-var _elm_lang$core$Time$init = _elm_lang$core$Task$succeed(
-	A2(_elm_lang$core$Time$State, _elm_lang$core$Dict$empty, _elm_lang$core$Dict$empty));
-var _elm_lang$core$Time$onEffects = F3(
-	function (router, subs, _p9) {
-		var _p10 = _p9;
-		var rightStep = F3(
-			function (_p12, id, _p11) {
-				var _p13 = _p11;
-				return {
-					ctor: '_Tuple3',
-					_0: _p13._0,
-					_1: _p13._1,
-					_2: A2(
-						_elm_lang$core$Task$andThen,
-						function (_p14) {
-							return _p13._2;
-						},
-						_elm_lang$core$Native_Scheduler.kill(id))
-				};
-			});
-		var bothStep = F4(
-			function (interval, taggers, id, _p15) {
-				var _p16 = _p15;
-				return {
-					ctor: '_Tuple3',
-					_0: _p16._0,
-					_1: A3(_elm_lang$core$Dict$insert, interval, id, _p16._1),
-					_2: _p16._2
-				};
-			});
-		var leftStep = F3(
-			function (interval, taggers, _p17) {
-				var _p18 = _p17;
-				return {
-					ctor: '_Tuple3',
-					_0: {ctor: '::', _0: interval, _1: _p18._0},
-					_1: _p18._1,
-					_2: _p18._2
-				};
-			});
-		var newTaggers = A3(_elm_lang$core$List$foldl, _elm_lang$core$Time$addMySub, _elm_lang$core$Dict$empty, subs);
-		var _p19 = A6(
-			_elm_lang$core$Dict$merge,
-			leftStep,
-			bothStep,
-			rightStep,
-			newTaggers,
-			_p10.processes,
-			{
-				ctor: '_Tuple3',
-				_0: {ctor: '[]'},
-				_1: _elm_lang$core$Dict$empty,
-				_2: _elm_lang$core$Task$succeed(
-					{ctor: '_Tuple0'})
-			});
-		var spawnList = _p19._0;
-		var existingDict = _p19._1;
-		var killTask = _p19._2;
-		return A2(
-			_elm_lang$core$Task$andThen,
-			function (newProcesses) {
-				return _elm_lang$core$Task$succeed(
-					A2(_elm_lang$core$Time$State, newTaggers, newProcesses));
-			},
-			A2(
-				_elm_lang$core$Task$andThen,
-				function (_p20) {
-					return A3(_elm_lang$core$Time$spawnHelp, router, spawnList, existingDict);
-				},
-				killTask));
-	});
-var _elm_lang$core$Time$Every = F2(
-	function (a, b) {
-		return {ctor: 'Every', _0: a, _1: b};
-	});
-var _elm_lang$core$Time$every = F2(
-	function (interval, tagger) {
-		return _elm_lang$core$Time$subscription(
-			A2(_elm_lang$core$Time$Every, interval, tagger));
-	});
-var _elm_lang$core$Time$subMap = F2(
-	function (f, _p21) {
-		var _p22 = _p21;
-		return A2(
-			_elm_lang$core$Time$Every,
-			_p22._0,
-			function (_p23) {
-				return f(
-					_p22._1(_p23));
-			});
-	});
-_elm_lang$core$Native_Platform.effectManagers['Time'] = {pkg: 'elm-lang/core', init: _elm_lang$core$Time$init, onEffects: _elm_lang$core$Time$onEffects, onSelfMsg: _elm_lang$core$Time$onSelfMsg, tag: 'sub', subMap: _elm_lang$core$Time$subMap};
-
 //import Maybe, Native.Array, Native.List, Native.Utils, Result //
 
 var _elm_lang$core$Native_Json = function() {
@@ -7736,575 +5953,6 @@ var _elm_lang$core$Json_Decode$int = _elm_lang$core$Native_Json.decodePrimitive(
 var _elm_lang$core$Json_Decode$bool = _elm_lang$core$Native_Json.decodePrimitive('bool');
 var _elm_lang$core$Json_Decode$string = _elm_lang$core$Native_Json.decodePrimitive('string');
 var _elm_lang$core$Json_Decode$Decoder = {ctor: 'Decoder'};
-
-var _elm_lang$core$Process$kill = _elm_lang$core$Native_Scheduler.kill;
-var _elm_lang$core$Process$sleep = _elm_lang$core$Native_Scheduler.sleep;
-var _elm_lang$core$Process$spawn = _elm_lang$core$Native_Scheduler.spawn;
-
-var _elm_lang$core$Random$onSelfMsg = F3(
-	function (_p1, _p0, seed) {
-		return _elm_lang$core$Task$succeed(seed);
-	});
-var _elm_lang$core$Random$magicNum8 = 2147483562;
-var _elm_lang$core$Random$range = function (_p2) {
-	return {ctor: '_Tuple2', _0: 0, _1: _elm_lang$core$Random$magicNum8};
-};
-var _elm_lang$core$Random$magicNum7 = 2147483399;
-var _elm_lang$core$Random$magicNum6 = 2147483563;
-var _elm_lang$core$Random$magicNum5 = 3791;
-var _elm_lang$core$Random$magicNum4 = 40692;
-var _elm_lang$core$Random$magicNum3 = 52774;
-var _elm_lang$core$Random$magicNum2 = 12211;
-var _elm_lang$core$Random$magicNum1 = 53668;
-var _elm_lang$core$Random$magicNum0 = 40014;
-var _elm_lang$core$Random$step = F2(
-	function (_p3, seed) {
-		var _p4 = _p3;
-		return _p4._0(seed);
-	});
-var _elm_lang$core$Random$onEffects = F3(
-	function (router, commands, seed) {
-		var _p5 = commands;
-		if (_p5.ctor === '[]') {
-			return _elm_lang$core$Task$succeed(seed);
-		} else {
-			var _p6 = A2(_elm_lang$core$Random$step, _p5._0._0, seed);
-			var value = _p6._0;
-			var newSeed = _p6._1;
-			return A2(
-				_elm_lang$core$Task$andThen,
-				function (_p7) {
-					return A3(_elm_lang$core$Random$onEffects, router, _p5._1, newSeed);
-				},
-				A2(_elm_lang$core$Platform$sendToApp, router, value));
-		}
-	});
-var _elm_lang$core$Random$listHelp = F4(
-	function (list, n, generate, seed) {
-		listHelp:
-		while (true) {
-			if (_elm_lang$core$Native_Utils.cmp(n, 1) < 0) {
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$List$reverse(list),
-					_1: seed
-				};
-			} else {
-				var _p8 = generate(seed);
-				var value = _p8._0;
-				var newSeed = _p8._1;
-				var _v2 = {ctor: '::', _0: value, _1: list},
-					_v3 = n - 1,
-					_v4 = generate,
-					_v5 = newSeed;
-				list = _v2;
-				n = _v3;
-				generate = _v4;
-				seed = _v5;
-				continue listHelp;
-			}
-		}
-	});
-var _elm_lang$core$Random$minInt = -2147483648;
-var _elm_lang$core$Random$maxInt = 2147483647;
-var _elm_lang$core$Random$iLogBase = F2(
-	function (b, i) {
-		return (_elm_lang$core$Native_Utils.cmp(i, b) < 0) ? 1 : (1 + A2(_elm_lang$core$Random$iLogBase, b, (i / b) | 0));
-	});
-var _elm_lang$core$Random$command = _elm_lang$core$Native_Platform.leaf('Random');
-var _elm_lang$core$Random$Generator = function (a) {
-	return {ctor: 'Generator', _0: a};
-};
-var _elm_lang$core$Random$list = F2(
-	function (n, _p9) {
-		var _p10 = _p9;
-		return _elm_lang$core$Random$Generator(
-			function (seed) {
-				return A4(
-					_elm_lang$core$Random$listHelp,
-					{ctor: '[]'},
-					n,
-					_p10._0,
-					seed);
-			});
-	});
-var _elm_lang$core$Random$map = F2(
-	function (func, _p11) {
-		var _p12 = _p11;
-		return _elm_lang$core$Random$Generator(
-			function (seed0) {
-				var _p13 = _p12._0(seed0);
-				var a = _p13._0;
-				var seed1 = _p13._1;
-				return {
-					ctor: '_Tuple2',
-					_0: func(a),
-					_1: seed1
-				};
-			});
-	});
-var _elm_lang$core$Random$map2 = F3(
-	function (func, _p15, _p14) {
-		var _p16 = _p15;
-		var _p17 = _p14;
-		return _elm_lang$core$Random$Generator(
-			function (seed0) {
-				var _p18 = _p16._0(seed0);
-				var a = _p18._0;
-				var seed1 = _p18._1;
-				var _p19 = _p17._0(seed1);
-				var b = _p19._0;
-				var seed2 = _p19._1;
-				return {
-					ctor: '_Tuple2',
-					_0: A2(func, a, b),
-					_1: seed2
-				};
-			});
-	});
-var _elm_lang$core$Random$pair = F2(
-	function (genA, genB) {
-		return A3(
-			_elm_lang$core$Random$map2,
-			F2(
-				function (v0, v1) {
-					return {ctor: '_Tuple2', _0: v0, _1: v1};
-				}),
-			genA,
-			genB);
-	});
-var _elm_lang$core$Random$map3 = F4(
-	function (func, _p22, _p21, _p20) {
-		var _p23 = _p22;
-		var _p24 = _p21;
-		var _p25 = _p20;
-		return _elm_lang$core$Random$Generator(
-			function (seed0) {
-				var _p26 = _p23._0(seed0);
-				var a = _p26._0;
-				var seed1 = _p26._1;
-				var _p27 = _p24._0(seed1);
-				var b = _p27._0;
-				var seed2 = _p27._1;
-				var _p28 = _p25._0(seed2);
-				var c = _p28._0;
-				var seed3 = _p28._1;
-				return {
-					ctor: '_Tuple2',
-					_0: A3(func, a, b, c),
-					_1: seed3
-				};
-			});
-	});
-var _elm_lang$core$Random$map4 = F5(
-	function (func, _p32, _p31, _p30, _p29) {
-		var _p33 = _p32;
-		var _p34 = _p31;
-		var _p35 = _p30;
-		var _p36 = _p29;
-		return _elm_lang$core$Random$Generator(
-			function (seed0) {
-				var _p37 = _p33._0(seed0);
-				var a = _p37._0;
-				var seed1 = _p37._1;
-				var _p38 = _p34._0(seed1);
-				var b = _p38._0;
-				var seed2 = _p38._1;
-				var _p39 = _p35._0(seed2);
-				var c = _p39._0;
-				var seed3 = _p39._1;
-				var _p40 = _p36._0(seed3);
-				var d = _p40._0;
-				var seed4 = _p40._1;
-				return {
-					ctor: '_Tuple2',
-					_0: A4(func, a, b, c, d),
-					_1: seed4
-				};
-			});
-	});
-var _elm_lang$core$Random$map5 = F6(
-	function (func, _p45, _p44, _p43, _p42, _p41) {
-		var _p46 = _p45;
-		var _p47 = _p44;
-		var _p48 = _p43;
-		var _p49 = _p42;
-		var _p50 = _p41;
-		return _elm_lang$core$Random$Generator(
-			function (seed0) {
-				var _p51 = _p46._0(seed0);
-				var a = _p51._0;
-				var seed1 = _p51._1;
-				var _p52 = _p47._0(seed1);
-				var b = _p52._0;
-				var seed2 = _p52._1;
-				var _p53 = _p48._0(seed2);
-				var c = _p53._0;
-				var seed3 = _p53._1;
-				var _p54 = _p49._0(seed3);
-				var d = _p54._0;
-				var seed4 = _p54._1;
-				var _p55 = _p50._0(seed4);
-				var e = _p55._0;
-				var seed5 = _p55._1;
-				return {
-					ctor: '_Tuple2',
-					_0: A5(func, a, b, c, d, e),
-					_1: seed5
-				};
-			});
-	});
-var _elm_lang$core$Random$andThen = F2(
-	function (callback, _p56) {
-		var _p57 = _p56;
-		return _elm_lang$core$Random$Generator(
-			function (seed) {
-				var _p58 = _p57._0(seed);
-				var result = _p58._0;
-				var newSeed = _p58._1;
-				var _p59 = callback(result);
-				var genB = _p59._0;
-				return genB(newSeed);
-			});
-	});
-var _elm_lang$core$Random$State = F2(
-	function (a, b) {
-		return {ctor: 'State', _0: a, _1: b};
-	});
-var _elm_lang$core$Random$initState = function (seed) {
-	var s = A2(_elm_lang$core$Basics$max, seed, 0 - seed);
-	var q = (s / (_elm_lang$core$Random$magicNum6 - 1)) | 0;
-	var s2 = A2(_elm_lang$core$Basics_ops['%'], q, _elm_lang$core$Random$magicNum7 - 1);
-	var s1 = A2(_elm_lang$core$Basics_ops['%'], s, _elm_lang$core$Random$magicNum6 - 1);
-	return A2(_elm_lang$core$Random$State, s1 + 1, s2 + 1);
-};
-var _elm_lang$core$Random$next = function (_p60) {
-	var _p61 = _p60;
-	var _p63 = _p61._1;
-	var _p62 = _p61._0;
-	var k2 = (_p63 / _elm_lang$core$Random$magicNum3) | 0;
-	var rawState2 = (_elm_lang$core$Random$magicNum4 * (_p63 - (k2 * _elm_lang$core$Random$magicNum3))) - (k2 * _elm_lang$core$Random$magicNum5);
-	var newState2 = (_elm_lang$core$Native_Utils.cmp(rawState2, 0) < 0) ? (rawState2 + _elm_lang$core$Random$magicNum7) : rawState2;
-	var k1 = (_p62 / _elm_lang$core$Random$magicNum1) | 0;
-	var rawState1 = (_elm_lang$core$Random$magicNum0 * (_p62 - (k1 * _elm_lang$core$Random$magicNum1))) - (k1 * _elm_lang$core$Random$magicNum2);
-	var newState1 = (_elm_lang$core$Native_Utils.cmp(rawState1, 0) < 0) ? (rawState1 + _elm_lang$core$Random$magicNum6) : rawState1;
-	var z = newState1 - newState2;
-	var newZ = (_elm_lang$core$Native_Utils.cmp(z, 1) < 0) ? (z + _elm_lang$core$Random$magicNum8) : z;
-	return {
-		ctor: '_Tuple2',
-		_0: newZ,
-		_1: A2(_elm_lang$core$Random$State, newState1, newState2)
-	};
-};
-var _elm_lang$core$Random$split = function (_p64) {
-	var _p65 = _p64;
-	var _p68 = _p65._1;
-	var _p67 = _p65._0;
-	var _p66 = _elm_lang$core$Tuple$second(
-		_elm_lang$core$Random$next(_p65));
-	var t1 = _p66._0;
-	var t2 = _p66._1;
-	var new_s2 = _elm_lang$core$Native_Utils.eq(_p68, 1) ? (_elm_lang$core$Random$magicNum7 - 1) : (_p68 - 1);
-	var new_s1 = _elm_lang$core$Native_Utils.eq(_p67, _elm_lang$core$Random$magicNum6 - 1) ? 1 : (_p67 + 1);
-	return {
-		ctor: '_Tuple2',
-		_0: A2(_elm_lang$core$Random$State, new_s1, t2),
-		_1: A2(_elm_lang$core$Random$State, t1, new_s2)
-	};
-};
-var _elm_lang$core$Random$Seed = function (a) {
-	return {ctor: 'Seed', _0: a};
-};
-var _elm_lang$core$Random$int = F2(
-	function (a, b) {
-		return _elm_lang$core$Random$Generator(
-			function (_p69) {
-				var _p70 = _p69;
-				var _p75 = _p70._0;
-				var base = 2147483561;
-				var f = F3(
-					function (n, acc, state) {
-						f:
-						while (true) {
-							var _p71 = n;
-							if (_p71 === 0) {
-								return {ctor: '_Tuple2', _0: acc, _1: state};
-							} else {
-								var _p72 = _p75.next(state);
-								var x = _p72._0;
-								var nextState = _p72._1;
-								var _v27 = n - 1,
-									_v28 = x + (acc * base),
-									_v29 = nextState;
-								n = _v27;
-								acc = _v28;
-								state = _v29;
-								continue f;
-							}
-						}
-					});
-				var _p73 = (_elm_lang$core$Native_Utils.cmp(a, b) < 0) ? {ctor: '_Tuple2', _0: a, _1: b} : {ctor: '_Tuple2', _0: b, _1: a};
-				var lo = _p73._0;
-				var hi = _p73._1;
-				var k = (hi - lo) + 1;
-				var n = A2(_elm_lang$core$Random$iLogBase, base, k);
-				var _p74 = A3(f, n, 1, _p75.state);
-				var v = _p74._0;
-				var nextState = _p74._1;
-				return {
-					ctor: '_Tuple2',
-					_0: lo + A2(_elm_lang$core$Basics_ops['%'], v, k),
-					_1: _elm_lang$core$Random$Seed(
-						_elm_lang$core$Native_Utils.update(
-							_p75,
-							{state: nextState}))
-				};
-			});
-	});
-var _elm_lang$core$Random$bool = A2(
-	_elm_lang$core$Random$map,
-	F2(
-		function (x, y) {
-			return _elm_lang$core$Native_Utils.eq(x, y);
-		})(1),
-	A2(_elm_lang$core$Random$int, 0, 1));
-var _elm_lang$core$Random$float = F2(
-	function (a, b) {
-		return _elm_lang$core$Random$Generator(
-			function (seed) {
-				var _p76 = A2(
-					_elm_lang$core$Random$step,
-					A2(_elm_lang$core$Random$int, _elm_lang$core$Random$minInt, _elm_lang$core$Random$maxInt),
-					seed);
-				var number = _p76._0;
-				var newSeed = _p76._1;
-				var negativeOneToOne = _elm_lang$core$Basics$toFloat(number) / _elm_lang$core$Basics$toFloat(_elm_lang$core$Random$maxInt - _elm_lang$core$Random$minInt);
-				var _p77 = (_elm_lang$core$Native_Utils.cmp(a, b) < 0) ? {ctor: '_Tuple2', _0: a, _1: b} : {ctor: '_Tuple2', _0: b, _1: a};
-				var lo = _p77._0;
-				var hi = _p77._1;
-				var scaled = ((lo + hi) / 2) + ((hi - lo) * negativeOneToOne);
-				return {ctor: '_Tuple2', _0: scaled, _1: newSeed};
-			});
-	});
-var _elm_lang$core$Random$initialSeed = function (n) {
-	return _elm_lang$core$Random$Seed(
-		{
-			state: _elm_lang$core$Random$initState(n),
-			next: _elm_lang$core$Random$next,
-			split: _elm_lang$core$Random$split,
-			range: _elm_lang$core$Random$range
-		});
-};
-var _elm_lang$core$Random$init = A2(
-	_elm_lang$core$Task$andThen,
-	function (t) {
-		return _elm_lang$core$Task$succeed(
-			_elm_lang$core$Random$initialSeed(
-				_elm_lang$core$Basics$round(t)));
-	},
-	_elm_lang$core$Time$now);
-var _elm_lang$core$Random$Generate = function (a) {
-	return {ctor: 'Generate', _0: a};
-};
-var _elm_lang$core$Random$generate = F2(
-	function (tagger, generator) {
-		return _elm_lang$core$Random$command(
-			_elm_lang$core$Random$Generate(
-				A2(_elm_lang$core$Random$map, tagger, generator)));
-	});
-var _elm_lang$core$Random$cmdMap = F2(
-	function (func, _p78) {
-		var _p79 = _p78;
-		return _elm_lang$core$Random$Generate(
-			A2(_elm_lang$core$Random$map, func, _p79._0));
-	});
-_elm_lang$core$Native_Platform.effectManagers['Random'] = {pkg: 'elm-lang/core', init: _elm_lang$core$Random$init, onEffects: _elm_lang$core$Random$onEffects, onSelfMsg: _elm_lang$core$Random$onSelfMsg, tag: 'cmd', cmdMap: _elm_lang$core$Random$cmdMap};
-
-var _elm_lang$dom$Native_Dom = function() {
-
-var fakeNode = {
-	addEventListener: function() {},
-	removeEventListener: function() {}
-};
-
-var onDocument = on(typeof document !== 'undefined' ? document : fakeNode);
-var onWindow = on(typeof window !== 'undefined' ? window : fakeNode);
-
-function on(node)
-{
-	return function(eventName, decoder, toTask)
-	{
-		return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback) {
-
-			function performTask(event)
-			{
-				var result = A2(_elm_lang$core$Json_Decode$decodeValue, decoder, event);
-				if (result.ctor === 'Ok')
-				{
-					_elm_lang$core$Native_Scheduler.rawSpawn(toTask(result._0));
-				}
-			}
-
-			node.addEventListener(eventName, performTask);
-
-			return function()
-			{
-				node.removeEventListener(eventName, performTask);
-			};
-		});
-	};
-}
-
-var rAF = typeof requestAnimationFrame !== 'undefined'
-	? requestAnimationFrame
-	: function(callback) { callback(); };
-
-function withNode(id, doStuff)
-{
-	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
-	{
-		rAF(function()
-		{
-			var node = document.getElementById(id);
-			if (node === null)
-			{
-				callback(_elm_lang$core$Native_Scheduler.fail({ ctor: 'NotFound', _0: id }));
-				return;
-			}
-			callback(_elm_lang$core$Native_Scheduler.succeed(doStuff(node)));
-		});
-	});
-}
-
-
-// FOCUS
-
-function focus(id)
-{
-	return withNode(id, function(node) {
-		node.focus();
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-function blur(id)
-{
-	return withNode(id, function(node) {
-		node.blur();
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-
-// SCROLLING
-
-function getScrollTop(id)
-{
-	return withNode(id, function(node) {
-		return node.scrollTop;
-	});
-}
-
-function setScrollTop(id, desiredScrollTop)
-{
-	return withNode(id, function(node) {
-		node.scrollTop = desiredScrollTop;
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-function toBottom(id)
-{
-	return withNode(id, function(node) {
-		node.scrollTop = node.scrollHeight;
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-function getScrollLeft(id)
-{
-	return withNode(id, function(node) {
-		return node.scrollLeft;
-	});
-}
-
-function setScrollLeft(id, desiredScrollLeft)
-{
-	return withNode(id, function(node) {
-		node.scrollLeft = desiredScrollLeft;
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-function toRight(id)
-{
-	return withNode(id, function(node) {
-		node.scrollLeft = node.scrollWidth;
-		return _elm_lang$core$Native_Utils.Tuple0;
-	});
-}
-
-
-// SIZE
-
-function width(options, id)
-{
-	return withNode(id, function(node) {
-		switch (options.ctor)
-		{
-			case 'Content':
-				return node.scrollWidth;
-			case 'VisibleContent':
-				return node.clientWidth;
-			case 'VisibleContentWithBorders':
-				return node.offsetWidth;
-			case 'VisibleContentWithBordersAndMargins':
-				var rect = node.getBoundingClientRect();
-				return rect.right - rect.left;
-		}
-	});
-}
-
-function height(options, id)
-{
-	return withNode(id, function(node) {
-		switch (options.ctor)
-		{
-			case 'Content':
-				return node.scrollHeight;
-			case 'VisibleContent':
-				return node.clientHeight;
-			case 'VisibleContentWithBorders':
-				return node.offsetHeight;
-			case 'VisibleContentWithBordersAndMargins':
-				var rect = node.getBoundingClientRect();
-				return rect.bottom - rect.top;
-		}
-	});
-}
-
-return {
-	onDocument: F3(onDocument),
-	onWindow: F3(onWindow),
-
-	focus: focus,
-	blur: blur,
-
-	getScrollTop: getScrollTop,
-	setScrollTop: F2(setScrollTop),
-	getScrollLeft: getScrollLeft,
-	setScrollLeft: F2(setScrollLeft),
-	toBottom: toBottom,
-	toRight: toRight,
-
-	height: F2(height),
-	width: F2(width)
-};
-
-}();
-
-var _elm_lang$dom$Dom_LowLevel$onWindow = _elm_lang$dom$Native_Dom.onWindow;
-var _elm_lang$dom$Dom_LowLevel$onDocument = _elm_lang$dom$Native_Dom.onDocument;
 
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrap;
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrapWithFlags;
@@ -14768,1348 +12416,28 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _elm_lang$navigation$Native_Navigation = function() {
-
-
-// FAKE NAVIGATION
-
-function go(n)
-{
-	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
-	{
-		if (n !== 0)
-		{
-			history.go(n);
-		}
-		callback(_elm_lang$core$Native_Scheduler.succeed(_elm_lang$core$Native_Utils.Tuple0));
-	});
-}
-
-function pushState(url)
-{
-	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
-	{
-		history.pushState({}, '', url);
-		callback(_elm_lang$core$Native_Scheduler.succeed(getLocation()));
-	});
-}
-
-function replaceState(url)
-{
-	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
-	{
-		history.replaceState({}, '', url);
-		callback(_elm_lang$core$Native_Scheduler.succeed(getLocation()));
-	});
-}
-
-
-// REAL NAVIGATION
-
-function reloadPage(skipCache)
-{
-	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
-	{
-		document.location.reload(skipCache);
-		callback(_elm_lang$core$Native_Scheduler.succeed(_elm_lang$core$Native_Utils.Tuple0));
-	});
-}
-
-function setLocation(url)
-{
-	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
-	{
-		try
-		{
-			window.location = url;
-		}
-		catch(err)
-		{
-			// Only Firefox can throw a NS_ERROR_MALFORMED_URI exception here.
-			// Other browsers reload the page, so let's be consistent about that.
-			document.location.reload(false);
-		}
-		callback(_elm_lang$core$Native_Scheduler.succeed(_elm_lang$core$Native_Utils.Tuple0));
-	});
-}
-
-
-// GET LOCATION
-
-function getLocation()
-{
-	var location = document.location;
-
-	return {
-		href: location.href,
-		host: location.host,
-		hostname: location.hostname,
-		protocol: location.protocol,
-		origin: location.origin,
-		port_: location.port,
-		pathname: location.pathname,
-		search: location.search,
-		hash: location.hash,
-		username: location.username,
-		password: location.password
-	};
-}
-
-
-// DETECT IE11 PROBLEMS
-
-function isInternetExplorer11()
-{
-	return window.navigator.userAgent.indexOf('Trident') !== -1;
-}
-
-
-return {
-	go: go,
-	setLocation: setLocation,
-	reloadPage: reloadPage,
-	pushState: pushState,
-	replaceState: replaceState,
-	getLocation: getLocation,
-	isInternetExplorer11: isInternetExplorer11
-};
-
-}();
-
-var _elm_lang$navigation$Navigation$replaceState = _elm_lang$navigation$Native_Navigation.replaceState;
-var _elm_lang$navigation$Navigation$pushState = _elm_lang$navigation$Native_Navigation.pushState;
-var _elm_lang$navigation$Navigation$go = _elm_lang$navigation$Native_Navigation.go;
-var _elm_lang$navigation$Navigation$reloadPage = _elm_lang$navigation$Native_Navigation.reloadPage;
-var _elm_lang$navigation$Navigation$setLocation = _elm_lang$navigation$Native_Navigation.setLocation;
-var _elm_lang$navigation$Navigation_ops = _elm_lang$navigation$Navigation_ops || {};
-_elm_lang$navigation$Navigation_ops['&>'] = F2(
-	function (task1, task2) {
-		return A2(
-			_elm_lang$core$Task$andThen,
-			function (_p0) {
-				return task2;
-			},
-			task1);
-	});
-var _elm_lang$navigation$Navigation$notify = F3(
-	function (router, subs, location) {
-		var send = function (_p1) {
-			var _p2 = _p1;
-			return A2(
-				_elm_lang$core$Platform$sendToApp,
-				router,
-				_p2._0(location));
-		};
-		return A2(
-			_elm_lang$navigation$Navigation_ops['&>'],
-			_elm_lang$core$Task$sequence(
-				A2(_elm_lang$core$List$map, send, subs)),
-			_elm_lang$core$Task$succeed(
-				{ctor: '_Tuple0'}));
-	});
-var _elm_lang$navigation$Navigation$cmdHelp = F3(
-	function (router, subs, cmd) {
-		var _p3 = cmd;
-		switch (_p3.ctor) {
-			case 'Jump':
-				return _elm_lang$navigation$Navigation$go(_p3._0);
-			case 'New':
-				return A2(
-					_elm_lang$core$Task$andThen,
-					A2(_elm_lang$navigation$Navigation$notify, router, subs),
-					_elm_lang$navigation$Navigation$pushState(_p3._0));
-			case 'Modify':
-				return A2(
-					_elm_lang$core$Task$andThen,
-					A2(_elm_lang$navigation$Navigation$notify, router, subs),
-					_elm_lang$navigation$Navigation$replaceState(_p3._0));
-			case 'Visit':
-				return _elm_lang$navigation$Navigation$setLocation(_p3._0);
-			default:
-				return _elm_lang$navigation$Navigation$reloadPage(_p3._0);
-		}
-	});
-var _elm_lang$navigation$Navigation$killPopWatcher = function (popWatcher) {
-	var _p4 = popWatcher;
-	if (_p4.ctor === 'Normal') {
-		return _elm_lang$core$Process$kill(_p4._0);
-	} else {
-		return A2(
-			_elm_lang$navigation$Navigation_ops['&>'],
-			_elm_lang$core$Process$kill(_p4._0),
-			_elm_lang$core$Process$kill(_p4._1));
-	}
-};
-var _elm_lang$navigation$Navigation$onSelfMsg = F3(
-	function (router, location, state) {
-		return A2(
-			_elm_lang$navigation$Navigation_ops['&>'],
-			A3(_elm_lang$navigation$Navigation$notify, router, state.subs, location),
-			_elm_lang$core$Task$succeed(state));
-	});
-var _elm_lang$navigation$Navigation$subscription = _elm_lang$core$Native_Platform.leaf('Navigation');
-var _elm_lang$navigation$Navigation$command = _elm_lang$core$Native_Platform.leaf('Navigation');
-var _elm_lang$navigation$Navigation$Location = function (a) {
-	return function (b) {
-		return function (c) {
-			return function (d) {
-				return function (e) {
-					return function (f) {
-						return function (g) {
-							return function (h) {
-								return function (i) {
-									return function (j) {
-										return function (k) {
-											return {href: a, host: b, hostname: c, protocol: d, origin: e, port_: f, pathname: g, search: h, hash: i, username: j, password: k};
-										};
-									};
-								};
-							};
-						};
-					};
-				};
-			};
-		};
-	};
-};
-var _elm_lang$navigation$Navigation$State = F2(
+var _user$project$Iterations_Model$Model = F2(
 	function (a, b) {
-		return {subs: a, popWatcher: b};
+		return {animationNumber: a, implementation: b};
 	});
-var _elm_lang$navigation$Navigation$init = _elm_lang$core$Task$succeed(
-	A2(
-		_elm_lang$navigation$Navigation$State,
-		{ctor: '[]'},
-		_elm_lang$core$Maybe$Nothing));
-var _elm_lang$navigation$Navigation$Reload = function (a) {
-	return {ctor: 'Reload', _0: a};
-};
-var _elm_lang$navigation$Navigation$reload = _elm_lang$navigation$Navigation$command(
-	_elm_lang$navigation$Navigation$Reload(false));
-var _elm_lang$navigation$Navigation$reloadAndSkipCache = _elm_lang$navigation$Navigation$command(
-	_elm_lang$navigation$Navigation$Reload(true));
-var _elm_lang$navigation$Navigation$Visit = function (a) {
-	return {ctor: 'Visit', _0: a};
-};
-var _elm_lang$navigation$Navigation$load = function (url) {
-	return _elm_lang$navigation$Navigation$command(
-		_elm_lang$navigation$Navigation$Visit(url));
-};
-var _elm_lang$navigation$Navigation$Modify = function (a) {
-	return {ctor: 'Modify', _0: a};
-};
-var _elm_lang$navigation$Navigation$modifyUrl = function (url) {
-	return _elm_lang$navigation$Navigation$command(
-		_elm_lang$navigation$Navigation$Modify(url));
-};
-var _elm_lang$navigation$Navigation$New = function (a) {
-	return {ctor: 'New', _0: a};
-};
-var _elm_lang$navigation$Navigation$newUrl = function (url) {
-	return _elm_lang$navigation$Navigation$command(
-		_elm_lang$navigation$Navigation$New(url));
-};
-var _elm_lang$navigation$Navigation$Jump = function (a) {
-	return {ctor: 'Jump', _0: a};
-};
-var _elm_lang$navigation$Navigation$back = function (n) {
-	return _elm_lang$navigation$Navigation$command(
-		_elm_lang$navigation$Navigation$Jump(0 - n));
-};
-var _elm_lang$navigation$Navigation$forward = function (n) {
-	return _elm_lang$navigation$Navigation$command(
-		_elm_lang$navigation$Navigation$Jump(n));
-};
-var _elm_lang$navigation$Navigation$cmdMap = F2(
-	function (_p5, myCmd) {
-		var _p6 = myCmd;
-		switch (_p6.ctor) {
-			case 'Jump':
-				return _elm_lang$navigation$Navigation$Jump(_p6._0);
-			case 'New':
-				return _elm_lang$navigation$Navigation$New(_p6._0);
-			case 'Modify':
-				return _elm_lang$navigation$Navigation$Modify(_p6._0);
-			case 'Visit':
-				return _elm_lang$navigation$Navigation$Visit(_p6._0);
-			default:
-				return _elm_lang$navigation$Navigation$Reload(_p6._0);
-		}
-	});
-var _elm_lang$navigation$Navigation$Monitor = function (a) {
-	return {ctor: 'Monitor', _0: a};
-};
-var _elm_lang$navigation$Navigation$program = F2(
-	function (locationToMessage, stuff) {
-		var init = stuff.init(
-			_elm_lang$navigation$Native_Navigation.getLocation(
-				{ctor: '_Tuple0'}));
-		var subs = function (model) {
-			return _elm_lang$core$Platform_Sub$batch(
-				{
-					ctor: '::',
-					_0: _elm_lang$navigation$Navigation$subscription(
-						_elm_lang$navigation$Navigation$Monitor(locationToMessage)),
-					_1: {
-						ctor: '::',
-						_0: stuff.subscriptions(model),
-						_1: {ctor: '[]'}
-					}
-				});
-		};
-		return _elm_lang$html$Html$program(
-			{init: init, view: stuff.view, update: stuff.update, subscriptions: subs});
-	});
-var _elm_lang$navigation$Navigation$programWithFlags = F2(
-	function (locationToMessage, stuff) {
-		var init = function (flags) {
-			return A2(
-				stuff.init,
-				flags,
-				_elm_lang$navigation$Native_Navigation.getLocation(
-					{ctor: '_Tuple0'}));
-		};
-		var subs = function (model) {
-			return _elm_lang$core$Platform_Sub$batch(
-				{
-					ctor: '::',
-					_0: _elm_lang$navigation$Navigation$subscription(
-						_elm_lang$navigation$Navigation$Monitor(locationToMessage)),
-					_1: {
-						ctor: '::',
-						_0: stuff.subscriptions(model),
-						_1: {ctor: '[]'}
-					}
-				});
-		};
-		return _elm_lang$html$Html$programWithFlags(
-			{init: init, view: stuff.view, update: stuff.update, subscriptions: subs});
-	});
-var _elm_lang$navigation$Navigation$subMap = F2(
-	function (func, _p7) {
-		var _p8 = _p7;
-		return _elm_lang$navigation$Navigation$Monitor(
-			function (_p9) {
-				return func(
-					_p8._0(_p9));
-			});
-	});
-var _elm_lang$navigation$Navigation$InternetExplorer = F2(
-	function (a, b) {
-		return {ctor: 'InternetExplorer', _0: a, _1: b};
-	});
-var _elm_lang$navigation$Navigation$Normal = function (a) {
-	return {ctor: 'Normal', _0: a};
-};
-var _elm_lang$navigation$Navigation$spawnPopWatcher = function (router) {
-	var reportLocation = function (_p10) {
-		return A2(
-			_elm_lang$core$Platform$sendToSelf,
-			router,
-			_elm_lang$navigation$Native_Navigation.getLocation(
-				{ctor: '_Tuple0'}));
-	};
-	return _elm_lang$navigation$Native_Navigation.isInternetExplorer11(
-		{ctor: '_Tuple0'}) ? A3(
-		_elm_lang$core$Task$map2,
-		_elm_lang$navigation$Navigation$InternetExplorer,
-		_elm_lang$core$Process$spawn(
-			A3(_elm_lang$dom$Dom_LowLevel$onWindow, 'popstate', _elm_lang$core$Json_Decode$value, reportLocation)),
-		_elm_lang$core$Process$spawn(
-			A3(_elm_lang$dom$Dom_LowLevel$onWindow, 'hashchange', _elm_lang$core$Json_Decode$value, reportLocation))) : A2(
-		_elm_lang$core$Task$map,
-		_elm_lang$navigation$Navigation$Normal,
-		_elm_lang$core$Process$spawn(
-			A3(_elm_lang$dom$Dom_LowLevel$onWindow, 'popstate', _elm_lang$core$Json_Decode$value, reportLocation)));
-};
-var _elm_lang$navigation$Navigation$onEffects = F4(
-	function (router, cmds, subs, _p11) {
-		var _p12 = _p11;
-		var _p15 = _p12.popWatcher;
-		var stepState = function () {
-			var _p13 = {ctor: '_Tuple2', _0: subs, _1: _p15};
-			_v6_2:
-			do {
-				if (_p13._0.ctor === '[]') {
-					if (_p13._1.ctor === 'Just') {
-						return A2(
-							_elm_lang$navigation$Navigation_ops['&>'],
-							_elm_lang$navigation$Navigation$killPopWatcher(_p13._1._0),
-							_elm_lang$core$Task$succeed(
-								A2(_elm_lang$navigation$Navigation$State, subs, _elm_lang$core$Maybe$Nothing)));
-					} else {
-						break _v6_2;
-					}
-				} else {
-					if (_p13._1.ctor === 'Nothing') {
-						return A2(
-							_elm_lang$core$Task$map,
-							function (_p14) {
-								return A2(
-									_elm_lang$navigation$Navigation$State,
-									subs,
-									_elm_lang$core$Maybe$Just(_p14));
-							},
-							_elm_lang$navigation$Navigation$spawnPopWatcher(router));
-					} else {
-						break _v6_2;
-					}
-				}
-			} while(false);
-			return _elm_lang$core$Task$succeed(
-				A2(_elm_lang$navigation$Navigation$State, subs, _p15));
-		}();
-		return A2(
-			_elm_lang$navigation$Navigation_ops['&>'],
-			_elm_lang$core$Task$sequence(
-				A2(
-					_elm_lang$core$List$map,
-					A2(_elm_lang$navigation$Navigation$cmdHelp, router, subs),
-					cmds)),
-			stepState);
-	});
-_elm_lang$core$Native_Platform.effectManagers['Navigation'] = {pkg: 'elm-lang/navigation', init: _elm_lang$navigation$Navigation$init, onEffects: _elm_lang$navigation$Navigation$onEffects, onSelfMsg: _elm_lang$navigation$Navigation$onSelfMsg, tag: 'fx', cmdMap: _elm_lang$navigation$Navigation$cmdMap, subMap: _elm_lang$navigation$Navigation$subMap};
-
-var _user$project$Card$suitToString = function (suit) {
-	return _elm_lang$core$String$toLower(
-		_elm_lang$core$Basics$toString(suit));
-};
-var _user$project$Card$rankToString = function (rank) {
-	var _p0 = rank;
-	switch (_p0.ctor) {
-		case 'One':
-			return '1';
-		case 'Two':
-			return '2';
-		case 'Three':
-			return '3';
-		case 'Four':
-			return '4';
-		case 'Five':
-			return '5';
-		case 'Six':
-			return '6';
-		case 'Seven':
-			return '7';
-		case 'Eight':
-			return '8';
-		case 'Nine':
-			return '9';
-		case 'Ten':
-			return '10';
-		case 'Jack':
-			return '11';
-		case 'Queen':
-			return '12';
-		case 'King':
-			return '13';
-		case 'Ace':
-			return '14';
-		default:
-			return '15';
-	}
-};
-var _user$project$Card$facingToString = function (facing) {
-	return _elm_lang$core$String$toLower(
-		_elm_lang$core$Basics$toString(facing));
-};
-var _user$project$Card$JokerOfScissors = {ctor: 'JokerOfScissors'};
-var _user$project$Card$AceOfScissors = {ctor: 'AceOfScissors'};
-var _user$project$Card$KingOfScissors = {ctor: 'KingOfScissors'};
-var _user$project$Card$QueenOfScissors = {ctor: 'QueenOfScissors'};
-var _user$project$Card$JackOfScissors = {ctor: 'JackOfScissors'};
-var _user$project$Card$TenOfScissors = {ctor: 'TenOfScissors'};
-var _user$project$Card$NineOfScissors = {ctor: 'NineOfScissors'};
-var _user$project$Card$EightOfScissors = {ctor: 'EightOfScissors'};
-var _user$project$Card$SevenOfScissors = {ctor: 'SevenOfScissors'};
-var _user$project$Card$SixOfScissors = {ctor: 'SixOfScissors'};
-var _user$project$Card$FiveOfScissors = {ctor: 'FiveOfScissors'};
-var _user$project$Card$FourOfScissors = {ctor: 'FourOfScissors'};
-var _user$project$Card$ThreeOfScissors = {ctor: 'ThreeOfScissors'};
-var _user$project$Card$TwoOfScissors = {ctor: 'TwoOfScissors'};
-var _user$project$Card$OneOfScissors = {ctor: 'OneOfScissors'};
-var _user$project$Card$JokerOfRock = {ctor: 'JokerOfRock'};
-var _user$project$Card$AceOfRock = {ctor: 'AceOfRock'};
-var _user$project$Card$KingOfRock = {ctor: 'KingOfRock'};
-var _user$project$Card$QueenOfRock = {ctor: 'QueenOfRock'};
-var _user$project$Card$JackOfRock = {ctor: 'JackOfRock'};
-var _user$project$Card$TenOfRock = {ctor: 'TenOfRock'};
-var _user$project$Card$NineOfRock = {ctor: 'NineOfRock'};
-var _user$project$Card$EightOfRock = {ctor: 'EightOfRock'};
-var _user$project$Card$SevenOfRock = {ctor: 'SevenOfRock'};
-var _user$project$Card$SixOfRock = {ctor: 'SixOfRock'};
-var _user$project$Card$FiveOfRock = {ctor: 'FiveOfRock'};
-var _user$project$Card$FourOfRock = {ctor: 'FourOfRock'};
-var _user$project$Card$ThreeOfRock = {ctor: 'ThreeOfRock'};
-var _user$project$Card$TwoOfRock = {ctor: 'TwoOfRock'};
-var _user$project$Card$OneOfRock = {ctor: 'OneOfRock'};
-var _user$project$Card$JokerOfPaper = {ctor: 'JokerOfPaper'};
-var _user$project$Card$AceOfPaper = {ctor: 'AceOfPaper'};
-var _user$project$Card$KingOfPaper = {ctor: 'KingOfPaper'};
-var _user$project$Card$QueenOfPaper = {ctor: 'QueenOfPaper'};
-var _user$project$Card$JackOfPaper = {ctor: 'JackOfPaper'};
-var _user$project$Card$TenOfPaper = {ctor: 'TenOfPaper'};
-var _user$project$Card$NineOfPaper = {ctor: 'NineOfPaper'};
-var _user$project$Card$EightOfPaper = {ctor: 'EightOfPaper'};
-var _user$project$Card$SevenOfPaper = {ctor: 'SevenOfPaper'};
-var _user$project$Card$SixOfPaper = {ctor: 'SixOfPaper'};
-var _user$project$Card$FiveOfPaper = {ctor: 'FiveOfPaper'};
-var _user$project$Card$FourOfPaper = {ctor: 'FourOfPaper'};
-var _user$project$Card$ThreeOfPaper = {ctor: 'ThreeOfPaper'};
-var _user$project$Card$TwoOfPaper = {ctor: 'TwoOfPaper'};
-var _user$project$Card$OneOfPaper = {ctor: 'OneOfPaper'};
-var _user$project$Card$Joker = {ctor: 'Joker'};
-var _user$project$Card$Ace = {ctor: 'Ace'};
-var _user$project$Card$King = {ctor: 'King'};
-var _user$project$Card$Queen = {ctor: 'Queen'};
-var _user$project$Card$Jack = {ctor: 'Jack'};
-var _user$project$Card$Ten = {ctor: 'Ten'};
-var _user$project$Card$Nine = {ctor: 'Nine'};
-var _user$project$Card$Eight = {ctor: 'Eight'};
-var _user$project$Card$Seven = {ctor: 'Seven'};
-var _user$project$Card$Six = {ctor: 'Six'};
-var _user$project$Card$Five = {ctor: 'Five'};
-var _user$project$Card$Four = {ctor: 'Four'};
-var _user$project$Card$Three = {ctor: 'Three'};
-var _user$project$Card$Two = {ctor: 'Two'};
-var _user$project$Card$One = {ctor: 'One'};
-var _user$project$Card$Scissors = {ctor: 'Scissors'};
-var _user$project$Card$Paper = {ctor: 'Paper'};
-var _user$project$Card$Rock = {ctor: 'Rock'};
-var _user$project$Card$cardToData = function (card) {
-	var _p1 = card;
-	switch (_p1.ctor) {
-		case 'OneOfPaper':
-			return {rank: _user$project$Card$One, suit: _user$project$Card$Paper};
-		case 'TwoOfPaper':
-			return {rank: _user$project$Card$Two, suit: _user$project$Card$Paper};
-		case 'ThreeOfPaper':
-			return {rank: _user$project$Card$Three, suit: _user$project$Card$Paper};
-		case 'FourOfPaper':
-			return {rank: _user$project$Card$Four, suit: _user$project$Card$Paper};
-		case 'FiveOfPaper':
-			return {rank: _user$project$Card$Five, suit: _user$project$Card$Paper};
-		case 'SixOfPaper':
-			return {rank: _user$project$Card$Six, suit: _user$project$Card$Paper};
-		case 'SevenOfPaper':
-			return {rank: _user$project$Card$Seven, suit: _user$project$Card$Paper};
-		case 'EightOfPaper':
-			return {rank: _user$project$Card$Eight, suit: _user$project$Card$Paper};
-		case 'NineOfPaper':
-			return {rank: _user$project$Card$Nine, suit: _user$project$Card$Paper};
-		case 'TenOfPaper':
-			return {rank: _user$project$Card$Ten, suit: _user$project$Card$Paper};
-		case 'JackOfPaper':
-			return {rank: _user$project$Card$Jack, suit: _user$project$Card$Paper};
-		case 'QueenOfPaper':
-			return {rank: _user$project$Card$Queen, suit: _user$project$Card$Paper};
-		case 'KingOfPaper':
-			return {rank: _user$project$Card$King, suit: _user$project$Card$Paper};
-		case 'AceOfPaper':
-			return {rank: _user$project$Card$Ace, suit: _user$project$Card$Paper};
-		case 'JokerOfPaper':
-			return {rank: _user$project$Card$Joker, suit: _user$project$Card$Paper};
-		case 'OneOfRock':
-			return {rank: _user$project$Card$One, suit: _user$project$Card$Rock};
-		case 'TwoOfRock':
-			return {rank: _user$project$Card$Two, suit: _user$project$Card$Rock};
-		case 'ThreeOfRock':
-			return {rank: _user$project$Card$Three, suit: _user$project$Card$Rock};
-		case 'FourOfRock':
-			return {rank: _user$project$Card$Four, suit: _user$project$Card$Rock};
-		case 'FiveOfRock':
-			return {rank: _user$project$Card$Five, suit: _user$project$Card$Rock};
-		case 'SixOfRock':
-			return {rank: _user$project$Card$Six, suit: _user$project$Card$Rock};
-		case 'SevenOfRock':
-			return {rank: _user$project$Card$Seven, suit: _user$project$Card$Rock};
-		case 'EightOfRock':
-			return {rank: _user$project$Card$Eight, suit: _user$project$Card$Rock};
-		case 'NineOfRock':
-			return {rank: _user$project$Card$Nine, suit: _user$project$Card$Rock};
-		case 'TenOfRock':
-			return {rank: _user$project$Card$Ten, suit: _user$project$Card$Rock};
-		case 'JackOfRock':
-			return {rank: _user$project$Card$Jack, suit: _user$project$Card$Rock};
-		case 'QueenOfRock':
-			return {rank: _user$project$Card$Queen, suit: _user$project$Card$Rock};
-		case 'KingOfRock':
-			return {rank: _user$project$Card$King, suit: _user$project$Card$Rock};
-		case 'AceOfRock':
-			return {rank: _user$project$Card$Ace, suit: _user$project$Card$Rock};
-		case 'JokerOfRock':
-			return {rank: _user$project$Card$Joker, suit: _user$project$Card$Rock};
-		case 'OneOfScissors':
-			return {rank: _user$project$Card$One, suit: _user$project$Card$Scissors};
-		case 'TwoOfScissors':
-			return {rank: _user$project$Card$Two, suit: _user$project$Card$Scissors};
-		case 'ThreeOfScissors':
-			return {rank: _user$project$Card$Three, suit: _user$project$Card$Scissors};
-		case 'FourOfScissors':
-			return {rank: _user$project$Card$Four, suit: _user$project$Card$Scissors};
-		case 'FiveOfScissors':
-			return {rank: _user$project$Card$Five, suit: _user$project$Card$Scissors};
-		case 'SixOfScissors':
-			return {rank: _user$project$Card$Six, suit: _user$project$Card$Scissors};
-		case 'SevenOfScissors':
-			return {rank: _user$project$Card$Seven, suit: _user$project$Card$Scissors};
-		case 'EightOfScissors':
-			return {rank: _user$project$Card$Eight, suit: _user$project$Card$Scissors};
-		case 'NineOfScissors':
-			return {rank: _user$project$Card$Nine, suit: _user$project$Card$Scissors};
-		case 'TenOfScissors':
-			return {rank: _user$project$Card$Ten, suit: _user$project$Card$Scissors};
-		case 'JackOfScissors':
-			return {rank: _user$project$Card$Jack, suit: _user$project$Card$Scissors};
-		case 'QueenOfScissors':
-			return {rank: _user$project$Card$Queen, suit: _user$project$Card$Scissors};
-		case 'KingOfScissors':
-			return {rank: _user$project$Card$King, suit: _user$project$Card$Scissors};
-		case 'AceOfScissors':
-			return {rank: _user$project$Card$Ace, suit: _user$project$Card$Scissors};
-		default:
-			return {rank: _user$project$Card$Joker, suit: _user$project$Card$Scissors};
-	}
-};
-var _user$project$Card$webComponent = F3(
-	function (attrs, facing, card) {
-		var data = _user$project$Card$cardToData(card);
-		var attributes = A2(
-			_elm_lang$core$Basics_ops['++'],
-			attrs,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html_Attributes$attribute,
-						'suit',
-						_user$project$Card$suitToString(data.suit)),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html_Attributes$attribute,
-							'rank',
-							_user$project$Card$rankToString(data.rank)),
-						_1: {ctor: '[]'}
-					}
-				},
-				function () {
-					var _p2 = facing;
-					if (_p2.ctor === 'Up') {
-						return {
-							ctor: '::',
-							_0: A2(_elm_lang$html$Html_Attributes$attribute, 'up', ''),
-							_1: {ctor: '[]'}
-						};
-					} else {
-						return {ctor: '[]'};
-					}
-				}()));
-		return A3(
-			_elm_lang$html$Html$node,
-			'pilatch-card',
-			attributes,
-			{ctor: '[]'});
-	});
-var _user$project$Card$Down = {ctor: 'Down'};
-var _user$project$Card$Up = {ctor: 'Up'};
-
-var _user$project$Model$Model = F3(
-	function (a, b, c) {
-		return {animationNumber: a, implementation: b, game: c};
-	});
-var _user$project$Model$Game = F4(
-	function (a, b, c, d) {
-		return {animationStep: a, hand: b, placed: c, seed: d};
-	});
-var _user$project$Model$ReturnCard = function (a) {
-	return {ctor: 'ReturnCard', _0: a};
-};
-var _user$project$Model$NoTransitionRearrange = {ctor: 'NoTransitionRearrange'};
-var _user$project$Model$PlaceCard = function (a) {
-	return {ctor: 'PlaceCard', _0: a};
-};
-var _user$project$Model$ScrollToChoose = {ctor: 'ScrollToChoose'};
-var _user$project$Model$StartOver = {ctor: 'StartOver'};
-var _user$project$Model$DoAnimation = function (a) {
+var _user$project$Iterations_Model$Collapsed = {ctor: 'Collapsed'};
+var _user$project$Iterations_Model$DisablingTransitions = {ctor: 'DisablingTransitions'};
+var _user$project$Iterations_Model$InvisibleCard = {ctor: 'InvisibleCard'};
+var _user$project$Iterations_Model$Naive = {ctor: 'Naive'};
+var _user$project$Iterations_Model$NoneChosen = {ctor: 'NoneChosen'};
+var _user$project$Iterations_Model$StartOver = {ctor: 'StartOver'};
+var _user$project$Iterations_Model$DoAnimation = function (a) {
 	return {ctor: 'DoAnimation', _0: a};
 };
-var _user$project$Model$DemoReturnToHand = F2(
-	function (a, b) {
-		return {ctor: 'DemoReturnToHand', _0: a, _1: b};
-	});
-var _user$project$Model$DemoRearrange = function (a) {
-	return {ctor: 'DemoRearrange', _0: a};
-};
-var _user$project$Model$DemoPlaceCard = function (a) {
-	return {ctor: 'DemoPlaceCard', _0: a};
-};
-var _user$project$Model$initialCommand = F2(
-	function (seedInt, handSize) {
-		var _p0 = A2(
-			_elm_lang$core$Random$step,
-			A2(_elm_lang$core$Random$int, 0, handSize - 1),
-			_elm_lang$core$Random$initialSeed(seedInt));
-		var cardIndex = _p0._0;
-		var steppedSeed = _p0._1;
-		return {
-			ctor: '_Tuple2',
-			_0: A2(
-				_elm_lang$core$Task$perform,
-				function (_p1) {
-					return _user$project$Model$DemoPlaceCard(cardIndex);
-				},
-				_elm_lang$core$Process$sleep(2000)),
-			_1: steppedSeed
-		};
-	});
-var _user$project$Model$ChooseImplementation = function (a) {
+var _user$project$Iterations_Model$ChooseImplementation = function (a) {
 	return {ctor: 'ChooseImplementation', _0: a};
 };
-var _user$project$Model$Collapsed = {ctor: 'Collapsed'};
-var _user$project$Model$DisablingTransitions = {ctor: 'DisablingTransitions'};
-var _user$project$Model$InvisibleCard = {ctor: 'InvisibleCard'};
-var _user$project$Model$Naive = {ctor: 'Naive'};
-var _user$project$Model$NoneChosen = {ctor: 'NoneChosen'};
-var _user$project$Model$initial = function (seedInt) {
-	var hand = {
-		ctor: '::',
-		_0: _user$project$Card$AceOfPaper,
-		_1: {
-			ctor: '::',
-			_0: _user$project$Card$KingOfScissors,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Card$EightOfRock,
-				_1: {
-					ctor: '::',
-					_0: _user$project$Card$QueenOfPaper,
-					_1: {ctor: '[]'}
-				}
-			}
-		}
-	};
-	var _p2 = A2(
-		_user$project$Model$initialCommand,
-		seedInt,
-		_elm_lang$core$List$length(hand));
-	var command = _p2._0;
-	var steppedSeed = _p2._1;
-	return {
-		ctor: '_Tuple2',
-		_0: {
-			animationNumber: 0,
-			implementation: _user$project$Model$NoneChosen,
-			game: {
-				animationStep: _user$project$Model$NoTransitionRearrange,
-				hand: hand,
-				placed: _elm_lang$core$Maybe$Nothing,
-				seed: _elm_lang$core$Random$initialSeed(seedInt)
-			}
-		},
-		_1: command
-	};
-};
-var _user$project$Model$RearrangeAfterAnimation = F2(
-	function (a, b) {
-		return {ctor: 'RearrangeAfterAnimation', _0: a, _1: b};
-	});
 
-var _user$project$View_TableTop$placedCardArea = F2(
-	function (step, maybeCard) {
-		var placed = function () {
-			var _p0 = maybeCard;
-			if (_p0.ctor === 'Nothing') {
-				return {ctor: '[]'};
-			} else {
-				var _p2 = _p0._0;
-				var _p1 = step;
-				switch (_p1.ctor) {
-					case 'PlaceCard':
-						return {ctor: '[]'};
-					case 'NoTransitionRearrange':
-						return {
-							ctor: '::',
-							_0: A3(
-								_user$project$Card$webComponent,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('player-placed-card-area'),
-									_1: {
-										ctor: '::',
-										_0: A2(_elm_lang$html$Html_Attributes$attribute, 'no-transition', ''),
-										_1: {ctor: '[]'}
-									}
-								},
-								_user$project$Card$Down,
-								_p2),
-							_1: {ctor: '[]'}
-						};
-					default:
-						return {
-							ctor: '::',
-							_0: A3(
-								_user$project$Card$webComponent,
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class(
-										A2(
-											_elm_lang$core$Basics_ops['++'],
-											'player-hand card-',
-											_elm_lang$core$Basics$toString(
-												A2(
-													F2(
-														function (x, y) {
-															return x + y;
-														}),
-													1,
-													_p1._0)))),
-									_1: {ctor: '[]'}
-								},
-								_user$project$Card$Up,
-								_p2),
-							_1: {ctor: '[]'}
-						};
-				}
-			}
-		}();
-		var emptyArea = {
-			ctor: '::',
-			_0: A3(
-				_elm_lang$html$Html$node,
-				'pilatch-card',
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('player-placed-card-area'),
-					_1: {
-						ctor: '::',
-						_0: A2(_elm_lang$html$Html_Attributes$attribute, 'nothing', ''),
-						_1: {ctor: '[]'}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		};
-		return A2(_elm_lang$core$Basics_ops['++'], placed, emptyArea);
-	});
-var _user$project$View_TableTop$hand = function (step) {
-	var _p3 = step;
-	switch (_p3.ctor) {
-		case 'PlaceCard':
-			var _p4 = _p3._0;
-			var mapper = F2(
-				function (listIndex, card) {
-					var cardNumber = (_elm_lang$core$Native_Utils.cmp(listIndex, _p4) < 1) ? (listIndex + 1) : listIndex;
-					var attributes = A2(
-						_elm_lang$core$Basics_ops['++'],
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class(
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									'player-hand card-',
-									_elm_lang$core$Basics$toString(cardNumber))),
-							_1: {ctor: '[]'}
-						},
-						_elm_lang$core$Native_Utils.eq(_p4, listIndex) ? {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('player-placed-card-area'),
-							_1: {ctor: '[]'}
-						} : {ctor: '[]'});
-					var facing = _elm_lang$core$Native_Utils.eq(listIndex, _p4) ? _user$project$Card$Down : _user$project$Card$Up;
-					return A3(_user$project$Card$webComponent, attributes, facing, card);
-				});
-			return _elm_lang$core$List$indexedMap(mapper);
-		case 'NoTransitionRearrange':
-			var mapper = F2(
-				function (handIndex, card) {
-					return A3(
-						_user$project$Card$webComponent,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class(
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									'player-hand card-',
-									_elm_lang$core$Basics$toString(handIndex + 1))),
-							_1: {
-								ctor: '::',
-								_0: A2(_elm_lang$html$Html_Attributes$attribute, 'no-transition', ''),
-								_1: {ctor: '[]'}
-							}
-						},
-						_user$project$Card$Up,
-						card);
-				});
-			return _elm_lang$core$List$indexedMap(mapper);
-		default:
-			var mapper = F2(
-				function (handIndex, card) {
-					return A3(
-						_user$project$Card$webComponent,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class(
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									'player-hand card-',
-									_elm_lang$core$Basics$toString(handIndex + 1))),
-							_1: {ctor: '[]'}
-						},
-						_user$project$Card$Up,
-						card);
-				});
-			return _elm_lang$core$List$indexedMap(mapper);
-	}
-};
-var _user$project$View_TableTop$view = function (game) {
-	var attributes = function () {
-		var _p5 = game.animationStep;
-		if (_p5.ctor === 'NoTransitionRearrange') {
-			return {
-				ctor: '::',
-				_0: A2(_elm_lang$html$Html_Attributes$attribute, 'no-transition', ''),
-				_1: {ctor: '[]'}
-			};
-		} else {
-			return {ctor: '[]'};
-		}
-	}();
-	var classes = {
-		ctor: '::',
-		_0: _elm_lang$html$Html_Attributes$class('table-top'),
-		_1: {
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('half-height'),
-			_1: {ctor: '[]'}
-		}
-	};
-	return A2(
-		_elm_lang$html$Html$section,
-		A2(_elm_lang$core$Basics_ops['++'], classes, attributes),
-		_elm_lang$core$List$concat(
-			{
-				ctor: '::',
-				_0: A2(_user$project$View_TableTop$hand, game.animationStep, game.hand),
-				_1: {
-					ctor: '::',
-					_0: A2(_user$project$View_TableTop$placedCardArea, game.animationStep, game.placed),
-					_1: {ctor: '[]'}
-				}
-			}));
-};
-
-var _user$project$View_Explanation$innerHTML = function (_p0) {
-	return A2(
-		_elm_lang$html$Html_Attributes$property,
-		'innerHTML',
-		_elm_lang$core$Json_Encode$string(_p0));
-};
-var _user$project$View_Explanation$oneParentApproachInnerHTML = _user$project$View_Explanation$innerHTML('The next concept was to have a table-top element that would contain each game element without additional nesting.\nThe table-top\'s style is <code>position: relative;</code> and each card within it is <code>position: absolute;</code>\nallowing the cards to float around on the table top by adding or removing CSS classes from them.\n');
-var _user$project$View_Explanation$oneParentExampleInnerHTML = _user$project$View_Explanation$innerHTML('&lt;pilatch-card hand-1 rank=\"5\" suit=\"scissors\"&gt;&lt;/pilatch-card&gt;\n&lt;pilatch-card placed hand-2 rank=\"12\" suit=\"rock\"&gt;&lt;/pilatch-card&gt;\n&lt;pilatch-card hand-3 rank=\"1\" suit=\"paper\"&gt;&lt;/pilatch-card&gt;\n');
-var _user$project$View_Explanation$oneParentSecondRenderExampleInnerHTML = _user$project$View_Explanation$innerHTML('&lt;pilatch-card hand-1 rank=\"5\" suit=\"scissors\"&gt;&lt;/pilatch-card&gt;\n&lt;pilatch-card hand-2 rank=\"1\" suit=\"paper\"&gt;&lt;/pilatch-card&gt;\n&lt;pilatch-card placed rank=\"12\" suit=\"rock\"&gt;&lt;/pilatch-card&gt;\n');
-var _user$project$View_Explanation$webComponentsApproachInnerHTML = _user$project$View_Explanation$innerHTML('&lt;pilatch-hand&gt;\n  &lt;pilatch-card rank=\"5\" suit=\"scissors\"&gt;&lt;/pilatch-card&gt;\n  &lt;pilatch-card rank=\"12\" suit=\"rock\"&gt;&lt;/pilatch-card&gt;\n  &lt;pilatch-card rank=\"1\" suit=\"paper\"&gt;&lt;/pilatch-card&gt;\n&lt;/pilatch-hand&gt;\n&lt;placed-card-area&gt;&lt;/placed-card-area&gt;\n');
-var _user$project$View_Explanation$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$section,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('explanation'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h1,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Card Animation Demonstrations'),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: _user$project$View_TableTop$view(model.game),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$p,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('\n            This illustrates how I approached the problem of animating cards smoothly between a player\'s hand and the table-top.\n            My initial attempt involved creating a web component for each spot in the game, like so:'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$figure,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$pre,
-									{
-										ctor: '::',
-										_0: _user$project$View_Explanation$webComponentsApproachInnerHTML,
-										_1: {ctor: '[]'}
-									},
-									{ctor: '[]'}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$figcaption,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('A hand of three pilatch cards with an empty area waiting for the player to place a card'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$p,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text('\n            Each web component was responsible for positioning the cards contained within it, which was great for abstraction and separation of concerns.\n            However it failed because the concept of moving a card from the hand to the placed card area didn\'t apply in virtual DOM.\n            The renderer would destroy the card that was in the hand, and re-make it at its destination.\n            That didn\'t play well with animations, as cards would just pop in and out of existence.'),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$p,
-									{
-										ctor: '::',
-										_0: _user$project$View_Explanation$oneParentApproachInnerHTML,
-										_1: {ctor: '[]'}
-									},
-									{ctor: '[]'}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$p,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('Using this approach I could place a card from the player\'s hand just by adding an attribute to it, such as '),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$code,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text('placed'),
-														_1: {ctor: '[]'}
-													}),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html$text('.'),
-													_1: {ctor: '[]'}
-												}
-											}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$figure,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$pre,
-													{
-														ctor: '::',
-														_0: _user$project$View_Explanation$oneParentExampleInnerHTML,
-														_1: {ctor: '[]'}
-													},
-													{ctor: '[]'}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$figcaption,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text('A hand of two pilatch cards, with the queen of rock placed on the table'),
-															_1: {ctor: '[]'}
-														}),
-													_1: {ctor: '[]'}
-												}
-											}),
-										_1: {
-											ctor: '::',
-											_0: A2(
-												_elm_lang$html$Html$p,
-												{ctor: '[]'},
-												{
-													ctor: '::',
-													_0: _elm_lang$html$Html$text('\n            Yet a problem arose with this approach too because it\'s still necessary to move a card in the DOM after it has been animated, which triggered unwanted animations.\n            If you didn\'t do this, your model of the game state would be a nightmare.\n            To explain, in the example above I would need a separate render thereafter to remove the '),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$code,
-															{ctor: '[]'},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text('card-2'),
-																_1: {ctor: '[]'}
-															}),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(' attribute from the middle card, put it underneath the two cards in the player\'s hand, and nudge the one of paper from '),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$code,
-																	{ctor: '[]'},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text('card-3'),
-																		_1: {ctor: '[]'}
-																	}),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(' to '),
-																	_1: {
-																		ctor: '::',
-																		_0: A2(
-																			_elm_lang$html$Html$code,
-																			{ctor: '[]'},
-																			{
-																				ctor: '::',
-																				_0: _elm_lang$html$Html$text('card-2'),
-																				_1: {ctor: '[]'}
-																			}),
-																		_1: {
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(' to make the remaining cards in hand fill the gap that was left by the placed card. So it would have looked like this:'),
-																			_1: {ctor: '[]'}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$figure,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$pre,
-															{
-																ctor: '::',
-																_0: _user$project$View_Explanation$oneParentSecondRenderExampleInnerHTML,
-																_1: {ctor: '[]'}
-															},
-															{ctor: '[]'}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$figcaption,
-																{ctor: '[]'},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('So close to a workable implementation!'),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {ctor: '[]'}
-														}
-													}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_elm_lang$html$Html$h2,
-														{ctor: '[]'},
-														{
-															ctor: '::',
-															_0: _elm_lang$html$Html$text('Solution'),
-															_1: {ctor: '[]'}
-														}),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$p,
-															{ctor: '[]'},
-															{
-																ctor: '::',
-																_0: _elm_lang$html$Html$text('When rearranging the cards in the DOM, I had to turn off CSS animations. It took a number of iterations to come to this conclusion.'),
-																_1: {ctor: '[]'}
-															}),
-														_1: {
-															ctor: '::',
-															_0: A2(
-																_elm_lang$html$Html$p,
-																{ctor: '[]'},
-																{
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner.'),
-																	_1: {ctor: '[]'}
-																}),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$p,
-																	{ctor: '[]'},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text('The goal is the same in each: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand.'),
-																		_1: {ctor: '[]'}
-																	}),
-																_1: {
-																	ctor: '::',
-																	_0: A2(
-																		_elm_lang$html$Html$h2,
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html_Attributes$id('choose'),
-																			_1: {ctor: '[]'}
-																		},
-																		{
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text('Iterations'),
-																			_1: {ctor: '[]'}
-																		}),
-																	_1: {
-																		ctor: '::',
-																		_0: A2(
-																			_elm_lang$html$Html$p,
-																			{ctor: '[]'},
-																			{
-																				ctor: '::',
-																				_0: A2(
-																					_elm_lang$html$Html$button,
-																					{
-																						ctor: '::',
-																						_0: _elm_lang$html$Html_Attributes$type_('button'),
-																						_1: {
-																							ctor: '::',
-																							_0: _elm_lang$html$Html_Events$onClick(
-																								_user$project$Model$ChooseImplementation(_user$project$Model$Naive)),
-																							_1: {ctor: '[]'}
-																						}
-																					},
-																					{
-																						ctor: '::',
-																						_0: _elm_lang$html$Html$text('Naïve'),
-																						_1: {ctor: '[]'}
-																					}),
-																				_1: {ctor: '[]'}
-																			}),
-																		_1: {
-																			ctor: '::',
-																			_0: A2(
-																				_elm_lang$html$Html$p,
-																				{ctor: '[]'},
-																				{
-																					ctor: '::',
-																					_0: A2(
-																						_elm_lang$html$Html$button,
-																						{
-																							ctor: '::',
-																							_0: _elm_lang$html$Html_Attributes$type_('button'),
-																							_1: {
-																								ctor: '::',
-																								_0: _elm_lang$html$Html_Events$onClick(
-																									_user$project$Model$ChooseImplementation(_user$project$Model$InvisibleCard)),
-																								_1: {ctor: '[]'}
-																							}
-																						},
-																						{
-																							ctor: '::',
-																							_0: _elm_lang$html$Html$text('Invisible Card'),
-																							_1: {ctor: '[]'}
-																						}),
-																					_1: {ctor: '[]'}
-																				}),
-																			_1: {
-																				ctor: '::',
-																				_0: A2(
-																					_elm_lang$html$Html$p,
-																					{ctor: '[]'},
-																					{
-																						ctor: '::',
-																						_0: A2(
-																							_elm_lang$html$Html$button,
-																							{
-																								ctor: '::',
-																								_0: _elm_lang$html$Html_Attributes$type_('button'),
-																								_1: {
-																									ctor: '::',
-																									_0: _elm_lang$html$Html_Events$onClick(
-																										_user$project$Model$ChooseImplementation(_user$project$Model$DisablingTransitions)),
-																									_1: {ctor: '[]'}
-																								}
-																							},
-																							{
-																								ctor: '::',
-																								_0: _elm_lang$html$Html$text('Disabling Transitions'),
-																								_1: {ctor: '[]'}
-																							}),
-																						_1: {ctor: '[]'}
-																					}),
-																				_1: {
-																					ctor: '::',
-																					_0: A2(
-																						_elm_lang$html$Html$p,
-																						{ctor: '[]'},
-																						{
-																							ctor: '::',
-																							_0: A2(
-																								_elm_lang$html$Html$button,
-																								{
-																									ctor: '::',
-																									_0: _elm_lang$html$Html_Attributes$type_('button'),
-																									_1: {
-																										ctor: '::',
-																										_0: _elm_lang$html$Html_Events$onClick(
-																											_user$project$Model$ChooseImplementation(_user$project$Model$Collapsed)),
-																										_1: {ctor: '[]'}
-																									}
-																								},
-																								{
-																									ctor: '::',
-																									_0: _elm_lang$html$Html$text('Collapsed'),
-																									_1: {ctor: '[]'}
-																								}),
-																							_1: {ctor: '[]'}
-																						}),
-																					_1: {ctor: '[]'}
-																				}
-																			}
-																		}
-																	}
-																}
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		});
-};
-
-var _user$project$View$sourceCodezLink = A2(
+var _user$project$Iterations_View$sourceCodezLink = A2(
 	_elm_lang$html$Html$a,
 	{
 		ctor: '::',
-		_0: _elm_lang$html$Html_Attributes$href('https://github.com/Pilatch/experiments.pilatch.com/blob/master/card-animation/source/elm/View.elm'),
+		_0: _elm_lang$html$Html_Attributes$href('https://github.com/Pilatch/experiments.pilatch.com/tree/master/card-animation'),
 		_1: {ctor: '[]'}
 	},
 	{
@@ -16117,7 +12445,7 @@ var _user$project$View$sourceCodezLink = A2(
 		_0: _elm_lang$html$Html$text('Source codez'),
 		_1: {ctor: '[]'}
 	});
-var _user$project$View$tableTop1 = function (attribute) {
+var _user$project$Iterations_View$tableTop1 = function (attribute) {
 	return _elm_lang$html$Html$div(
 		{
 			ctor: '::',
@@ -16129,13 +12457,13 @@ var _user$project$View$tableTop1 = function (attribute) {
 			}
 		});
 };
-var _user$project$View$tableTop = _elm_lang$html$Html$div(
+var _user$project$Iterations_View$tableTop = _elm_lang$html$Html$div(
 	{
 		ctor: '::',
 		_0: _elm_lang$html$Html_Attributes$class('table-top'),
 		_1: {ctor: '[]'}
 	});
-var _user$project$View$startOver = A2(
+var _user$project$Iterations_View$startOver = A2(
 	_elm_lang$html$Html$section,
 	{ctor: '[]'},
 	{
@@ -16144,7 +12472,7 @@ var _user$project$View$startOver = A2(
 			_elm_lang$html$Html$button,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Events$onClick(_user$project$Model$StartOver),
+				_0: _elm_lang$html$Html_Events$onClick(_user$project$Iterations_Model$StartOver),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -16154,22 +12482,22 @@ var _user$project$View$startOver = A2(
 			}),
 		_1: {
 			ctor: '::',
-			_0: _user$project$View$sourceCodezLink,
+			_0: _user$project$Iterations_View$sourceCodezLink,
 			_1: {
 				ctor: '::',
-				_0: _user$project$View$tableTop(
+				_0: _user$project$Iterations_View$tableTop(
 					{ctor: '[]'}),
 				_1: {ctor: '[]'}
 			}
 		}
 	});
-var _user$project$View$next = function (animationNumber) {
+var _user$project$Iterations_View$next = function (animationNumber) {
 	return A2(
 		_elm_lang$html$Html$button,
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html_Events$onClick(
-				_user$project$Model$DoAnimation(animationNumber)),
+				_user$project$Iterations_Model$DoAnimation(animationNumber)),
 			_1: {ctor: '[]'}
 		},
 		{
@@ -16178,7 +12506,7 @@ var _user$project$View$next = function (animationNumber) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$View$render = F3(
+var _user$project$Iterations_View$render = F3(
 	function (animationNumber, comment, cards) {
 		return A2(
 			_elm_lang$html$Html$section,
@@ -16194,7 +12522,7 @@ var _user$project$View$render = F3(
 					},
 					{
 						ctor: '::',
-						_0: _user$project$View$next(animationNumber + 1),
+						_0: _user$project$Iterations_View$next(animationNumber + 1),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
@@ -16210,30 +12538,30 @@ var _user$project$View$render = F3(
 					}),
 				_1: {
 					ctor: '::',
-					_0: _user$project$View$tableTop(cards),
+					_0: _user$project$Iterations_View$tableTop(cards),
 					_1: {ctor: '[]'}
 				}
 			});
 	});
-var _user$project$View$card4 = _elm_lang$html$Html_Attributes$class('player-hand card-4');
-var _user$project$View$card3 = _elm_lang$html$Html_Attributes$class('player-hand card-3');
-var _user$project$View$card2 = _elm_lang$html$Html_Attributes$class('player-hand card-2');
-var _user$project$View$card1 = _elm_lang$html$Html_Attributes$class('player-hand card-1');
-var _user$project$View$placedAreaClass = _elm_lang$html$Html_Attributes$class('player-placed-card-area');
-var _user$project$View$pCard = function (attributes) {
+var _user$project$Iterations_View$card4 = _elm_lang$html$Html_Attributes$class('player-hand card-4');
+var _user$project$Iterations_View$card3 = _elm_lang$html$Html_Attributes$class('player-hand card-3');
+var _user$project$Iterations_View$card2 = _elm_lang$html$Html_Attributes$class('player-hand card-2');
+var _user$project$Iterations_View$card1 = _elm_lang$html$Html_Attributes$class('player-hand card-1');
+var _user$project$Iterations_View$placedAreaClass = _elm_lang$html$Html_Attributes$class('player-placed-card-area');
+var _user$project$Iterations_View$pCard = function (attributes) {
 	return A3(
 		_elm_lang$html$Html$node,
 		'pilatch-card',
 		attributes,
 		{ctor: '[]'});
 };
-var _user$project$View$blank = A2(_elm_lang$html$Html_Attributes$attribute, 'nothing', '');
-var _user$project$View$suit = _elm_lang$html$Html_Attributes$attribute('suit');
-var _user$project$View$rank = _elm_lang$html$Html_Attributes$attribute('rank');
-var _user$project$View$up = A2(_elm_lang$html$Html_Attributes$attribute, 'up', '');
-var _user$project$View$fiveOfPaperDown2 = F2(
+var _user$project$Iterations_View$blank = A2(_elm_lang$html$Html_Attributes$attribute, 'nothing', '');
+var _user$project$Iterations_View$suit = _elm_lang$html$Html_Attributes$attribute('suit');
+var _user$project$Iterations_View$rank = _elm_lang$html$Html_Attributes$attribute('rank');
+var _user$project$Iterations_View$up = A2(_elm_lang$html$Html_Attributes$attribute, 'up', '');
+var _user$project$Iterations_View$fiveOfPaperDown2 = F2(
 	function (attribute1, attribute2) {
-		return _user$project$View$pCard(
+		return _user$project$Iterations_View$pCard(
 			{
 				ctor: '::',
 				_0: attribute1,
@@ -16242,35 +12570,35 @@ var _user$project$View$fiveOfPaperDown2 = F2(
 					_0: attribute2,
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$rank('5'),
+						_0: _user$project$Iterations_View$rank('5'),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$suit('paper'),
+							_0: _user$project$Iterations_View$suit('paper'),
 							_1: {ctor: '[]'}
 						}
 					}
 				}
 			});
 	});
-var _user$project$View$fiveOfPaperDown = function (attribute) {
-	return _user$project$View$pCard(
+var _user$project$Iterations_View$fiveOfPaperDown = function (attribute) {
+	return _user$project$Iterations_View$pCard(
 		{
 			ctor: '::',
 			_0: attribute,
 			_1: {
 				ctor: '::',
-				_0: _user$project$View$rank('5'),
+				_0: _user$project$Iterations_View$rank('5'),
 				_1: {
 					ctor: '::',
-					_0: _user$project$View$suit('paper'),
+					_0: _user$project$Iterations_View$suit('paper'),
 					_1: {ctor: '[]'}
 				}
 			}
 		});
 };
-var _user$project$View$fiveOfPaper2 = F2(
+var _user$project$Iterations_View$fiveOfPaper2 = F2(
 	function (attribute1, attribute2) {
-		return _user$project$View$pCard(
+		return _user$project$Iterations_View$pCard(
 			{
 				ctor: '::',
 				_0: attribute1,
@@ -16279,13 +12607,13 @@ var _user$project$View$fiveOfPaper2 = F2(
 					_0: attribute2,
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$up,
+						_0: _user$project$Iterations_View$up,
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$rank('5'),
+							_0: _user$project$Iterations_View$rank('5'),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$suit('paper'),
+								_0: _user$project$Iterations_View$suit('paper'),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -16293,29 +12621,29 @@ var _user$project$View$fiveOfPaper2 = F2(
 				}
 			});
 	});
-var _user$project$View$fiveOfPaper = function (attribute) {
-	return _user$project$View$pCard(
+var _user$project$Iterations_View$fiveOfPaper = function (attribute) {
+	return _user$project$Iterations_View$pCard(
 		{
 			ctor: '::',
 			_0: attribute,
 			_1: {
 				ctor: '::',
-				_0: _user$project$View$up,
+				_0: _user$project$Iterations_View$up,
 				_1: {
 					ctor: '::',
-					_0: _user$project$View$rank('5'),
+					_0: _user$project$Iterations_View$rank('5'),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$suit('paper'),
+						_0: _user$project$Iterations_View$suit('paper'),
 						_1: {ctor: '[]'}
 					}
 				}
 			}
 		});
 };
-var _user$project$View$threeOfRock2 = F2(
+var _user$project$Iterations_View$threeOfRock2 = F2(
 	function (attribute1, attribute2) {
-		return _user$project$View$pCard(
+		return _user$project$Iterations_View$pCard(
 			{
 				ctor: '::',
 				_0: attribute1,
@@ -16324,13 +12652,13 @@ var _user$project$View$threeOfRock2 = F2(
 					_0: attribute2,
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$up,
+						_0: _user$project$Iterations_View$up,
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$rank('3'),
+							_0: _user$project$Iterations_View$rank('3'),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$suit('rock'),
+								_0: _user$project$Iterations_View$suit('rock'),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -16338,29 +12666,29 @@ var _user$project$View$threeOfRock2 = F2(
 				}
 			});
 	});
-var _user$project$View$threeOfRock = function (attribute) {
-	return _user$project$View$pCard(
+var _user$project$Iterations_View$threeOfRock = function (attribute) {
+	return _user$project$Iterations_View$pCard(
 		{
 			ctor: '::',
 			_0: attribute,
 			_1: {
 				ctor: '::',
-				_0: _user$project$View$up,
+				_0: _user$project$Iterations_View$up,
 				_1: {
 					ctor: '::',
-					_0: _user$project$View$rank('3'),
+					_0: _user$project$Iterations_View$rank('3'),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$suit('rock'),
+						_0: _user$project$Iterations_View$suit('rock'),
 						_1: {ctor: '[]'}
 					}
 				}
 			}
 		});
 };
-var _user$project$View$kingOfRock2 = F2(
+var _user$project$Iterations_View$kingOfRock2 = F2(
 	function (attribute1, attribute2) {
-		return _user$project$View$pCard(
+		return _user$project$Iterations_View$pCard(
 			{
 				ctor: '::',
 				_0: attribute1,
@@ -16369,13 +12697,13 @@ var _user$project$View$kingOfRock2 = F2(
 					_0: attribute2,
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$up,
+						_0: _user$project$Iterations_View$up,
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$rank('13'),
+							_0: _user$project$Iterations_View$rank('13'),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$suit('rock'),
+								_0: _user$project$Iterations_View$suit('rock'),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -16383,29 +12711,29 @@ var _user$project$View$kingOfRock2 = F2(
 				}
 			});
 	});
-var _user$project$View$kingOfRock = function (attribute) {
-	return _user$project$View$pCard(
+var _user$project$Iterations_View$kingOfRock = function (attribute) {
+	return _user$project$Iterations_View$pCard(
 		{
 			ctor: '::',
 			_0: attribute,
 			_1: {
 				ctor: '::',
-				_0: _user$project$View$up,
+				_0: _user$project$Iterations_View$up,
 				_1: {
 					ctor: '::',
-					_0: _user$project$View$rank('13'),
+					_0: _user$project$Iterations_View$rank('13'),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$suit('rock'),
+						_0: _user$project$Iterations_View$suit('rock'),
 						_1: {ctor: '[]'}
 					}
 				}
 			}
 		});
 };
-var _user$project$View$queenOfScissors2 = F2(
+var _user$project$Iterations_View$queenOfScissors2 = F2(
 	function (attribute1, attribute2) {
-		return _user$project$View$pCard(
+		return _user$project$Iterations_View$pCard(
 			{
 				ctor: '::',
 				_0: attribute1,
@@ -16414,13 +12742,13 @@ var _user$project$View$queenOfScissors2 = F2(
 					_0: attribute2,
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$up,
+						_0: _user$project$Iterations_View$up,
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$rank('12'),
+							_0: _user$project$Iterations_View$rank('12'),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$suit('scissors'),
+								_0: _user$project$Iterations_View$suit('scissors'),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -16428,48 +12756,48 @@ var _user$project$View$queenOfScissors2 = F2(
 				}
 			});
 	});
-var _user$project$View$queenOfScissors = function (attribute) {
-	return _user$project$View$pCard(
+var _user$project$Iterations_View$queenOfScissors = function (attribute) {
+	return _user$project$Iterations_View$pCard(
 		{
 			ctor: '::',
 			_0: attribute,
 			_1: {
 				ctor: '::',
-				_0: _user$project$View$up,
+				_0: _user$project$Iterations_View$up,
 				_1: {
 					ctor: '::',
-					_0: _user$project$View$rank('12'),
+					_0: _user$project$Iterations_View$rank('12'),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$suit('scissors'),
+						_0: _user$project$Iterations_View$suit('scissors'),
 						_1: {ctor: '[]'}
 					}
 				}
 			}
 		});
 };
-var _user$project$View$aceOfScissors = function (attribute) {
-	return _user$project$View$pCard(
+var _user$project$Iterations_View$aceOfScissors = function (attribute) {
+	return _user$project$Iterations_View$pCard(
 		{
 			ctor: '::',
 			_0: attribute,
 			_1: {
 				ctor: '::',
-				_0: _user$project$View$up,
+				_0: _user$project$Iterations_View$up,
 				_1: {
 					ctor: '::',
-					_0: _user$project$View$rank('14'),
+					_0: _user$project$Iterations_View$rank('14'),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$suit('scissors'),
+						_0: _user$project$Iterations_View$suit('scissors'),
 						_1: {ctor: '[]'}
 					}
 				}
 			}
 		});
 };
-var _user$project$View$noTransition = A2(_elm_lang$html$Html_Attributes$attribute, 'no-transition', '');
-var _user$project$View$renderNoTransition = F3(
+var _user$project$Iterations_View$noTransition = A2(_elm_lang$html$Html_Attributes$attribute, 'no-transition', '');
+var _user$project$Iterations_View$renderNoTransition = F3(
 	function (animationNumber, comment, cards) {
 		return A2(
 			_elm_lang$html$Html$section,
@@ -16485,7 +12813,7 @@ var _user$project$View$renderNoTransition = F3(
 					},
 					{
 						ctor: '::',
-						_0: _user$project$View$next(animationNumber + 1),
+						_0: _user$project$Iterations_View$next(animationNumber + 1),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
@@ -16501,51 +12829,51 @@ var _user$project$View$renderNoTransition = F3(
 					}),
 				_1: {
 					ctor: '::',
-					_0: A2(_user$project$View$tableTop1, _user$project$View$noTransition, cards),
+					_0: A2(_user$project$Iterations_View$tableTop1, _user$project$Iterations_View$noTransition, cards),
 					_1: {ctor: '[]'}
 				}
 			});
 	});
-var _user$project$View$hidden = A2(_elm_lang$html$Html_Attributes$attribute, 'hidden', '');
-var _user$project$View$invisible = _user$project$View$pCard(
+var _user$project$Iterations_View$hidden = A2(_elm_lang$html$Html_Attributes$attribute, 'hidden', '');
+var _user$project$Iterations_View$invisible = _user$project$Iterations_View$pCard(
 	{
 		ctor: '::',
-		_0: _user$project$View$hidden,
+		_0: _user$project$Iterations_View$hidden,
 		_1: {ctor: '[]'}
 	});
-var _user$project$View$emptyArea = _user$project$View$pCard(
+var _user$project$Iterations_View$emptyArea = _user$project$Iterations_View$pCard(
 	{
 		ctor: '::',
-		_0: _user$project$View$placedAreaClass,
+		_0: _user$project$Iterations_View$placedAreaClass,
 		_1: {
 			ctor: '::',
-			_0: _user$project$View$blank,
+			_0: _user$project$Iterations_View$blank,
 			_1: {ctor: '[]'}
 		}
 	});
-var _user$project$View$naiveImplementation = function (animationNumber) {
+var _user$project$Iterations_View$naiveImplementation = function (animationNumber) {
 	var _p0 = animationNumber;
 	switch (_p0) {
 		case 0:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'Initial setup with four cards in hand and an empty placed card area',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$fiveOfPaper(_user$project$View$card2),
+						_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card2),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -16554,27 +12882,27 @@ var _user$project$View$naiveImplementation = function (animationNumber) {
 				});
 		case 1:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'add new attributes/classes to make the five of paper card animate',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$pCard(
+						_0: _user$project$Iterations_View$pCard(
 							{
 								ctor: '::',
-								_0: _user$project$View$card2,
+								_0: _user$project$Iterations_View$card2,
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$placedAreaClass,
+									_0: _user$project$Iterations_View$placedAreaClass,
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$rank('5'),
+										_0: _user$project$Iterations_View$rank('5'),
 										_1: {
 											ctor: '::',
-											_0: _user$project$View$suit('paper'),
+											_0: _user$project$Iterations_View$suit('paper'),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -16582,13 +12910,13 @@ var _user$project$View$naiveImplementation = function (animationNumber) {
 							}),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -16597,24 +12925,24 @@ var _user$project$View$naiveImplementation = function (animationNumber) {
 				});
 		case 2:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'remove classes from animated card\'s previous spot in hand',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+						_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -16623,24 +12951,24 @@ var _user$project$View$naiveImplementation = function (animationNumber) {
 				});
 		case 3:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'rearrange cards to match new layout',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+								_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -16649,24 +12977,24 @@ var _user$project$View$naiveImplementation = function (animationNumber) {
 				});
 		case 4:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'return five of paper to end of hand',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$fiveOfPaper(_user$project$View$card4),
+								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -16674,35 +13002,35 @@ var _user$project$View$naiveImplementation = function (animationNumber) {
 					}
 				});
 		default:
-			return _user$project$View$startOver;
+			return _user$project$Iterations_View$startOver;
 	}
 };
-var _user$project$View$invisibleCardImplementation = function (animationNumber) {
+var _user$project$Iterations_View$invisibleCardImplementation = function (animationNumber) {
 	var _p1 = animationNumber;
 	switch (_p1) {
 		case 0:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'Initial setup with invisible card between placed area and hand',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$fiveOfPaper(_user$project$View$card2),
+						_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card2),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$invisible,
+									_0: _user$project$Iterations_View$invisible,
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$emptyArea,
+										_0: _user$project$Iterations_View$emptyArea,
 										_1: {ctor: '[]'}
 									}
 								}
@@ -16712,27 +13040,27 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 				});
 		case 1:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'Swap invisible card with card to move\'s attributes, and hide the original (clicked card)',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$fiveOfPaper(_user$project$View$hidden),
+						_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$hidden),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$fiveOfPaper(_user$project$View$card2),
+									_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card2),
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$emptyArea,
+										_0: _user$project$Iterations_View$emptyArea,
 										_1: {ctor: '[]'}
 									}
 								}
@@ -16742,36 +13070,36 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 				});
 		case 2:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'add new attributes/classes to make the card animate',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$invisible,
+						_0: _user$project$Iterations_View$invisible,
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$pCard(
+									_0: _user$project$Iterations_View$pCard(
 										{
 											ctor: '::',
-											_0: _user$project$View$card2,
+											_0: _user$project$Iterations_View$card2,
 											_1: {
 												ctor: '::',
-												_0: _user$project$View$placedAreaClass,
+												_0: _user$project$Iterations_View$placedAreaClass,
 												_1: {
 													ctor: '::',
-													_0: _user$project$View$rank('5'),
+													_0: _user$project$Iterations_View$rank('5'),
 													_1: {
 														ctor: '::',
-														_0: _user$project$View$suit('paper'),
+														_0: _user$project$Iterations_View$suit('paper'),
 														_1: {ctor: '[]'}
 													}
 												}
@@ -16779,7 +13107,7 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 										}),
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$emptyArea,
+										_0: _user$project$Iterations_View$emptyArea,
 										_1: {ctor: '[]'}
 									}
 								}
@@ -16789,27 +13117,27 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 				});
 		case 3:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'remove classes from animated card\'s previous spot',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$invisible,
+						_0: _user$project$Iterations_View$invisible,
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+									_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$emptyArea,
+										_0: _user$project$Iterations_View$emptyArea,
 										_1: {ctor: '[]'}
 									}
 								}
@@ -16819,27 +13147,27 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 				});
 		case 4:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'remaining hand slides left',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$kingOfRock(_user$project$View$hidden),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$hidden),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$card2),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card3),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+									_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$emptyArea,
+										_0: _user$project$Iterations_View$emptyArea,
 										_1: {ctor: '[]'}
 									}
 								}
@@ -16849,27 +13177,27 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 				});
 		case 5:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'move invisible card down one notch',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$hidden),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$hidden),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card3),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+									_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$emptyArea,
+										_0: _user$project$Iterations_View$emptyArea,
 										_1: {ctor: '[]'}
 									}
 								}
@@ -16879,27 +13207,27 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 				});
 		case 6:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'move invisible card down again',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$hidden),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$hidden),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+									_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$emptyArea,
+										_0: _user$project$Iterations_View$emptyArea,
 										_1: {ctor: '[]'}
 									}
 								}
@@ -16909,27 +13237,27 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 				});
 		case 7:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'return five of paper to end of hand',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$invisible,
+								_0: _user$project$Iterations_View$invisible,
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$fiveOfPaper(_user$project$View$card4),
+									_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card4),
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$emptyArea,
+										_0: _user$project$Iterations_View$emptyArea,
 										_1: {ctor: '[]'}
 									}
 								}
@@ -16939,27 +13267,27 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 				});
 		case 8:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'swap invisible card to initial spot',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$fiveOfPaper(_user$project$View$card4),
+								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$invisible,
+									_0: _user$project$Iterations_View$invisible,
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$emptyArea,
+										_0: _user$project$Iterations_View$emptyArea,
 										_1: {ctor: '[]'}
 									}
 								}
@@ -16968,32 +13296,32 @@ var _user$project$View$invisibleCardImplementation = function (animationNumber) 
 					}
 				});
 		default:
-			return _user$project$View$startOver;
+			return _user$project$Iterations_View$startOver;
 	}
 };
-var _user$project$View$disablingTransitionsImplementation = function (animationNumber) {
+var _user$project$Iterations_View$disablingTransitionsImplementation = function (animationNumber) {
 	var _p2 = animationNumber;
 	switch (_p2) {
 		case 0:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'Initial setup with four cards in hand and an empty placed card area',
 				{
 					ctor: '::',
-					_0: A2(_user$project$View$queenOfScissors2, _user$project$View$card1, _user$project$View$noTransition),
+					_0: A2(_user$project$Iterations_View$queenOfScissors2, _user$project$Iterations_View$card1, _user$project$Iterations_View$noTransition),
 					_1: {
 						ctor: '::',
-						_0: A2(_user$project$View$fiveOfPaper2, _user$project$View$card2, _user$project$View$noTransition),
+						_0: A2(_user$project$Iterations_View$fiveOfPaper2, _user$project$Iterations_View$card2, _user$project$Iterations_View$noTransition),
 						_1: {
 							ctor: '::',
-							_0: A2(_user$project$View$kingOfRock2, _user$project$View$card3, _user$project$View$noTransition),
+							_0: A2(_user$project$Iterations_View$kingOfRock2, _user$project$Iterations_View$card3, _user$project$Iterations_View$noTransition),
 							_1: {
 								ctor: '::',
-								_0: A2(_user$project$View$threeOfRock2, _user$project$View$card4, _user$project$View$noTransition),
+								_0: A2(_user$project$Iterations_View$threeOfRock2, _user$project$Iterations_View$card4, _user$project$Iterations_View$noTransition),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -17002,27 +13330,27 @@ var _user$project$View$disablingTransitionsImplementation = function (animationN
 				});
 		case 1:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'add new attributes/classes to make the five of paper card animate',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$pCard(
+						_0: _user$project$Iterations_View$pCard(
 							{
 								ctor: '::',
-								_0: _user$project$View$card2,
+								_0: _user$project$Iterations_View$card2,
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$placedAreaClass,
+									_0: _user$project$Iterations_View$placedAreaClass,
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$rank('5'),
+										_0: _user$project$Iterations_View$rank('5'),
 										_1: {
 											ctor: '::',
-											_0: _user$project$View$suit('paper'),
+											_0: _user$project$Iterations_View$suit('paper'),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -17030,13 +13358,13 @@ var _user$project$View$disablingTransitionsImplementation = function (animationN
 							}),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -17045,24 +13373,24 @@ var _user$project$View$disablingTransitionsImplementation = function (animationN
 				});
 		case 2:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'remove classes from animated card\'s previous spot in hand',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+						_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -17071,24 +13399,24 @@ var _user$project$View$disablingTransitionsImplementation = function (animationN
 				});
 		case 3:
 			return A3(
-				_user$project$View$renderNoTransition,
+				_user$project$Iterations_View$renderNoTransition,
 				animationNumber,
 				'move it in the DOM with transitions disabled in CSS',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: A2(_user$project$View$kingOfRock2, _user$project$View$card3, _user$project$View$noTransition),
+						_0: A2(_user$project$Iterations_View$kingOfRock2, _user$project$Iterations_View$card3, _user$project$Iterations_View$noTransition),
 						_1: {
 							ctor: '::',
-							_0: A2(_user$project$View$threeOfRock2, _user$project$View$card4, _user$project$View$noTransition),
+							_0: A2(_user$project$Iterations_View$threeOfRock2, _user$project$Iterations_View$card4, _user$project$Iterations_View$noTransition),
 							_1: {
 								ctor: '::',
-								_0: A2(_user$project$View$fiveOfPaperDown2, _user$project$View$placedAreaClass, _user$project$View$noTransition),
+								_0: A2(_user$project$Iterations_View$fiveOfPaperDown2, _user$project$Iterations_View$placedAreaClass, _user$project$Iterations_View$noTransition),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -17097,24 +13425,24 @@ var _user$project$View$disablingTransitionsImplementation = function (animationN
 				});
 		case 4:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'slide the cards in hand to the left',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$fiveOfPaperDown(_user$project$View$placedAreaClass),
+								_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -17123,24 +13451,24 @@ var _user$project$View$disablingTransitionsImplementation = function (animationN
 				});
 		case 5:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'return five of paper to end of hand',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$fiveOfPaper(_user$project$View$card4),
+								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -17148,32 +13476,32 @@ var _user$project$View$disablingTransitionsImplementation = function (animationN
 					}
 				});
 		default:
-			return _user$project$View$startOver;
+			return _user$project$Iterations_View$startOver;
 	}
 };
-var _user$project$View$collapsedImplementation = function (animationNumber) {
+var _user$project$Iterations_View$collapsedImplementation = function (animationNumber) {
 	var _p3 = animationNumber;
 	switch (_p3) {
 		case 0:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'Initial setup with four cards in hand and an empty placed card area',
 				{
 					ctor: '::',
-					_0: A2(_user$project$View$queenOfScissors2, _user$project$View$card1, _user$project$View$noTransition),
+					_0: A2(_user$project$Iterations_View$queenOfScissors2, _user$project$Iterations_View$card1, _user$project$Iterations_View$noTransition),
 					_1: {
 						ctor: '::',
-						_0: A2(_user$project$View$fiveOfPaper2, _user$project$View$card2, _user$project$View$noTransition),
+						_0: A2(_user$project$Iterations_View$fiveOfPaper2, _user$project$Iterations_View$card2, _user$project$Iterations_View$noTransition),
 						_1: {
 							ctor: '::',
-							_0: A2(_user$project$View$kingOfRock2, _user$project$View$card3, _user$project$View$noTransition),
+							_0: A2(_user$project$Iterations_View$kingOfRock2, _user$project$Iterations_View$card3, _user$project$Iterations_View$noTransition),
 							_1: {
 								ctor: '::',
-								_0: A2(_user$project$View$threeOfRock2, _user$project$View$card4, _user$project$View$noTransition),
+								_0: A2(_user$project$Iterations_View$threeOfRock2, _user$project$Iterations_View$card4, _user$project$Iterations_View$noTransition),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -17182,27 +13510,27 @@ var _user$project$View$collapsedImplementation = function (animationNumber) {
 				});
 		case 1:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'add new attributes/classes to make the five of paper card animate, and slide cards in hand to the left',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$pCard(
+						_0: _user$project$Iterations_View$pCard(
 							{
 								ctor: '::',
-								_0: _user$project$View$card2,
+								_0: _user$project$Iterations_View$card2,
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$placedAreaClass,
+									_0: _user$project$Iterations_View$placedAreaClass,
 									_1: {
 										ctor: '::',
-										_0: _user$project$View$rank('5'),
+										_0: _user$project$Iterations_View$rank('5'),
 										_1: {
 											ctor: '::',
-											_0: _user$project$View$suit('paper'),
+											_0: _user$project$Iterations_View$suit('paper'),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -17210,13 +13538,13 @@ var _user$project$View$collapsedImplementation = function (animationNumber) {
 							}),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$kingOfRock(_user$project$View$card2),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$threeOfRock(_user$project$View$card3),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -17225,24 +13553,24 @@ var _user$project$View$collapsedImplementation = function (animationNumber) {
 				});
 		case 2:
 			return A3(
-				_user$project$View$renderNoTransition,
+				_user$project$Iterations_View$renderNoTransition,
 				animationNumber,
 				'move it in the DOM with transitions disabled in CSS',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: A2(_user$project$View$kingOfRock2, _user$project$View$card2, _user$project$View$noTransition),
+						_0: A2(_user$project$Iterations_View$kingOfRock2, _user$project$Iterations_View$card2, _user$project$Iterations_View$noTransition),
 						_1: {
 							ctor: '::',
-							_0: A2(_user$project$View$threeOfRock2, _user$project$View$card3, _user$project$View$noTransition),
+							_0: A2(_user$project$Iterations_View$threeOfRock2, _user$project$Iterations_View$card3, _user$project$Iterations_View$noTransition),
 							_1: {
 								ctor: '::',
-								_0: A2(_user$project$View$fiveOfPaperDown2, _user$project$View$placedAreaClass, _user$project$View$noTransition),
+								_0: A2(_user$project$Iterations_View$fiveOfPaperDown2, _user$project$Iterations_View$placedAreaClass, _user$project$Iterations_View$noTransition),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -17251,24 +13579,24 @@ var _user$project$View$collapsedImplementation = function (animationNumber) {
 				});
 		case 3:
 			return A3(
-				_user$project$View$render,
+				_user$project$Iterations_View$render,
 				animationNumber,
 				'return five of paper to end of hand',
 				{
 					ctor: '::',
-					_0: _user$project$View$queenOfScissors(_user$project$View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
 					_1: {
 						ctor: '::',
-						_0: _user$project$View$kingOfRock(_user$project$View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 						_1: {
 							ctor: '::',
-							_0: _user$project$View$threeOfRock(_user$project$View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 							_1: {
 								ctor: '::',
-								_0: _user$project$View$fiveOfPaper(_user$project$View$card4),
+								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card4),
 								_1: {
 									ctor: '::',
-									_0: _user$project$View$emptyArea,
+									_0: _user$project$Iterations_View$emptyArea,
 									_1: {ctor: '[]'}
 								}
 							}
@@ -17276,194 +13604,195 @@ var _user$project$View$collapsedImplementation = function (animationNumber) {
 					}
 				});
 		default:
-			return _user$project$View$startOver;
+			return _user$project$Iterations_View$startOver;
 	}
 };
-var _user$project$View$view = function (model) {
+var _user$project$Iterations_View$view = function (model) {
 	var _p4 = model.implementation;
 	switch (_p4.ctor) {
 		case 'NoneChosen':
-			return _user$project$View_Explanation$view(model);
+			return A2(
+				_elm_lang$html$Html$section,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$header,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$h1,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Iterative Development'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$p,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('The experiments and refinements I went through to make animations work with virtual DOM.'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$p,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$button,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$type_('button'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(
+												_user$project$Iterations_Model$ChooseImplementation(_user$project$Iterations_Model$Naive)),
+											_1: {ctor: '[]'}
+										}
+									},
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html$text('Naïve'),
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$p,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$type_('button'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(
+													_user$project$Iterations_Model$ChooseImplementation(_user$project$Iterations_Model$InvisibleCard)),
+												_1: {ctor: '[]'}
+											}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Invisible Card'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$p,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$button,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$type_('button'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onClick(
+														_user$project$Iterations_Model$ChooseImplementation(_user$project$Iterations_Model$DisablingTransitions)),
+													_1: {ctor: '[]'}
+												}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('Disabling Transitions'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$p,
+										{ctor: '[]'},
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$button,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$type_('button'),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Events$onClick(
+															_user$project$Iterations_Model$ChooseImplementation(_user$project$Iterations_Model$Collapsed)),
+														_1: {ctor: '[]'}
+													}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('Collapsed'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
 		case 'Naive':
-			return _user$project$View$naiveImplementation(model.animationNumber);
+			return _user$project$Iterations_View$naiveImplementation(model.animationNumber);
 		case 'InvisibleCard':
-			return _user$project$View$invisibleCardImplementation(model.animationNumber);
+			return _user$project$Iterations_View$invisibleCardImplementation(model.animationNumber);
 		case 'DisablingTransitions':
-			return _user$project$View$disablingTransitionsImplementation(model.animationNumber);
+			return _user$project$Iterations_View$disablingTransitionsImplementation(model.animationNumber);
 		default:
-			return _user$project$View$collapsedImplementation(model.animationNumber);
+			return _user$project$Iterations_View$collapsedImplementation(model.animationNumber);
 	}
 };
 
-var _user$project$Update$goToHash = _elm_lang$core$Native_Platform.outgoingPort(
-	'goToHash',
-	function (v) {
-		return v;
-	});
-var _user$project$Update$update = F2(
+var _user$project$Iterations_Main$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'ChooseImplementation':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{implementation: _p0._0, animationNumber: 0}),
-					_1: _elm_lang$navigation$Navigation$modifyUrl('#')
-				};
-			case 'DemoPlaceCard':
-				var _p2 = _p0._0;
-				var nextHand = A2(_elm_community$list_extra$List_Extra$removeAt, _p2, model.game.hand);
-				var placed = A2(_elm_community$list_extra$List_Extra$getAt, _p2, model.game.hand);
-				var command = A2(
-					_elm_lang$core$Task$perform,
-					function (_p1) {
-						return _user$project$Model$DemoRearrange(
-							A2(_user$project$Model$RearrangeAfterAnimation, nextHand, placed));
-					},
-					_elm_lang$core$Process$sleep(1500));
-				var modelGame = model.game;
-				var newGame = _elm_lang$core$Native_Utils.update(
-					modelGame,
-					{
-						animationStep: _user$project$Model$PlaceCard(_p2)
-					});
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{game: newGame}),
-					_1: command
-				};
-			case 'DemoRearrange':
-				var _p3 = _p0._0;
-				var _p10 = _p3._1;
-				var _p9 = _p3._0;
-				var modelGame = model.game;
-				var _p4 = function () {
-					var _p5 = _p10;
-					if (_p5.ctor === 'Nothing') {
-						var _p6 = A2(
-							_elm_lang$core$Random$step,
-							A2(
-								_elm_lang$core$Random$int,
-								0,
-								_elm_lang$core$List$length(_p9) - 1),
-							modelGame.seed);
-						var placeCardIndex = _p6._0;
-						var newSeed = _p6._1;
-						return {
-							ctor: '_Tuple2',
-							_0: A2(
-								_elm_lang$core$Task$perform,
-								function (_p7) {
-									return _user$project$Model$DemoPlaceCard(placeCardIndex);
-								},
-								_elm_lang$core$Process$sleep(1500)),
-							_1: newSeed
-						};
-					} else {
-						return {
-							ctor: '_Tuple2',
-							_0: A2(
-								_elm_lang$core$Task$perform,
-								function (_p8) {
-									return A2(
-										_user$project$Model$DemoReturnToHand,
-										_p5._0,
-										_elm_lang$core$List$length(_p9));
-								},
-								_elm_lang$core$Process$sleep(1500)),
-							_1: modelGame.seed
-						};
-					}
-				}();
-				var command = _p4._0;
-				var seed = _p4._1;
-				var newGame = _elm_lang$core$Native_Utils.update(
-					modelGame,
-					{hand: _p9, placed: _p10, animationStep: _user$project$Model$NoTransitionRearrange, seed: seed});
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{game: newGame}),
-					_1: command
-				};
-			case 'DemoReturnToHand':
-				var modelGame = model.game;
-				var newGame = _elm_lang$core$Native_Utils.update(
-					modelGame,
-					{
-						animationStep: _user$project$Model$ReturnCard(_p0._1)
-					});
-				var nextHand = A2(
-					_elm_lang$core$Basics_ops['++'],
-					modelGame.hand,
-					{
-						ctor: '::',
-						_0: _p0._0,
-						_1: {ctor: '[]'}
-					});
-				var command = A2(
-					_elm_lang$core$Task$perform,
-					function (_p11) {
-						return _user$project$Model$DemoRearrange(
-							A2(_user$project$Model$RearrangeAfterAnimation, nextHand, _elm_lang$core$Maybe$Nothing));
-					},
-					_elm_lang$core$Process$sleep(1500));
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{game: newGame}),
-					_1: command
-				};
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{implementation: _p0._0, animationNumber: 0});
 			case 'DoAnimation':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{animationNumber: _p0._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'StartOver':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{implementation: _user$project$Model$NoneChosen, animationNumber: 0}),
-					_1: A2(
-						_elm_lang$core$Task$perform,
-						function (_p12) {
-							return _user$project$Model$ScrollToChoose;
-						},
-						_elm_lang$core$Process$sleep(17))
-				};
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{animationNumber: _p0._0});
 			default:
-				return {
-					ctor: '_Tuple2',
-					_0: model,
-					_1: _user$project$Update$goToHash('choose')
-				};
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{implementation: _user$project$Iterations_Model$NoneChosen, animationNumber: 0});
 		}
 	});
-
-var _user$project$Main$main = _elm_lang$html$Html$programWithFlags(
+var _user$project$Iterations_Main$main = _elm_lang$html$Html$beginnerProgram(
 	{
-		init: _user$project$Model$initial,
-		view: _user$project$View$view,
-		update: _user$project$Update$update,
-		subscriptions: function (_p0) {
-			return _elm_lang$core$Platform_Sub$none;
-		}
-	})(_elm_lang$core$Json_Decode$int);
+		model: {animationNumber: 0, implementation: _user$project$Iterations_Model$NoneChosen},
+		view: _user$project$Iterations_View$view,
+		update: _user$project$Iterations_Main$update
+	})();
 
 var Elm = {};
-Elm['Main'] = Elm['Main'] || {};
-if (typeof _user$project$Main$main !== 'undefined') {
-    _user$project$Main$main(Elm['Main'], 'Main', {"types":{"unions":{"Model.Msg":{"args":[],"tags":{"DemoPlaceCard":["Model.HandIndex"],"ChooseImplementation":["Model.Implementation"],"DemoRearrange":["Model.RearrangeMsg"],"ScrollToChoose":[],"StartOver":[],"DoAnimation":["Int"],"DemoReturnToHand":["Card.Card","Model.HandIndex"]}},"Model.Implementation":{"args":[],"tags":{"Naive":[],"NoneChosen":[],"Collapsed":[],"DisablingTransitions":[],"InvisibleCard":[]}},"Card.Card":{"args":[],"tags":{"SevenOfPaper":[],"JackOfPaper":[],"JokerOfScissors":[],"SevenOfRock":[],"JackOfRock":[],"TwoOfScissors":[],"OneOfScissors":[],"ThreeOfRock":[],"FourOfRock":[],"KingOfScissors":[],"NineOfRock":[],"TenOfPaper":[],"FiveOfRock":[],"TwoOfPaper":[],"OneOfPaper":[],"TenOfRock":[],"JokerOfPaper":[],"EightOfScissors":[],"AceOfScissors":[],"SixOfScissors":[],"QueenOfScissors":[],"KingOfPaper":[],"KingOfRock":[],"FiveOfScissors":[],"NineOfScissors":[],"QueenOfPaper":[],"JackOfScissors":[],"SixOfPaper":[],"SevenOfScissors":[],"JokerOfRock":[],"TwoOfRock":[],"OneOfRock":[],"FourOfScissors":[],"AceOfPaper":[],"EightOfPaper":[],"ThreeOfScissors":[],"FiveOfPaper":[],"NineOfPaper":[],"EightOfRock":[],"AceOfRock":[],"QueenOfRock":[],"SixOfRock":[],"FourOfPaper":[],"TenOfScissors":[],"ThreeOfPaper":[]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Model.RearrangeMsg":{"args":[],"tags":{"RearrangeAfterAnimation":["List Card.Card","Maybe.Maybe Card.Card"]}}},"aliases":{"Model.HandIndex":{"args":[],"type":"Int"}},"message":"Model.Msg"},"versions":{"elm":"0.18.0"}});
+Elm['Iterations'] = Elm['Iterations'] || {};
+Elm['Iterations']['Main'] = Elm['Iterations']['Main'] || {};
+if (typeof _user$project$Iterations_Main$main !== 'undefined') {
+    _user$project$Iterations_Main$main(Elm['Iterations']['Main'], 'Iterations.Main', {"types":{"unions":{"Iterations.Model.Msg":{"args":[],"tags":{"ChooseImplementation":["Iterations.Model.Implementation"],"StartOver":[],"DoAnimation":["Int"]}},"Iterations.Model.Implementation":{"args":[],"tags":{"Naive":[],"NoneChosen":[],"Collapsed":[],"DisablingTransitions":[],"InvisibleCard":[]}}},"aliases":{},"message":"Iterations.Model.Msg"},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

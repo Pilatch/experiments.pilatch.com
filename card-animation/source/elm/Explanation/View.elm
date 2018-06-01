@@ -1,10 +1,9 @@
-module View.Explanation exposing (view)
+module Explanation.View exposing (view)
 
-import View.TableTop as TableTop
-import Model exposing (..)
+import Card exposing (Card, Facing(..), webComponent)
+import Explanation.Model exposing (..)
 import Html exposing (..)
-import Html.Attributes exposing (class, id, property, type_)
-import Html.Events exposing (onClick)
+import Html.Attributes exposing (attribute, class, href, id, property, type_)
 import Json.Encode as Encode
 
 
@@ -47,7 +46,7 @@ view : Model -> Html Msg
 view model =
     section [ class "explanation" ]
         [ h1 [] [ text "Card Animation Demonstrations" ]
-        , TableTop.view model.game
+        , tableTop model.game
         , p [] [ text """
             This illustrates how I approached the problem of animating cards smoothly between a player's hand and the table-top.
             My initial attempt involved creating a web component for each spot in the game, like so:""" ]
@@ -86,9 +85,95 @@ view model =
         , p [] [ text "When rearranging the cards in the DOM, I had to turn off CSS animations. It took a number of iterations to come to this conclusion." ]
         , p [] [ text "In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner." ]
         , p [] [ text "The goal is the same in each: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand." ]
-        , h2 [ id "choose" ] [ text "Iterations" ]
-        , p [] [ button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ] ]
-        , p [] [ button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ] ]
-        , p [] [ button [ type_ "button", onClick <| ChooseImplementation DisablingTransitions ] [ text "Disabling Transitions" ] ]
-        , p [] [ button [ type_ "button", onClick <| ChooseImplementation Collapsed ] [ text "Collapsed" ] ]
+        , h2 [] [ a [ href "iterations.html" ] [ text "Iterations" ] ]
         ]
+
+
+tableTop game =
+    let
+        classes =
+            [ class "table-top", class "half-height" ]
+
+        attributes =
+            case game.animationStep of
+                NoTransitionRearrange ->
+                    [ attribute "no-transition" "" ]
+
+                _ ->
+                    []
+    in
+        section (classes ++ attributes) <|
+            List.concat
+                [ hand game.animationStep game.hand
+                , placedCardArea game.animationStep game.placed
+                ]
+
+
+hand : AnimationStep -> List Card -> List (Html msg)
+hand step =
+    case step of
+        PlaceCard handIndex ->
+            let
+                mapper listIndex card =
+                    let
+                        facing =
+                            if listIndex == handIndex then
+                                Down
+                            else
+                                Up
+
+                        cardNumber =
+                            if listIndex <= handIndex then
+                                listIndex + 1
+                            else
+                                listIndex
+
+                        attributes =
+                            [ class <| "player-hand card-" ++ (toString cardNumber) ]
+                                ++ if handIndex == listIndex then
+                                    [ class "player-placed-card-area" ]
+                                   else
+                                    []
+                    in
+                        webComponent attributes facing card
+            in
+                List.indexedMap mapper
+
+        NoTransitionRearrange ->
+            let
+                mapper handIndex card =
+                    webComponent [ class <| "player-hand card-" ++ (toString <| handIndex + 1), attribute "no-transition" "" ] Up card
+            in
+                List.indexedMap mapper
+
+        ReturnCard _ ->
+            let
+                mapper handIndex card =
+                    webComponent [ class <| "player-hand card-" ++ (toString <| handIndex + 1) ] Up card
+            in
+                List.indexedMap mapper
+
+
+placedCardArea : AnimationStep -> Maybe Card -> List (Html msg)
+placedCardArea step maybeCard =
+    let
+        emptyArea =
+            [ node "pilatch-card" [ class "player-placed-card-area", attribute "nothing" "" ] [] ]
+
+        placed =
+            case maybeCard of
+                Nothing ->
+                    []
+
+                Just card ->
+                    case step of
+                        PlaceCard _ ->
+                            []
+
+                        NoTransitionRearrange ->
+                            [ webComponent [ class "player-placed-card-area", attribute "no-transition" "" ] Down card ]
+
+                        ReturnCard handIndex ->
+                            [ webComponent [ class <| "player-hand card-" ++ (toString <| (+) 1 <| handIndex) ] Up card ]
+    in
+        placed ++ emptyArea

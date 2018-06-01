@@ -1,23 +1,15 @@
-port module Update exposing (update)
+module Explanation.Update exposing (update)
 
-import Card exposing (Card)
-import Model exposing (..)
-import Navigation
+import Explanation.Model exposing (..)
 import Process
 import Random
 import Task
 import List.Extra
 
 
-port goToHash : String -> Cmd msg
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ChooseImplementation implementation ->
-            ( { model | implementation = implementation, animationNumber = 0 }, Navigation.modifyUrl "#" )
-
         DemoPlaceCard handIndex ->
             let
                 modelGame =
@@ -76,12 +68,3 @@ update msg model =
                     Task.perform (\_ -> DemoRearrange <| RearrangeAfterAnimation nextHand Nothing) (Process.sleep 1500)
             in
                 ( { model | game = newGame }, command )
-
-        DoAnimation animationNumber ->
-            ( { model | animationNumber = animationNumber }, Cmd.none )
-
-        StartOver ->
-            ( { model | implementation = NoneChosen, animationNumber = 0 }, Process.sleep 17 |> Task.perform (\_ -> ScrollToChoose) )
-
-        ScrollToChoose ->
-            ( model, goToHash "choose" )

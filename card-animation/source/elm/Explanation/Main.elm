@@ -1,8 +1,8 @@
-module Main exposing (..)
+module Explanation.Main exposing (..)
 
-import Model as Model
-import View as View
-import Update as Update
+import Explanation.Model as Model
+import Explanation.View as View
+import Explanation.Update as Update
 import Html
 import Task
 import Process

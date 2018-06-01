@@ -1,4 +1,4 @@
-module Model exposing (..)
+module Explanation.Model exposing (..)
 
 import Card exposing (Card(..))
 import Process
@@ -14,9 +14,7 @@ initial seedInt =
         ( command, steppedSeed ) =
             initialCommand seedInt <| List.length hand
     in
-        ( { animationNumber = 0
-          , implementation = NoneChosen
-          , game =
+        ( { game =
                 { animationStep = NoTransitionRearrange
                 , hand = hand
                 , placed = Nothing
@@ -36,9 +34,7 @@ initialCommand seedInt handSize =
 
 
 type alias Model =
-    { animationNumber : Int
-    , implementation : Implementation
-    , game : Game
+    { game : Game
     }
 
 
@@ -61,21 +57,9 @@ type AnimationStep
 
 
 type Msg
-    = ChooseImplementation Implementation
-    | DemoPlaceCard HandIndex
+    = DemoPlaceCard HandIndex
     | DemoRearrange RearrangeMsg
     | DemoReturnToHand Card HandIndex
-    | DoAnimation Int
-    | StartOver
-    | ScrollToChoose
-
-
-type Implementation
-    = NoneChosen
-    | Naive
-    | InvisibleCard
-    | DisablingTransitions
-    | Collapsed
 
 
 type RearrangeMsg
