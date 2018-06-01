@@ -18,6 +18,9 @@ view model =
                 , p [] [ button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ] ]
                 , p [] [ button [ type_ "button", onClick <| ChooseImplementation DisablingTransitions ] [ text "Disabling Transitions" ] ]
                 , p [] [ button [ type_ "button", onClick <| ChooseImplementation Collapsed ] [ text "Collapsed" ] ]
+                , p []
+                    [ a [ href "index.html" ] [ text "Back to explanation" ]
+                    ]
                 ]
 
         Naive ->
