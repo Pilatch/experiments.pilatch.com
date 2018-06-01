@@ -45,7 +45,7 @@ webComponentsApproachInnerHTML =
 view : Model -> Html Msg
 view model =
     section [ class "explanation" ]
-        [ h1 [] [ text "Card Animation Demonstrations" ]
+        [ h1 [] [ text "Virtual DOM Card Game Animations" ]
         , tableTop model.game
         , p [] [ text """
             This illustrates how I approached the problem of animating cards smoothly between a player's hand and the table-top.
@@ -97,7 +97,7 @@ tableTop game =
         attributes =
             case game.animationStep of
                 NoTransitionRearrange ->
-                    [ attribute "no-transition" "" ]
+                    [ noTransition ]
 
                 _ ->
                     []
@@ -129,9 +129,9 @@ hand step =
                                 listIndex
 
                         attributes =
-                            [ class <| "player-hand card-" ++ (toString cardNumber) ]
+                            [ handClassNoMath cardNumber ]
                                 ++ if handIndex == listIndex then
-                                    [ class "player-placed-card-area" ]
+                                    [ placedClass ]
                                    else
                                     []
                     in
@@ -142,14 +142,14 @@ hand step =
         NoTransitionRearrange ->
             let
                 mapper handIndex card =
-                    webComponent [ class <| "player-hand card-" ++ (toString <| handIndex + 1), attribute "no-transition" "" ] Up card
+                    webComponent [ handClass handIndex, noTransition ] Up card
             in
                 List.indexedMap mapper
 
         ReturnCard _ ->
             let
                 mapper handIndex card =
-                    webComponent [ class <| "player-hand card-" ++ (toString <| handIndex + 1) ] Up card
+                    webComponent [ handClass handIndex ] Up card
             in
                 List.indexedMap mapper
 
@@ -158,7 +158,7 @@ placedCardArea : AnimationStep -> Maybe Card -> List (Html msg)
 placedCardArea step maybeCard =
     let
         emptyArea =
-            [ node "pilatch-card" [ class "player-placed-card-area", attribute "nothing" "" ] [] ]
+            [ node "pilatch-card" [ placedClass, attribute "nothing" "" ] [] ]
 
         placed =
             case maybeCard of
@@ -171,9 +171,25 @@ placedCardArea step maybeCard =
                             []
 
                         NoTransitionRearrange ->
-                            [ webComponent [ class "player-placed-card-area", attribute "no-transition" "" ] Down card ]
+                            [ webComponent [ placedClass, noTransition ] Down card ]
 
                         ReturnCard handIndex ->
-                            [ webComponent [ class <| "player-hand card-" ++ (toString <| (+) 1 <| handIndex) ] Up card ]
+                            [ webComponent [ handClass handIndex ] Up card ]
     in
         placed ++ emptyArea
+
+
+handClass =
+    handClassNoMath << (+) 1
+
+
+handClassNoMath handIndex =
+    handIndex |> toString |> (++) "player-hand card-" |> class
+
+
+placedClass =
+    class "player-placed-card-area"
+
+
+noTransition =
+    attribute "no-transition" ""

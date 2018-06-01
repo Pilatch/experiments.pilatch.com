@@ -14797,16 +14797,38 @@ var _user$project$Explanation_Model$RearrangeAfterAnimation = F2(
 		return {ctor: 'RearrangeAfterAnimation', _0: a, _1: b};
 	});
 
+var _user$project$Explanation_View$noTransition = A2(_elm_lang$html$Html_Attributes$attribute, 'no-transition', '');
+var _user$project$Explanation_View$placedClass = _elm_lang$html$Html_Attributes$class('player-placed-card-area');
+var _user$project$Explanation_View$handClassNoMath = function (handIndex) {
+	return _elm_lang$html$Html_Attributes$class(
+		A2(
+			F2(
+				function (x, y) {
+					return A2(_elm_lang$core$Basics_ops['++'], x, y);
+				}),
+			'player-hand card-',
+			_elm_lang$core$Basics$toString(handIndex)));
+};
+var _user$project$Explanation_View$handClass = function (_p0) {
+	return _user$project$Explanation_View$handClassNoMath(
+		A2(
+			F2(
+				function (x, y) {
+					return x + y;
+				}),
+			1,
+			_p0));
+};
 var _user$project$Explanation_View$placedCardArea = F2(
 	function (step, maybeCard) {
 		var placed = function () {
-			var _p0 = maybeCard;
-			if (_p0.ctor === 'Nothing') {
+			var _p1 = maybeCard;
+			if (_p1.ctor === 'Nothing') {
 				return {ctor: '[]'};
 			} else {
-				var _p2 = _p0._0;
-				var _p1 = step;
-				switch (_p1.ctor) {
+				var _p3 = _p1._0;
+				var _p2 = step;
+				switch (_p2.ctor) {
 					case 'PlaceCard':
 						return {ctor: '[]'};
 					case 'NoTransitionRearrange':
@@ -14816,15 +14838,15 @@ var _user$project$Explanation_View$placedCardArea = F2(
 								_user$project$Card$webComponent,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class('player-placed-card-area'),
+									_0: _user$project$Explanation_View$placedClass,
 									_1: {
 										ctor: '::',
-										_0: A2(_elm_lang$html$Html_Attributes$attribute, 'no-transition', ''),
+										_0: _user$project$Explanation_View$noTransition,
 										_1: {ctor: '[]'}
 									}
 								},
 								_user$project$Card$Down,
-								_p2),
+								_p3),
 							_1: {ctor: '[]'}
 						};
 					default:
@@ -14834,22 +14856,11 @@ var _user$project$Explanation_View$placedCardArea = F2(
 								_user$project$Card$webComponent,
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$class(
-										A2(
-											_elm_lang$core$Basics_ops['++'],
-											'player-hand card-',
-											_elm_lang$core$Basics$toString(
-												A2(
-													F2(
-														function (x, y) {
-															return x + y;
-														}),
-													1,
-													_p1._0)))),
+									_0: _user$project$Explanation_View$handClass(_p2._0),
 									_1: {ctor: '[]'}
 								},
 								_user$project$Card$Up,
-								_p2),
+								_p3),
 							_1: {ctor: '[]'}
 						};
 				}
@@ -14862,7 +14873,7 @@ var _user$project$Explanation_View$placedCardArea = F2(
 				'pilatch-card',
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('player-placed-card-area'),
+					_0: _user$project$Explanation_View$placedClass,
 					_1: {
 						ctor: '::',
 						_0: A2(_elm_lang$html$Html_Attributes$attribute, 'nothing', ''),
@@ -14875,30 +14886,26 @@ var _user$project$Explanation_View$placedCardArea = F2(
 		return A2(_elm_lang$core$Basics_ops['++'], placed, emptyArea);
 	});
 var _user$project$Explanation_View$hand = function (step) {
-	var _p3 = step;
-	switch (_p3.ctor) {
+	var _p4 = step;
+	switch (_p4.ctor) {
 		case 'PlaceCard':
-			var _p4 = _p3._0;
+			var _p5 = _p4._0;
 			var mapper = F2(
 				function (listIndex, card) {
-					var cardNumber = (_elm_lang$core$Native_Utils.cmp(listIndex, _p4) < 1) ? (listIndex + 1) : listIndex;
+					var cardNumber = (_elm_lang$core$Native_Utils.cmp(listIndex, _p5) < 1) ? (listIndex + 1) : listIndex;
 					var attributes = A2(
 						_elm_lang$core$Basics_ops['++'],
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class(
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									'player-hand card-',
-									_elm_lang$core$Basics$toString(cardNumber))),
+							_0: _user$project$Explanation_View$handClassNoMath(cardNumber),
 							_1: {ctor: '[]'}
 						},
-						_elm_lang$core$Native_Utils.eq(_p4, listIndex) ? {
+						_elm_lang$core$Native_Utils.eq(_p5, listIndex) ? {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('player-placed-card-area'),
+							_0: _user$project$Explanation_View$placedClass,
 							_1: {ctor: '[]'}
 						} : {ctor: '[]'});
-					var facing = _elm_lang$core$Native_Utils.eq(listIndex, _p4) ? _user$project$Card$Down : _user$project$Card$Up;
+					var facing = _elm_lang$core$Native_Utils.eq(listIndex, _p5) ? _user$project$Card$Down : _user$project$Card$Up;
 					return A3(_user$project$Card$webComponent, attributes, facing, card);
 				});
 			return _elm_lang$core$List$indexedMap(mapper);
@@ -14909,14 +14916,10 @@ var _user$project$Explanation_View$hand = function (step) {
 						_user$project$Card$webComponent,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class(
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									'player-hand card-',
-									_elm_lang$core$Basics$toString(handIndex + 1))),
+							_0: _user$project$Explanation_View$handClass(handIndex),
 							_1: {
 								ctor: '::',
-								_0: A2(_elm_lang$html$Html_Attributes$attribute, 'no-transition', ''),
+								_0: _user$project$Explanation_View$noTransition,
 								_1: {ctor: '[]'}
 							}
 						},
@@ -14931,11 +14934,7 @@ var _user$project$Explanation_View$hand = function (step) {
 						_user$project$Card$webComponent,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class(
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									'player-hand card-',
-									_elm_lang$core$Basics$toString(handIndex + 1))),
+							_0: _user$project$Explanation_View$handClass(handIndex),
 							_1: {ctor: '[]'}
 						},
 						_user$project$Card$Up,
@@ -14946,11 +14945,11 @@ var _user$project$Explanation_View$hand = function (step) {
 };
 var _user$project$Explanation_View$tableTop = function (game) {
 	var attributes = function () {
-		var _p5 = game.animationStep;
-		if (_p5.ctor === 'NoTransitionRearrange') {
+		var _p6 = game.animationStep;
+		if (_p6.ctor === 'NoTransitionRearrange') {
 			return {
 				ctor: '::',
-				_0: A2(_elm_lang$html$Html_Attributes$attribute, 'no-transition', ''),
+				_0: _user$project$Explanation_View$noTransition,
 				_1: {ctor: '[]'}
 			};
 		} else {
@@ -14980,11 +14979,11 @@ var _user$project$Explanation_View$tableTop = function (game) {
 				}
 			}));
 };
-var _user$project$Explanation_View$innerHTML = function (_p6) {
+var _user$project$Explanation_View$innerHTML = function (_p7) {
 	return A2(
 		_elm_lang$html$Html_Attributes$property,
 		'innerHTML',
-		_elm_lang$core$Json_Encode$string(_p6));
+		_elm_lang$core$Json_Encode$string(_p7));
 };
 var _user$project$Explanation_View$oneParentApproachInnerHTML = _user$project$Explanation_View$innerHTML('The next concept was to have a table-top element that would contain each game element without additional nesting.\nThe table-top\'s style is <code>position: relative;</code> and each card within it is <code>position: absolute;</code>\nallowing the cards to float around on the table top by adding or removing CSS classes from them.\n');
 var _user$project$Explanation_View$oneParentExampleInnerHTML = _user$project$Explanation_View$innerHTML('&lt;pilatch-card hand-1 rank=\"5\" suit=\"scissors\"&gt;&lt;/pilatch-card&gt;\n&lt;pilatch-card placed hand-2 rank=\"12\" suit=\"rock\"&gt;&lt;/pilatch-card&gt;\n&lt;pilatch-card hand-3 rank=\"1\" suit=\"paper\"&gt;&lt;/pilatch-card&gt;\n');
@@ -15005,7 +15004,7 @@ var _user$project$Explanation_View$view = function (model) {
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Card Animation Demonstrations'),
+					_0: _elm_lang$html$Html$text('Virtual DOM Card Game Animations'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
