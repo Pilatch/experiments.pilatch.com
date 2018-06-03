@@ -13,7 +13,7 @@
   body {
     max-width: none;
   }
-  header h1 + p {
+  header p {
     font-size: 1.5em;
     text-align: center;
   }
@@ -30,6 +30,9 @@
     margin: 0 auto;
     max-width: 54em;
     padding: 0 1em 2em;
+  }
+  .explanation p {
+    padding: 0 1em;
   }
   .explanation .table-top {
     --table-top-height: 400px;
@@ -54,16 +57,20 @@
     <p>
       I wanted to make an online card game. At the least it would need realistic visualizations of cards moving from a player's hand to the table-top. Several years ago I had done something similar with game demonstrations that were meant to augment textual
       rules.
-      <a href="https://pilatch.com/games/casual/Runway">You can see one here.</a> Click the "Watch the Demo" button when you get there.</p>
+      <a href="https://pilatch.com/games/casual/Runway">You can see one here.</a> (Click the "Watch the Demo" button when you get there.)
+    </p>
     <p>
-      Back then I used jQuery to move around a known set of cards in a pre-determined order. This time such an approach would not be advisable. TODO write more. My initial attempt involved creating a web component for each spot in the game, like so:</p>
-    <figure><pre>&lt;pilatch-hand&gt;
-    &lt;pilatch-card rank="5" suit="scissors"&gt;&lt;/pilatch-card&gt;
-    &lt;pilatch-card rank="12" suit="rock"&gt;&lt;/pilatch-card&gt;
-    &lt;pilatch-card rank="1" suit="paper"&gt;&lt;/pilatch-card&gt;
-  &lt;/pilatch-hand&gt;
-  &lt;placed-card-area&gt;&lt;/placed-card-area&gt;
-  </pre>
+      Back then I used jQuery to move around a known set of cards in a pre-determined order.
+      This time such an approach would not be advisable because the web police would take away my license to dev.
+    </p>
+    <p>My initial attempt involved creating a web component for each spot in the game, like so:</p>
+    <figure>
+      <pre>&lt;pilatch-hand&gt;
+  &lt;pilatch-card rank="5" suit="scissors"&gt;&lt;/pilatch-card&gt;
+  &lt;pilatch-card rank="12" suit="rock"&gt;&lt;/pilatch-card&gt;
+  &lt;pilatch-card rank="1" suit="paper"&gt;&lt;/pilatch-card&gt;
+&lt;/pilatch-hand&gt;
+&lt;placed-card-area&gt;&lt;/placed-card-area&gt;</pre>
       <figcaption>A hand of three pilatch cards with an empty area waiting for the player to place a card</figcaption>
     </figure>
     <p>
@@ -74,25 +81,24 @@
     </p>
     <p>Using this approach I could place a card from the player's hand just by adding an attribute to it, such as <code>placed</code>.</p>
     <figure><pre>&lt;pilatch-card hand-1 rank="5" suit="scissors"&gt;&lt;/pilatch-card&gt;
-  &lt;pilatch-card placed hand-2 rank="12" suit="rock"&gt;&lt;/pilatch-card&gt;
-  &lt;pilatch-card hand-3 rank="1" suit="paper"&gt;&lt;/pilatch-card&gt;
-  </pre>
+&lt;pilatch-card placed hand-2 rank="12" suit="rock"&gt;&lt;/pilatch-card&gt;
+&lt;pilatch-card hand-3 rank="1" suit="paper"&gt;&lt;/pilatch-card&gt;</pre>
       <figcaption>A hand of two pilatch cards, with the queen of rock placed on the table</figcaption>
     </figure>
     <p>
       Yet a problem arose with this approach too because it's still necessary to move a card in the DOM after it has been animated, which triggered unwanted animations. If you didn't do this, your model of the game state would be a nightmare. To explain, in
       the example above I would need a separate render thereafter to remove the <code>card-2</code> attribute from the middle card, put it underneath the two cards in the player's hand, and nudge the one of paper from <code>card-3</code> to <code>card-2</code>    to make the remaining cards in hand fill the gap that was left by the placed card. So it would have looked like this:</p>
     <figure><pre>&lt;pilatch-card hand-1 rank="5" suit="scissors"&gt;&lt;/pilatch-card&gt;
-  &lt;pilatch-card hand-2 rank="1" suit="paper"&gt;&lt;/pilatch-card&gt;
-  &lt;pilatch-card placed rank="12" suit="rock"&gt;&lt;/pilatch-card&gt;
-  </pre>
+&lt;pilatch-card hand-2 rank="1" suit="paper"&gt;&lt;/pilatch-card&gt;
+&lt;pilatch-card placed rank="12" suit="rock"&gt;&lt;/pilatch-card&gt;</pre>
       <figcaption>So close to a workable implementation!</figcaption>
     </figure>
     <h2>Solution</h2>
     <p>When rearranging the cards in the DOM, I had to turn off CSS animations. It took a number of iterations to come to this conclusion.</p>
     <p>In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner.</p>
     <p>The goal is the same in each: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand.</p>
-    <h2><a href="iterations.html">Iterations</a></h2>
+    <h2>Failures</h2>
+    <p>See how I tried and failed multiple times: <a href="iterations.html">Iterations</a></p>
   </main>
 </body>
 <script>
