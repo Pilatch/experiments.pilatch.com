@@ -9,7 +9,7 @@ import Task
 initial seedInt =
     let
         hand =
-            [ AceOfPaper, KingOfScissors, EightOfRock, QueenOfPaper ]
+            [ AceOfPaper, KingOfScissors, TenOfRock, QueenOfPaper ]
 
         ( command, steppedSeed ) =
             initialCommand seedInt <| List.length hand

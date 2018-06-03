@@ -12543,10 +12543,10 @@ var _user$project$Iterations_View$render = F3(
 				}
 			});
 	});
-var _user$project$Iterations_View$card4 = _elm_lang$html$Html_Attributes$class('player-hand card-4');
 var _user$project$Iterations_View$card3 = _elm_lang$html$Html_Attributes$class('player-hand card-3');
 var _user$project$Iterations_View$card2 = _elm_lang$html$Html_Attributes$class('player-hand card-2');
 var _user$project$Iterations_View$card1 = _elm_lang$html$Html_Attributes$class('player-hand card-1');
+var _user$project$Iterations_View$card0 = _elm_lang$html$Html_Attributes$class('player-hand card-0');
 var _user$project$Iterations_View$placedAreaClass = _elm_lang$html$Html_Attributes$class('player-placed-card-area');
 var _user$project$Iterations_View$pCard = function (attributes) {
 	return A3(
@@ -12861,16 +12861,16 @@ var _user$project$Iterations_View$naiveImplementation = function (animationNumbe
 				'Initial setup with four cards in hand and an empty placed card area',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card2),
+						_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card1),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$emptyArea,
@@ -12887,13 +12887,13 @@ var _user$project$Iterations_View$naiveImplementation = function (animationNumbe
 				'add new attributes/classes to make the five of paper card animate',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
 						_0: _user$project$Iterations_View$pCard(
 							{
 								ctor: '::',
-								_0: _user$project$Iterations_View$card2,
+								_0: _user$project$Iterations_View$card1,
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$placedAreaClass,
@@ -12910,10 +12910,10 @@ var _user$project$Iterations_View$naiveImplementation = function (animationNumbe
 							}),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$emptyArea,
@@ -12930,16 +12930,16 @@ var _user$project$Iterations_View$naiveImplementation = function (animationNumbe
 				'remove classes from animated card\'s previous spot in hand',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
 						_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$emptyArea,
@@ -12956,13 +12956,13 @@ var _user$project$Iterations_View$naiveImplementation = function (animationNumbe
 				'rearrange cards to match new layout',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card1),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
 								_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
@@ -12982,16 +12982,16 @@ var _user$project$Iterations_View$naiveImplementation = function (animationNumbe
 				'return five of paper to end of hand',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card1),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card4),
+								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$emptyArea,
@@ -13015,16 +13015,16 @@ var _user$project$Iterations_View$invisibleCardImplementation = function (animat
 				'Initial setup with invisible card between placed area and hand',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card2),
+						_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card1),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$invisible,
@@ -13045,19 +13045,19 @@ var _user$project$Iterations_View$invisibleCardImplementation = function (animat
 				'Swap invisible card with card to move\'s attributes, and hide the original (clicked card)',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
 						_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$hidden),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
-									_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card2),
+									_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card1),
 									_1: {
 										ctor: '::',
 										_0: _user$project$Iterations_View$emptyArea,
@@ -13075,22 +13075,22 @@ var _user$project$Iterations_View$invisibleCardImplementation = function (animat
 				'add new attributes/classes to make the card animate',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
 						_0: _user$project$Iterations_View$invisible,
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$pCard(
 										{
 											ctor: '::',
-											_0: _user$project$Iterations_View$card2,
+											_0: _user$project$Iterations_View$card1,
 											_1: {
 												ctor: '::',
 												_0: _user$project$Iterations_View$placedAreaClass,
@@ -13122,16 +13122,16 @@ var _user$project$Iterations_View$invisibleCardImplementation = function (animat
 				'remove classes from animated card\'s previous spot',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
 						_0: _user$project$Iterations_View$invisible,
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
@@ -13152,16 +13152,16 @@ var _user$project$Iterations_View$invisibleCardImplementation = function (animat
 				'remaining hand slides left',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
 						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$hidden),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card1),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card2),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
@@ -13182,16 +13182,16 @@ var _user$project$Iterations_View$invisibleCardImplementation = function (animat
 				'move invisible card down one notch',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card1),
 						_1: {
 							ctor: '::',
 							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$hidden),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card2),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
@@ -13212,13 +13212,13 @@ var _user$project$Iterations_View$invisibleCardImplementation = function (animat
 				'move invisible card down again',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card1),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
 								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$hidden),
@@ -13242,19 +13242,19 @@ var _user$project$Iterations_View$invisibleCardImplementation = function (animat
 				'return five of paper to end of hand',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card1),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
 								_0: _user$project$Iterations_View$invisible,
 								_1: {
 									ctor: '::',
-									_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card4),
+									_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card3),
 									_1: {
 										ctor: '::',
 										_0: _user$project$Iterations_View$emptyArea,
@@ -13272,16 +13272,16 @@ var _user$project$Iterations_View$invisibleCardImplementation = function (animat
 				'swap invisible card to initial spot',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card1),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card4),
+								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$invisible,
@@ -13309,16 +13309,16 @@ var _user$project$Iterations_View$disablingTransitionsImplementation = function 
 				'Initial setup with four cards in hand and an empty placed card area',
 				{
 					ctor: '::',
-					_0: A2(_user$project$Iterations_View$queenOfScissors2, _user$project$Iterations_View$card1, _user$project$Iterations_View$noTransition),
+					_0: A2(_user$project$Iterations_View$queenOfScissors2, _user$project$Iterations_View$card0, _user$project$Iterations_View$noTransition),
 					_1: {
 						ctor: '::',
-						_0: A2(_user$project$Iterations_View$fiveOfPaper2, _user$project$Iterations_View$card2, _user$project$Iterations_View$noTransition),
+						_0: A2(_user$project$Iterations_View$fiveOfPaper2, _user$project$Iterations_View$card1, _user$project$Iterations_View$noTransition),
 						_1: {
 							ctor: '::',
-							_0: A2(_user$project$Iterations_View$kingOfRock2, _user$project$Iterations_View$card3, _user$project$Iterations_View$noTransition),
+							_0: A2(_user$project$Iterations_View$kingOfRock2, _user$project$Iterations_View$card2, _user$project$Iterations_View$noTransition),
 							_1: {
 								ctor: '::',
-								_0: A2(_user$project$Iterations_View$threeOfRock2, _user$project$Iterations_View$card4, _user$project$Iterations_View$noTransition),
+								_0: A2(_user$project$Iterations_View$threeOfRock2, _user$project$Iterations_View$card3, _user$project$Iterations_View$noTransition),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$emptyArea,
@@ -13335,193 +13335,13 @@ var _user$project$Iterations_View$disablingTransitionsImplementation = function 
 				'add new attributes/classes to make the five of paper card animate',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
 						_0: _user$project$Iterations_View$pCard(
 							{
 								ctor: '::',
-								_0: _user$project$Iterations_View$card2,
-								_1: {
-									ctor: '::',
-									_0: _user$project$Iterations_View$placedAreaClass,
-									_1: {
-										ctor: '::',
-										_0: _user$project$Iterations_View$rank('5'),
-										_1: {
-											ctor: '::',
-											_0: _user$project$Iterations_View$suit('paper'),
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							}),
-						_1: {
-							ctor: '::',
-							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
-							_1: {
-								ctor: '::',
-								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
-								_1: {
-									ctor: '::',
-									_0: _user$project$Iterations_View$emptyArea,
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				});
-		case 2:
-			return A3(
-				_user$project$Iterations_View$render,
-				animationNumber,
-				'remove classes from animated card\'s previous spot in hand',
-				{
-					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
-					_1: {
-						ctor: '::',
-						_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
-						_1: {
-							ctor: '::',
-							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card3),
-							_1: {
-								ctor: '::',
-								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card4),
-								_1: {
-									ctor: '::',
-									_0: _user$project$Iterations_View$emptyArea,
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				});
-		case 3:
-			return A3(
-				_user$project$Iterations_View$renderNoTransition,
-				animationNumber,
-				'move it in the DOM with transitions disabled in CSS',
-				{
-					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
-					_1: {
-						ctor: '::',
-						_0: A2(_user$project$Iterations_View$kingOfRock2, _user$project$Iterations_View$card3, _user$project$Iterations_View$noTransition),
-						_1: {
-							ctor: '::',
-							_0: A2(_user$project$Iterations_View$threeOfRock2, _user$project$Iterations_View$card4, _user$project$Iterations_View$noTransition),
-							_1: {
-								ctor: '::',
-								_0: A2(_user$project$Iterations_View$fiveOfPaperDown2, _user$project$Iterations_View$placedAreaClass, _user$project$Iterations_View$noTransition),
-								_1: {
-									ctor: '::',
-									_0: _user$project$Iterations_View$emptyArea,
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				});
-		case 4:
-			return A3(
-				_user$project$Iterations_View$render,
-				animationNumber,
-				'slide the cards in hand to the left',
-				{
-					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
-					_1: {
-						ctor: '::',
-						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
-						_1: {
-							ctor: '::',
-							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
-							_1: {
-								ctor: '::',
-								_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
-								_1: {
-									ctor: '::',
-									_0: _user$project$Iterations_View$emptyArea,
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				});
-		case 5:
-			return A3(
-				_user$project$Iterations_View$render,
-				animationNumber,
-				'return five of paper to end of hand',
-				{
-					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
-					_1: {
-						ctor: '::',
-						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
-						_1: {
-							ctor: '::',
-							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
-							_1: {
-								ctor: '::',
-								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card4),
-								_1: {
-									ctor: '::',
-									_0: _user$project$Iterations_View$emptyArea,
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				});
-		default:
-			return _user$project$Iterations_View$startOver;
-	}
-};
-var _user$project$Iterations_View$collapsedImplementation = function (animationNumber) {
-	var _p3 = animationNumber;
-	switch (_p3) {
-		case 0:
-			return A3(
-				_user$project$Iterations_View$render,
-				animationNumber,
-				'Initial setup with four cards in hand and an empty placed card area',
-				{
-					ctor: '::',
-					_0: A2(_user$project$Iterations_View$queenOfScissors2, _user$project$Iterations_View$card1, _user$project$Iterations_View$noTransition),
-					_1: {
-						ctor: '::',
-						_0: A2(_user$project$Iterations_View$fiveOfPaper2, _user$project$Iterations_View$card2, _user$project$Iterations_View$noTransition),
-						_1: {
-							ctor: '::',
-							_0: A2(_user$project$Iterations_View$kingOfRock2, _user$project$Iterations_View$card3, _user$project$Iterations_View$noTransition),
-							_1: {
-								ctor: '::',
-								_0: A2(_user$project$Iterations_View$threeOfRock2, _user$project$Iterations_View$card4, _user$project$Iterations_View$noTransition),
-								_1: {
-									ctor: '::',
-									_0: _user$project$Iterations_View$emptyArea,
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				});
-		case 1:
-			return A3(
-				_user$project$Iterations_View$render,
-				animationNumber,
-				'add new attributes/classes to make the five of paper card animate, and slide cards in hand to the left',
-				{
-					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
-					_1: {
-						ctor: '::',
-						_0: _user$project$Iterations_View$pCard(
-							{
-								ctor: '::',
-								_0: _user$project$Iterations_View$card2,
+								_0: _user$project$Iterations_View$card1,
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$placedAreaClass,
@@ -13553,18 +13373,198 @@ var _user$project$Iterations_View$collapsedImplementation = function (animationN
 				});
 		case 2:
 			return A3(
+				_user$project$Iterations_View$render,
+				animationNumber,
+				'remove classes from animated card\'s previous spot in hand',
+				{
+					ctor: '::',
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
+					_1: {
+						ctor: '::',
+						_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
+						_1: {
+							ctor: '::',
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
+							_1: {
+								ctor: '::',
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
+								_1: {
+									ctor: '::',
+									_0: _user$project$Iterations_View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 3:
+			return A3(
 				_user$project$Iterations_View$renderNoTransition,
 				animationNumber,
 				'move it in the DOM with transitions disabled in CSS',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
 						_0: A2(_user$project$Iterations_View$kingOfRock2, _user$project$Iterations_View$card2, _user$project$Iterations_View$noTransition),
 						_1: {
 							ctor: '::',
 							_0: A2(_user$project$Iterations_View$threeOfRock2, _user$project$Iterations_View$card3, _user$project$Iterations_View$noTransition),
+							_1: {
+								ctor: '::',
+								_0: A2(_user$project$Iterations_View$fiveOfPaperDown2, _user$project$Iterations_View$placedAreaClass, _user$project$Iterations_View$noTransition),
+								_1: {
+									ctor: '::',
+									_0: _user$project$Iterations_View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 4:
+			return A3(
+				_user$project$Iterations_View$render,
+				animationNumber,
+				'slide the cards in hand to the left',
+				{
+					ctor: '::',
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
+					_1: {
+						ctor: '::',
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card1),
+						_1: {
+							ctor: '::',
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card2),
+							_1: {
+								ctor: '::',
+								_0: _user$project$Iterations_View$fiveOfPaperDown(_user$project$Iterations_View$placedAreaClass),
+								_1: {
+									ctor: '::',
+									_0: _user$project$Iterations_View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 5:
+			return A3(
+				_user$project$Iterations_View$render,
+				animationNumber,
+				'return five of paper to end of hand',
+				{
+					ctor: '::',
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
+					_1: {
+						ctor: '::',
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card1),
+						_1: {
+							ctor: '::',
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card2),
+							_1: {
+								ctor: '::',
+								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card3),
+								_1: {
+									ctor: '::',
+									_0: _user$project$Iterations_View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		default:
+			return _user$project$Iterations_View$startOver;
+	}
+};
+var _user$project$Iterations_View$collapsedImplementation = function (animationNumber) {
+	var _p3 = animationNumber;
+	switch (_p3) {
+		case 0:
+			return A3(
+				_user$project$Iterations_View$render,
+				animationNumber,
+				'Initial setup with four cards in hand and an empty placed card area',
+				{
+					ctor: '::',
+					_0: A2(_user$project$Iterations_View$queenOfScissors2, _user$project$Iterations_View$card0, _user$project$Iterations_View$noTransition),
+					_1: {
+						ctor: '::',
+						_0: A2(_user$project$Iterations_View$fiveOfPaper2, _user$project$Iterations_View$card1, _user$project$Iterations_View$noTransition),
+						_1: {
+							ctor: '::',
+							_0: A2(_user$project$Iterations_View$kingOfRock2, _user$project$Iterations_View$card2, _user$project$Iterations_View$noTransition),
+							_1: {
+								ctor: '::',
+								_0: A2(_user$project$Iterations_View$threeOfRock2, _user$project$Iterations_View$card3, _user$project$Iterations_View$noTransition),
+								_1: {
+									ctor: '::',
+									_0: _user$project$Iterations_View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 1:
+			return A3(
+				_user$project$Iterations_View$render,
+				animationNumber,
+				'add new attributes/classes to make the five of paper card animate, and slide cards in hand to the left',
+				{
+					ctor: '::',
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
+					_1: {
+						ctor: '::',
+						_0: _user$project$Iterations_View$pCard(
+							{
+								ctor: '::',
+								_0: _user$project$Iterations_View$card1,
+								_1: {
+									ctor: '::',
+									_0: _user$project$Iterations_View$placedAreaClass,
+									_1: {
+										ctor: '::',
+										_0: _user$project$Iterations_View$rank('5'),
+										_1: {
+											ctor: '::',
+											_0: _user$project$Iterations_View$suit('paper'),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card1),
+							_1: {
+								ctor: '::',
+								_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card2),
+								_1: {
+									ctor: '::',
+									_0: _user$project$Iterations_View$emptyArea,
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		case 2:
+			return A3(
+				_user$project$Iterations_View$renderNoTransition,
+				animationNumber,
+				'move it in the DOM with transitions disabled in CSS',
+				{
+					ctor: '::',
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
+					_1: {
+						ctor: '::',
+						_0: A2(_user$project$Iterations_View$kingOfRock2, _user$project$Iterations_View$card1, _user$project$Iterations_View$noTransition),
+						_1: {
+							ctor: '::',
+							_0: A2(_user$project$Iterations_View$threeOfRock2, _user$project$Iterations_View$card2, _user$project$Iterations_View$noTransition),
 							_1: {
 								ctor: '::',
 								_0: A2(_user$project$Iterations_View$fiveOfPaperDown2, _user$project$Iterations_View$placedAreaClass, _user$project$Iterations_View$noTransition),
@@ -13584,16 +13584,16 @@ var _user$project$Iterations_View$collapsedImplementation = function (animationN
 				'return five of paper to end of hand',
 				{
 					ctor: '::',
-					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card1),
+					_0: _user$project$Iterations_View$queenOfScissors(_user$project$Iterations_View$card0),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card2),
+						_0: _user$project$Iterations_View$kingOfRock(_user$project$Iterations_View$card1),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card3),
+							_0: _user$project$Iterations_View$threeOfRock(_user$project$Iterations_View$card2),
 							_1: {
 								ctor: '::',
-								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card4),
+								_0: _user$project$Iterations_View$fiveOfPaper(_user$project$Iterations_View$card3),
 								_1: {
 									ctor: '::',
 									_0: _user$project$Iterations_View$emptyArea,
@@ -13612,7 +13612,7 @@ var _user$project$Iterations_View$view = function (model) {
 	switch (_p4.ctor) {
 		case 'NoneChosen':
 			return A2(
-				_elm_lang$html$Html$section,
+				_elm_lang$html$Html$main_,
 				{ctor: '[]'},
 				{
 					ctor: '::',
@@ -13646,7 +13646,11 @@ var _user$project$Iterations_View$view = function (model) {
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$p,
-							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('iteration-buttons'),
+								_1: {ctor: '[]'}
+							},
 							{
 								ctor: '::',
 								_0: A2(
@@ -13666,14 +13670,7 @@ var _user$project$Iterations_View$view = function (model) {
 										_0: _elm_lang$html$Html$text('Naïve'),
 										_1: {ctor: '[]'}
 									}),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$p,
-								{ctor: '[]'},
-								{
+								_1: {
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$button,
@@ -13692,14 +13689,7 @@ var _user$project$Iterations_View$view = function (model) {
 											_0: _elm_lang$html$Html$text('Invisible Card'),
 											_1: {ctor: '[]'}
 										}),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$p,
-									{ctor: '[]'},
-									{
+									_1: {
 										ctor: '::',
 										_0: A2(
 											_elm_lang$html$Html$button,
@@ -13718,14 +13708,7 @@ var _user$project$Iterations_View$view = function (model) {
 												_0: _elm_lang$html$Html$text('Disabling Transitions'),
 												_1: {ctor: '[]'}
 											}),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$p,
-										{ctor: '[]'},
-										{
+										_1: {
 											ctor: '::',
 											_0: A2(
 												_elm_lang$html$Html$button,
@@ -13745,32 +13728,32 @@ var _user$project$Iterations_View$view = function (model) {
 													_1: {ctor: '[]'}
 												}),
 											_1: {ctor: '[]'}
-										}),
-									_1: {
-										ctor: '::',
-										_0: A2(
-											_elm_lang$html$Html$p,
-											{ctor: '[]'},
-											{
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$a,
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html_Attributes$href('index.html'),
-														_1: {ctor: '[]'}
-													},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text('Back to explanation'),
-														_1: {ctor: '[]'}
-													}),
-												_1: {ctor: '[]'}
-											}),
-										_1: {ctor: '[]'}
+										}
 									}
 								}
-							}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$p,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$a,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$href('index.html'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('Back to explanation'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
 						}
 					}
 				});

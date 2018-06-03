@@ -14764,7 +14764,7 @@ var _user$project$Explanation_Model$initial = function (seedInt) {
 			_0: _user$project$Card$KingOfScissors,
 			_1: {
 				ctor: '::',
-				_0: _user$project$Card$EightOfRock,
+				_0: _user$project$Card$TenOfRock,
 				_1: {
 					ctor: '::',
 					_0: _user$project$Card$QueenOfPaper,
@@ -14809,26 +14809,17 @@ var _user$project$Explanation_View$handClassNoMath = function (handIndex) {
 			'player-hand card-',
 			_elm_lang$core$Basics$toString(handIndex)));
 };
-var _user$project$Explanation_View$handClass = function (_p0) {
-	return _user$project$Explanation_View$handClassNoMath(
-		A2(
-			F2(
-				function (x, y) {
-					return x + y;
-				}),
-			1,
-			_p0));
-};
+var _user$project$Explanation_View$handClass = _user$project$Explanation_View$handClassNoMath;
 var _user$project$Explanation_View$placedCardArea = F2(
 	function (step, maybeCard) {
 		var placed = function () {
-			var _p1 = maybeCard;
-			if (_p1.ctor === 'Nothing') {
+			var _p0 = maybeCard;
+			if (_p0.ctor === 'Nothing') {
 				return {ctor: '[]'};
 			} else {
-				var _p3 = _p1._0;
-				var _p2 = step;
-				switch (_p2.ctor) {
+				var _p2 = _p0._0;
+				var _p1 = step;
+				switch (_p1.ctor) {
 					case 'PlaceCard':
 						return {ctor: '[]'};
 					case 'NoTransitionRearrange':
@@ -14846,7 +14837,7 @@ var _user$project$Explanation_View$placedCardArea = F2(
 									}
 								},
 								_user$project$Card$Down,
-								_p3),
+								_p2),
 							_1: {ctor: '[]'}
 						};
 					default:
@@ -14856,11 +14847,11 @@ var _user$project$Explanation_View$placedCardArea = F2(
 								_user$project$Card$webComponent,
 								{
 									ctor: '::',
-									_0: _user$project$Explanation_View$handClass(_p2._0),
+									_0: _user$project$Explanation_View$handClass(_p1._0),
 									_1: {ctor: '[]'}
 								},
 								_user$project$Card$Up,
-								_p3),
+								_p2),
 							_1: {ctor: '[]'}
 						};
 				}
@@ -14886,13 +14877,13 @@ var _user$project$Explanation_View$placedCardArea = F2(
 		return A2(_elm_lang$core$Basics_ops['++'], placed, emptyArea);
 	});
 var _user$project$Explanation_View$hand = function (step) {
-	var _p4 = step;
-	switch (_p4.ctor) {
+	var _p3 = step;
+	switch (_p3.ctor) {
 		case 'PlaceCard':
-			var _p5 = _p4._0;
+			var _p4 = _p3._0;
 			var mapper = F2(
 				function (listIndex, card) {
-					var cardNumber = (_elm_lang$core$Native_Utils.cmp(listIndex, _p5) < 1) ? (listIndex + 1) : listIndex;
+					var cardNumber = (_elm_lang$core$Native_Utils.cmp(listIndex, _p4) < 1) ? listIndex : (listIndex - 1);
 					var attributes = A2(
 						_elm_lang$core$Basics_ops['++'],
 						{
@@ -14900,12 +14891,12 @@ var _user$project$Explanation_View$hand = function (step) {
 							_0: _user$project$Explanation_View$handClassNoMath(cardNumber),
 							_1: {ctor: '[]'}
 						},
-						_elm_lang$core$Native_Utils.eq(_p5, listIndex) ? {
+						_elm_lang$core$Native_Utils.eq(_p4, listIndex) ? {
 							ctor: '::',
 							_0: _user$project$Explanation_View$placedClass,
 							_1: {ctor: '[]'}
 						} : {ctor: '[]'});
-					var facing = _elm_lang$core$Native_Utils.eq(listIndex, _p5) ? _user$project$Card$Down : _user$project$Card$Up;
+					var facing = _elm_lang$core$Native_Utils.eq(listIndex, _p4) ? _user$project$Card$Down : _user$project$Card$Up;
 					return A3(_user$project$Card$webComponent, attributes, facing, card);
 				});
 			return _elm_lang$core$List$indexedMap(mapper);
@@ -14945,8 +14936,8 @@ var _user$project$Explanation_View$hand = function (step) {
 };
 var _user$project$Explanation_View$tableTop = function (game) {
 	var attributes = function () {
-		var _p6 = game.animationStep;
-		if (_p6.ctor === 'NoTransitionRearrange') {
+		var _p5 = game.animationStep;
+		if (_p5.ctor === 'NoTransitionRearrange') {
 			return {
 				ctor: '::',
 				_0: _user$project$Explanation_View$noTransition,
@@ -14979,16 +14970,26 @@ var _user$project$Explanation_View$tableTop = function (game) {
 				}
 			}));
 };
-var _user$project$Explanation_View$innerHTML = function (_p7) {
+var _user$project$Explanation_View$innerHTML = function (_p6) {
 	return A2(
 		_elm_lang$html$Html_Attributes$property,
 		'innerHTML',
-		_elm_lang$core$Json_Encode$string(_p7));
+		_elm_lang$core$Json_Encode$string(_p6));
 };
 var _user$project$Explanation_View$oneParentApproachInnerHTML = _user$project$Explanation_View$innerHTML('The next concept was to have a table-top element that would contain each game element without additional nesting.\nThe table-top\'s style is <code>position: relative;</code> and each card within it is <code>position: absolute;</code>\nallowing the cards to float around on the table top by adding or removing CSS classes from them.\n');
 var _user$project$Explanation_View$oneParentExampleInnerHTML = _user$project$Explanation_View$innerHTML('&lt;pilatch-card hand-1 rank=\"5\" suit=\"scissors\"&gt;&lt;/pilatch-card&gt;\n&lt;pilatch-card placed hand-2 rank=\"12\" suit=\"rock\"&gt;&lt;/pilatch-card&gt;\n&lt;pilatch-card hand-3 rank=\"1\" suit=\"paper\"&gt;&lt;/pilatch-card&gt;\n');
 var _user$project$Explanation_View$oneParentSecondRenderExampleInnerHTML = _user$project$Explanation_View$innerHTML('&lt;pilatch-card hand-1 rank=\"5\" suit=\"scissors\"&gt;&lt;/pilatch-card&gt;\n&lt;pilatch-card hand-2 rank=\"1\" suit=\"paper\"&gt;&lt;/pilatch-card&gt;\n&lt;pilatch-card placed rank=\"12\" suit=\"rock\"&gt;&lt;/pilatch-card&gt;\n');
 var _user$project$Explanation_View$webComponentsApproachInnerHTML = _user$project$Explanation_View$innerHTML('&lt;pilatch-hand&gt;\n  &lt;pilatch-card rank=\"5\" suit=\"scissors\"&gt;&lt;/pilatch-card&gt;\n  &lt;pilatch-card rank=\"12\" suit=\"rock\"&gt;&lt;/pilatch-card&gt;\n  &lt;pilatch-card rank=\"1\" suit=\"paper\"&gt;&lt;/pilatch-card&gt;\n&lt;/pilatch-hand&gt;\n&lt;placed-card-area&gt;&lt;/placed-card-area&gt;\n');
+var _user$project$Explanation_View$dirtyP = function (textAndHtml) {
+	return A2(
+		_elm_lang$html$Html$p,
+		{
+			ctor: '::',
+			_0: _user$project$Explanation_View$innerHTML(textAndHtml),
+			_1: {ctor: '[]'}
+		},
+		{ctor: '[]'});
+};
 var _user$project$Explanation_View$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$section,
@@ -15000,228 +15001,232 @@ var _user$project$Explanation_View$view = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$h1,
+				_elm_lang$html$Html$header,
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text('Virtual DOM Card Game Animations'),
-					_1: {ctor: '[]'}
+					_0: A2(
+						_elm_lang$html$Html$h1,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('Card Animations'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$p,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Using web components, Elm, and CSS transitions'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}),
 			_1: {
 				ctor: '::',
 				_0: _user$project$Explanation_View$tableTop(model.game),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$p,
-						{ctor: '[]'},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('\n            This illustrates how I approached the problem of animating cards smoothly between a player\'s hand and the table-top.\n            My initial attempt involved creating a web component for each spot in the game, like so:'),
-							_1: {ctor: '[]'}
-						}),
+					_0: _user$project$Explanation_View$dirtyP('\n            I wanted to make an online card game. At the least it would need realistic visualizations of cards moving from a player\'s hand to the table-top.\n            Several years ago I had done something similar with game demonstrations that were meant to augment textual rules.\n            <a href=\"https://pilatch.com/games/casual/Runway\">You can see one here.</a> Click the \"Watch the Demo\" button when you get there.'),
 					_1: {
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$figure,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$pre,
-									{
-										ctor: '::',
-										_0: _user$project$Explanation_View$webComponentsApproachInnerHTML,
-										_1: {ctor: '[]'}
-									},
-									{ctor: '[]'}),
-								_1: {
-									ctor: '::',
-									_0: A2(
-										_elm_lang$html$Html$figcaption,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _elm_lang$html$Html$text('A hand of three pilatch cards with an empty area waiting for the player to place a card'),
-											_1: {ctor: '[]'}
-										}),
-									_1: {ctor: '[]'}
-								}
-							}),
+						_0: _user$project$Explanation_View$dirtyP('\n          Back then I used jQuery to move around a known set of cards in a pre-determined order.\n          This time such an approach would not be advisable. TODO write more.\n          My initial attempt involved creating a web component for each spot in the game, like so:'),
 						_1: {
 							ctor: '::',
 							_0: A2(
-								_elm_lang$html$Html$p,
+								_elm_lang$html$Html$figure,
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html$text('\n            Each web component was responsible for positioning the cards contained within it, which was great for abstraction and separation of concerns.\n            However it failed because the concept of moving a card from the hand to the placed card area didn\'t apply in virtual DOM.\n            The renderer would destroy the card that was in the hand, and re-make it at its destination.\n            That didn\'t play well with animations, as cards would just pop in and out of existence.'),
-									_1: {ctor: '[]'}
+									_0: A2(
+										_elm_lang$html$Html$pre,
+										{
+											ctor: '::',
+											_0: _user$project$Explanation_View$webComponentsApproachInnerHTML,
+											_1: {ctor: '[]'}
+										},
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$figcaption,
+											{ctor: '[]'},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('A hand of three pilatch cards with an empty area waiting for the player to place a card'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}
 								}),
 							_1: {
 								ctor: '::',
 								_0: A2(
 									_elm_lang$html$Html$p,
+									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: _user$project$Explanation_View$oneParentApproachInnerHTML,
+										_0: _elm_lang$html$Html$text('\n            Each web component was responsible for positioning the cards contained within it, which was great for abstraction and separation of concerns.\n            However it failed because the concept of moving a card from the hand to the placed card area didn\'t apply in virtual DOM.\n            The renderer would destroy the card that was in the hand, and re-make it at its destination.\n            That didn\'t play well with animations, as cards would just pop in and out of existence.'),
 										_1: {ctor: '[]'}
-									},
-									{ctor: '[]'}),
+									}),
 								_1: {
 									ctor: '::',
 									_0: A2(
 										_elm_lang$html$Html$p,
-										{ctor: '[]'},
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html$text('Using this approach I could place a card from the player\'s hand just by adding an attribute to it, such as '),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$code,
-													{ctor: '[]'},
-													{
-														ctor: '::',
-														_0: _elm_lang$html$Html$text('placed'),
-														_1: {ctor: '[]'}
-													}),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$html$Html$text('.'),
-													_1: {ctor: '[]'}
-												}
-											}
-										}),
+											_0: _user$project$Explanation_View$oneParentApproachInnerHTML,
+											_1: {ctor: '[]'}
+										},
+										{ctor: '[]'}),
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$html$Html$figure,
+											_elm_lang$html$Html$p,
 											{ctor: '[]'},
 											{
 												ctor: '::',
-												_0: A2(
-													_elm_lang$html$Html$pre,
-													{
-														ctor: '::',
-														_0: _user$project$Explanation_View$oneParentExampleInnerHTML,
-														_1: {ctor: '[]'}
-													},
-													{ctor: '[]'}),
+												_0: _elm_lang$html$Html$text('Using this approach I could place a card from the player\'s hand just by adding an attribute to it, such as '),
 												_1: {
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$figcaption,
+														_elm_lang$html$Html$code,
 														{ctor: '[]'},
 														{
 															ctor: '::',
-															_0: _elm_lang$html$Html$text('A hand of two pilatch cards, with the queen of rock placed on the table'),
+															_0: _elm_lang$html$Html$text('placed'),
 															_1: {ctor: '[]'}
 														}),
-													_1: {ctor: '[]'}
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html$text('.'),
+														_1: {ctor: '[]'}
+													}
 												}
 											}),
 										_1: {
 											ctor: '::',
 											_0: A2(
-												_elm_lang$html$Html$p,
+												_elm_lang$html$Html$figure,
 												{ctor: '[]'},
 												{
 													ctor: '::',
-													_0: _elm_lang$html$Html$text('\n            Yet a problem arose with this approach too because it\'s still necessary to move a card in the DOM after it has been animated, which triggered unwanted animations.\n            If you didn\'t do this, your model of the game state would be a nightmare.\n            To explain, in the example above I would need a separate render thereafter to remove the '),
+													_0: A2(
+														_elm_lang$html$Html$pre,
+														{
+															ctor: '::',
+															_0: _user$project$Explanation_View$oneParentExampleInnerHTML,
+															_1: {ctor: '[]'}
+														},
+														{ctor: '[]'}),
 													_1: {
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$code,
+															_elm_lang$html$Html$figcaption,
 															{ctor: '[]'},
 															{
 																ctor: '::',
-																_0: _elm_lang$html$Html$text('card-2'),
+																_0: _elm_lang$html$Html$text('A hand of two pilatch cards, with the queen of rock placed on the table'),
 																_1: {ctor: '[]'}
 															}),
-														_1: {
-															ctor: '::',
-															_0: _elm_lang$html$Html$text(' attribute from the middle card, put it underneath the two cards in the player\'s hand, and nudge the one of paper from '),
-															_1: {
-																ctor: '::',
-																_0: A2(
-																	_elm_lang$html$Html$code,
-																	{ctor: '[]'},
-																	{
-																		ctor: '::',
-																		_0: _elm_lang$html$Html$text('card-3'),
-																		_1: {ctor: '[]'}
-																	}),
-																_1: {
-																	ctor: '::',
-																	_0: _elm_lang$html$Html$text(' to '),
-																	_1: {
-																		ctor: '::',
-																		_0: A2(
-																			_elm_lang$html$Html$code,
-																			{ctor: '[]'},
-																			{
-																				ctor: '::',
-																				_0: _elm_lang$html$Html$text('card-2'),
-																				_1: {ctor: '[]'}
-																			}),
-																		_1: {
-																			ctor: '::',
-																			_0: _elm_lang$html$Html$text(' to make the remaining cards in hand fill the gap that was left by the placed card. So it would have looked like this:'),
-																			_1: {ctor: '[]'}
-																		}
-																	}
-																}
-															}
-														}
+														_1: {ctor: '[]'}
 													}
 												}),
 											_1: {
 												ctor: '::',
 												_0: A2(
-													_elm_lang$html$Html$figure,
+													_elm_lang$html$Html$p,
 													{ctor: '[]'},
 													{
 														ctor: '::',
-														_0: A2(
-															_elm_lang$html$Html$pre,
-															{
-																ctor: '::',
-																_0: _user$project$Explanation_View$oneParentSecondRenderExampleInnerHTML,
-																_1: {ctor: '[]'}
-															},
-															{ctor: '[]'}),
+														_0: _elm_lang$html$Html$text('\n            Yet a problem arose with this approach too because it\'s still necessary to move a card in the DOM after it has been animated, which triggered unwanted animations.\n            If you didn\'t do this, your model of the game state would be a nightmare.\n            To explain, in the example above I would need a separate render thereafter to remove the '),
 														_1: {
 															ctor: '::',
 															_0: A2(
-																_elm_lang$html$Html$figcaption,
+																_elm_lang$html$Html$code,
 																{ctor: '[]'},
 																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('So close to a workable implementation!'),
+																	_0: _elm_lang$html$Html$text('card-2'),
 																	_1: {ctor: '[]'}
 																}),
-															_1: {ctor: '[]'}
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$html$Html$text(' attribute from the middle card, put it underneath the two cards in the player\'s hand, and nudge the one of paper from '),
+																_1: {
+																	ctor: '::',
+																	_0: A2(
+																		_elm_lang$html$Html$code,
+																		{ctor: '[]'},
+																		{
+																			ctor: '::',
+																			_0: _elm_lang$html$Html$text('card-3'),
+																			_1: {ctor: '[]'}
+																		}),
+																	_1: {
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text(' to '),
+																		_1: {
+																			ctor: '::',
+																			_0: A2(
+																				_elm_lang$html$Html$code,
+																				{ctor: '[]'},
+																				{
+																					ctor: '::',
+																					_0: _elm_lang$html$Html$text('card-2'),
+																					_1: {ctor: '[]'}
+																				}),
+																			_1: {
+																				ctor: '::',
+																				_0: _elm_lang$html$Html$text(' to make the remaining cards in hand fill the gap that was left by the placed card. So it would have looked like this:'),
+																				_1: {ctor: '[]'}
+																			}
+																		}
+																	}
+																}
+															}
 														}
 													}),
 												_1: {
 													ctor: '::',
 													_0: A2(
-														_elm_lang$html$Html$h2,
+														_elm_lang$html$Html$figure,
 														{ctor: '[]'},
 														{
 															ctor: '::',
-															_0: _elm_lang$html$Html$text('Solution'),
-															_1: {ctor: '[]'}
+															_0: A2(
+																_elm_lang$html$Html$pre,
+																{
+																	ctor: '::',
+																	_0: _user$project$Explanation_View$oneParentSecondRenderExampleInnerHTML,
+																	_1: {ctor: '[]'}
+																},
+																{ctor: '[]'}),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_elm_lang$html$Html$figcaption,
+																	{ctor: '[]'},
+																	{
+																		ctor: '::',
+																		_0: _elm_lang$html$Html$text('So close to a workable implementation!'),
+																		_1: {ctor: '[]'}
+																	}),
+																_1: {ctor: '[]'}
+															}
 														}),
 													_1: {
 														ctor: '::',
 														_0: A2(
-															_elm_lang$html$Html$p,
+															_elm_lang$html$Html$h2,
 															{ctor: '[]'},
 															{
 																ctor: '::',
-																_0: _elm_lang$html$Html$text('When rearranging the cards in the DOM, I had to turn off CSS animations. It took a number of iterations to come to this conclusion.'),
+																_0: _elm_lang$html$Html$text('Solution'),
 																_1: {ctor: '[]'}
 															}),
 														_1: {
@@ -15231,7 +15236,7 @@ var _user$project$Explanation_View$view = function (model) {
 																{ctor: '[]'},
 																{
 																	ctor: '::',
-																	_0: _elm_lang$html$Html$text('In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner.'),
+																	_0: _elm_lang$html$Html$text('When rearranging the cards in the DOM, I had to turn off CSS animations. It took a number of iterations to come to this conclusion.'),
 																	_1: {ctor: '[]'}
 																}),
 															_1: {
@@ -15241,31 +15246,42 @@ var _user$project$Explanation_View$view = function (model) {
 																	{ctor: '[]'},
 																	{
 																		ctor: '::',
-																		_0: _elm_lang$html$Html$text('The goal is the same in each: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand.'),
+																		_0: _elm_lang$html$Html$text('In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner.'),
 																		_1: {ctor: '[]'}
 																	}),
 																_1: {
 																	ctor: '::',
 																	_0: A2(
-																		_elm_lang$html$Html$h2,
+																		_elm_lang$html$Html$p,
 																		{ctor: '[]'},
 																		{
 																			ctor: '::',
-																			_0: A2(
-																				_elm_lang$html$Html$a,
-																				{
-																					ctor: '::',
-																					_0: _elm_lang$html$Html_Attributes$href('iterations.html'),
-																					_1: {ctor: '[]'}
-																				},
-																				{
-																					ctor: '::',
-																					_0: _elm_lang$html$Html$text('Iterations'),
-																					_1: {ctor: '[]'}
-																				}),
+																			_0: _elm_lang$html$Html$text('The goal is the same in each: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand.'),
 																			_1: {ctor: '[]'}
 																		}),
-																	_1: {ctor: '[]'}
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_elm_lang$html$Html$h2,
+																			{ctor: '[]'},
+																			{
+																				ctor: '::',
+																				_0: A2(
+																					_elm_lang$html$Html$a,
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html_Attributes$href('iterations.html'),
+																						_1: {ctor: '[]'}
+																					},
+																					{
+																						ctor: '::',
+																						_0: _elm_lang$html$Html$text('Iterations'),
+																						_1: {ctor: '[]'}
+																					}),
+																				_1: {ctor: '[]'}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
 																}
 															}
 														}

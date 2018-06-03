@@ -7,6 +7,10 @@ import Html.Attributes exposing (attribute, class, href, id, property, type_)
 import Json.Encode as Encode
 
 
+dirtyP textAndHtml =
+    p [ innerHTML textAndHtml ] []
+
+
 innerHTML =
     property "innerHTML" << Encode.string
 
@@ -45,11 +49,19 @@ webComponentsApproachInnerHTML =
 view : Model -> Html Msg
 view model =
     section [ class "explanation" ]
-        [ h1 [] [ text "Virtual DOM Card Game Animations" ]
+        [ header []
+            [ h1 [] [ text "Card Animations" ]
+            , p [] [ text "Using web components, Elm, and CSS transitions" ]
+            ]
         , tableTop model.game
-        , p [] [ text """
-            This illustrates how I approached the problem of animating cards smoothly between a player's hand and the table-top.
-            My initial attempt involved creating a web component for each spot in the game, like so:""" ]
+        , dirtyP """
+            I wanted to make an online card game. At the least it would need realistic visualizations of cards moving from a player's hand to the table-top.
+            Several years ago I had done something similar with game demonstrations that were meant to augment textual rules.
+            <a href="https://pilatch.com/games/casual/Runway">You can see one here.</a> Click the "Watch the Demo" button when you get there."""
+        , dirtyP """
+          Back then I used jQuery to move around a known set of cards in a pre-determined order.
+          This time such an approach would not be advisable. TODO write more.
+          My initial attempt involved creating a web component for each spot in the game, like so:"""
         , figure []
             [ pre [ webComponentsApproachInnerHTML ] []
             , figcaption [] [ text "A hand of three pilatch cards with an empty area waiting for the player to place a card" ]
@@ -124,9 +136,9 @@ hand step =
 
                         cardNumber =
                             if listIndex <= handIndex then
-                                listIndex + 1
-                            else
                                 listIndex
+                            else
+                                listIndex - 1
 
                         attributes =
                             [ handClassNoMath cardNumber ]
@@ -180,7 +192,7 @@ placedCardArea step maybeCard =
 
 
 handClass =
-    handClassNoMath << (+) 1
+    handClassNoMath
 
 
 handClassNoMath handIndex =

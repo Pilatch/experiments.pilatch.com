@@ -39,19 +39,19 @@ body {
   top: calc(var(--table-top-height) - var(--scaled-card-height) / 3);
 }
 
-.card-1 {
+.card-0 {
   left: 0;
   z-index: 0;
 }
-.card-2 {
+.card-1 {
   left: 25%;
   z-index: 1;
 }
-.card-3 {
+.card-2 {
   left: 50%;
   z-index: 2;
 }
-.card-4 {
+.card-3 {
   left: 75%;
   z-index: 3;
 }

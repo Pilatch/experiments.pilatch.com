@@ -9,15 +9,17 @@ import Html.Events exposing (onClick)
 view model =
     case model.implementation of
         NoneChosen ->
-            section []
+            main_ []
                 [ header []
                     [ h1 [] [ text "Iterative Development" ]
                     , p [] [ text "The experiments and refinements I went through to make animations work with virtual DOM." ]
                     ]
-                , p [] [ button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ] ]
-                , p [] [ button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ] ]
-                , p [] [ button [ type_ "button", onClick <| ChooseImplementation DisablingTransitions ] [ text "Disabling Transitions" ] ]
-                , p [] [ button [ type_ "button", onClick <| ChooseImplementation Collapsed ] [ text "Collapsed" ] ]
+                , p [ class "iteration-buttons" ]
+                    [ button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ]
+                    , button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ]
+                    , button [ type_ "button", onClick <| ChooseImplementation DisablingTransitions ] [ text "Disabling Transitions" ]
+                    , button [ type_ "button", onClick <| ChooseImplementation Collapsed ] [ text "Collapsed" ]
+                    ]
                 , p []
                     [ a [ href "index.html" ] [ text "Back to explanation" ]
                     ]
@@ -116,6 +118,10 @@ placedAreaClass =
     class "player-placed-card-area"
 
 
+card0 =
+    class "player-hand card-0"
+
+
 card1 =
     class "player-hand card-1"
 
@@ -126,10 +132,6 @@ card2 =
 
 card3 =
     class "player-hand card-3"
-
-
-card4 =
-    class "player-hand card-4"
 
 
 invisible =
@@ -187,39 +189,39 @@ naiveImplementation animationNumber =
         0 ->
             render animationNumber
                 "Initial setup with four cards in hand and an empty placed card area"
-                [ queenOfScissors card1
-                , fiveOfPaper card2
-                , kingOfRock card3
-                , threeOfRock card4
+                [ queenOfScissors card0
+                , fiveOfPaper card1
+                , kingOfRock card2
+                , threeOfRock card3
                 , emptyArea
                 ]
 
         1 ->
             render animationNumber
                 "add new attributes/classes to make the five of paper card animate"
-                [ queenOfScissors card1
-                , pCard [ card2, placedAreaClass, rank "5", suit "paper" ]
-                , kingOfRock card3
-                , threeOfRock card4
+                [ queenOfScissors card0
+                , pCard [ card1, placedAreaClass, rank "5", suit "paper" ]
+                , kingOfRock card2
+                , threeOfRock card3
                 , emptyArea
                 ]
 
         2 ->
             render animationNumber
                 "remove classes from animated card's previous spot in hand"
-                [ queenOfScissors card1
+                [ queenOfScissors card0
                 , fiveOfPaperDown placedAreaClass
-                , kingOfRock card3
-                , threeOfRock card4
+                , kingOfRock card2
+                , threeOfRock card3
                 , emptyArea
                 ]
 
         3 ->
             render animationNumber
                 "rearrange cards to match new layout"
-                [ queenOfScissors card1
-                , kingOfRock card2
-                , threeOfRock card3
+                [ queenOfScissors card0
+                , kingOfRock card1
+                , threeOfRock card2
                 , fiveOfPaperDown placedAreaClass
                 , emptyArea
                 ]
@@ -227,10 +229,10 @@ naiveImplementation animationNumber =
         4 ->
             render animationNumber
                 "return five of paper to end of hand"
-                [ queenOfScissors card1
-                , kingOfRock card2
-                , threeOfRock card3
-                , fiveOfPaper card4
+                [ queenOfScissors card0
+                , kingOfRock card1
+                , threeOfRock card2
+                , fiveOfPaper card3
                 , emptyArea
                 ]
 
@@ -243,10 +245,10 @@ invisibleCardImplementation animationNumber =
         0 ->
             render animationNumber
                 "Initial setup with invisible card between placed area and hand"
-                [ queenOfScissors card1
-                , fiveOfPaper card2
-                , kingOfRock card3
-                , threeOfRock card4
+                [ queenOfScissors card0
+                , fiveOfPaper card1
+                , kingOfRock card2
+                , threeOfRock card3
                 , invisible
                 , emptyArea
                 ]
@@ -254,32 +256,32 @@ invisibleCardImplementation animationNumber =
         1 ->
             render animationNumber
                 "Swap invisible card with card to move's attributes, and hide the original (clicked card)"
-                [ queenOfScissors card1
+                [ queenOfScissors card0
                 , fiveOfPaper hidden
-                , kingOfRock card3
-                , threeOfRock card4
-                , fiveOfPaper card2
+                , kingOfRock card2
+                , threeOfRock card3
+                , fiveOfPaper card1
                 , emptyArea
                 ]
 
         2 ->
             render animationNumber
                 "add new attributes/classes to make the card animate"
-                [ queenOfScissors card1
+                [ queenOfScissors card0
                 , invisible
-                , kingOfRock card3
-                , threeOfRock card4
-                , pCard [ card2, placedAreaClass, rank "5", suit "paper" ]
+                , kingOfRock card2
+                , threeOfRock card3
+                , pCard [ card1, placedAreaClass, rank "5", suit "paper" ]
                 , emptyArea
                 ]
 
         3 ->
             render animationNumber
                 "remove classes from animated card's previous spot"
-                [ queenOfScissors card1
+                [ queenOfScissors card0
                 , invisible
-                , kingOfRock card3
-                , threeOfRock card4
+                , kingOfRock card2
+                , threeOfRock card3
                 , fiveOfPaperDown placedAreaClass
                 , emptyArea
                 ]
@@ -287,10 +289,10 @@ invisibleCardImplementation animationNumber =
         4 ->
             render animationNumber
                 "remaining hand slides left"
-                [ queenOfScissors card1
+                [ queenOfScissors card0
                 , kingOfRock hidden
-                , kingOfRock card2
-                , threeOfRock card3
+                , kingOfRock card1
+                , threeOfRock card2
                 , fiveOfPaperDown placedAreaClass
                 , emptyArea
                 ]
@@ -298,10 +300,10 @@ invisibleCardImplementation animationNumber =
         5 ->
             render animationNumber
                 "move invisible card down one notch"
-                [ queenOfScissors card1
-                , kingOfRock card2
+                [ queenOfScissors card0
+                , kingOfRock card1
                 , kingOfRock hidden
-                , threeOfRock card3
+                , threeOfRock card2
                 , fiveOfPaperDown placedAreaClass
                 , emptyArea
                 ]
@@ -309,9 +311,9 @@ invisibleCardImplementation animationNumber =
         6 ->
             render animationNumber
                 "move invisible card down again"
-                [ queenOfScissors card1
-                , kingOfRock card2
-                , threeOfRock card3
+                [ queenOfScissors card0
+                , kingOfRock card1
+                , threeOfRock card2
                 , threeOfRock hidden
                 , fiveOfPaperDown placedAreaClass
                 , emptyArea
@@ -320,21 +322,21 @@ invisibleCardImplementation animationNumber =
         7 ->
             render animationNumber
                 "return five of paper to end of hand"
-                [ queenOfScissors card1
-                , kingOfRock card2
-                , threeOfRock card3
+                [ queenOfScissors card0
+                , kingOfRock card1
+                , threeOfRock card2
                 , invisible
-                , fiveOfPaper card4
+                , fiveOfPaper card3
                 , emptyArea
                 ]
 
         8 ->
             render animationNumber
                 "swap invisible card to initial spot"
-                [ queenOfScissors card1
-                , kingOfRock card2
-                , threeOfRock card3
-                , fiveOfPaper card4
+                [ queenOfScissors card0
+                , kingOfRock card1
+                , threeOfRock card2
+                , fiveOfPaper card3
                 , invisible
                 , emptyArea
                 ]
@@ -348,39 +350,39 @@ disablingTransitionsImplementation animationNumber =
         0 ->
             render animationNumber
                 "Initial setup with four cards in hand and an empty placed card area"
-                [ queenOfScissors2 card1 noTransition
-                , fiveOfPaper2 card2 noTransition
-                , kingOfRock2 card3 noTransition
-                , threeOfRock2 card4 noTransition
+                [ queenOfScissors2 card0 noTransition
+                , fiveOfPaper2 card1 noTransition
+                , kingOfRock2 card2 noTransition
+                , threeOfRock2 card3 noTransition
                 , emptyArea
                 ]
 
         1 ->
             render animationNumber
                 "add new attributes/classes to make the five of paper card animate"
-                [ queenOfScissors card1
-                , pCard [ card2, placedAreaClass, rank "5", suit "paper" ]
-                , kingOfRock card3
-                , threeOfRock card4
+                [ queenOfScissors card0
+                , pCard [ card1, placedAreaClass, rank "5", suit "paper" ]
+                , kingOfRock card2
+                , threeOfRock card3
                 , emptyArea
                 ]
 
         2 ->
             render animationNumber
                 "remove classes from animated card's previous spot in hand"
-                [ queenOfScissors card1
+                [ queenOfScissors card0
                 , fiveOfPaperDown placedAreaClass
-                , kingOfRock card3
-                , threeOfRock card4
+                , kingOfRock card2
+                , threeOfRock card3
                 , emptyArea
                 ]
 
         3 ->
             renderNoTransition animationNumber
                 "move it in the DOM with transitions disabled in CSS"
-                [ queenOfScissors card1
-                , kingOfRock2 card3 noTransition
-                , threeOfRock2 card4 noTransition
+                [ queenOfScissors card0
+                , kingOfRock2 card2 noTransition
+                , threeOfRock2 card3 noTransition
                 , fiveOfPaperDown2 placedAreaClass noTransition
                 , emptyArea
                 ]
@@ -388,9 +390,9 @@ disablingTransitionsImplementation animationNumber =
         4 ->
             render animationNumber
                 "slide the cards in hand to the left"
-                [ queenOfScissors card1
-                , kingOfRock card2
-                , threeOfRock card3
+                [ queenOfScissors card0
+                , kingOfRock card1
+                , threeOfRock card2
                 , fiveOfPaperDown placedAreaClass
                 , emptyArea
                 ]
@@ -398,10 +400,10 @@ disablingTransitionsImplementation animationNumber =
         5 ->
             render animationNumber
                 "return five of paper to end of hand"
-                [ queenOfScissors card1
-                , kingOfRock card2
-                , threeOfRock card3
-                , fiveOfPaper card4
+                [ queenOfScissors card0
+                , kingOfRock card1
+                , threeOfRock card2
+                , fiveOfPaper card3
                 , emptyArea
                 ]
 
@@ -414,29 +416,29 @@ collapsedImplementation animationNumber =
         0 ->
             render animationNumber
                 "Initial setup with four cards in hand and an empty placed card area"
-                [ queenOfScissors2 card1 noTransition
-                , fiveOfPaper2 card2 noTransition
-                , kingOfRock2 card3 noTransition
-                , threeOfRock2 card4 noTransition
+                [ queenOfScissors2 card0 noTransition
+                , fiveOfPaper2 card1 noTransition
+                , kingOfRock2 card2 noTransition
+                , threeOfRock2 card3 noTransition
                 , emptyArea
                 ]
 
         1 ->
             render animationNumber
                 "add new attributes/classes to make the five of paper card animate, and slide cards in hand to the left"
-                [ queenOfScissors card1
-                , pCard [ card2, placedAreaClass, rank "5", suit "paper" ]
-                , kingOfRock card2
-                , threeOfRock card3
+                [ queenOfScissors card0
+                , pCard [ card1, placedAreaClass, rank "5", suit "paper" ]
+                , kingOfRock card1
+                , threeOfRock card2
                 , emptyArea
                 ]
 
         2 ->
             renderNoTransition animationNumber
                 "move it in the DOM with transitions disabled in CSS"
-                [ queenOfScissors card1
-                , kingOfRock2 card2 noTransition
-                , threeOfRock2 card3 noTransition
+                [ queenOfScissors card0
+                , kingOfRock2 card1 noTransition
+                , threeOfRock2 card2 noTransition
                 , fiveOfPaperDown2 placedAreaClass noTransition
                 , emptyArea
                 ]
@@ -444,10 +446,10 @@ collapsedImplementation animationNumber =
         3 ->
             render animationNumber
                 "return five of paper to end of hand"
-                [ queenOfScissors card1
-                , kingOfRock card2
-                , threeOfRock card3
-                , fiveOfPaper card4
+                [ queenOfScissors card0
+                , kingOfRock card1
+                , threeOfRock card2
+                , fiveOfPaper card3
                 , emptyArea
                 ]
 
