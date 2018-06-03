@@ -55,13 +55,11 @@ type alias HandIndex =
 type AnimationStep
     = PlaceCard HandIndex
     | NoTransitionRearrange
-    | ReturnCard HandIndex
 
 
 type Msg
     = DemoPlaceCard HandIndex
     | DemoRearrange RearrangeMsg
-    | DemoReturnToHand Card HandIndex
 
 
 type RearrangeMsg

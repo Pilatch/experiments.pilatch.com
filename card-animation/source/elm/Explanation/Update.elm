@@ -18,14 +18,19 @@ update msg model =
                 newGame =
                     { modelGame | animationStep = PlaceCard handIndex }
 
-                placed =
+                nextPlaced =
                     List.Extra.getAt handIndex model.game.hand
 
                 nextHand =
-                    List.Extra.removeAt handIndex model.game.hand
+                    case model.game.placed of
+                        Nothing ->
+                            List.Extra.removeAt handIndex model.game.hand
+
+                        Just card ->
+                            (List.Extra.removeAt handIndex model.game.hand) ++ [ card ]
 
                 command =
-                    Task.perform (\_ -> DemoRearrange <| RearrangeAfterAnimation nextHand placed) (Process.sleep 1500)
+                    Task.perform (\_ -> DemoRearrange <| RearrangeAfterAnimation nextHand nextPlaced) (Process.sleep 1250)
             in
                 ( { model | game = newGame }, command )
 
@@ -37,34 +42,13 @@ update msg model =
                             model.game
 
                         ( command, seed ) =
-                            case placed of
-                                Nothing ->
-                                    let
-                                        ( placeCardIndex, newSeed ) =
-                                            Random.step (Random.int 0 <| (List.length hand) - 1) modelGame.seed
-                                    in
-                                        ( Task.perform (\_ -> DemoPlaceCard placeCardIndex) (Process.sleep 1500), newSeed )
-
-                                Just placedCard ->
-                                    ( Task.perform (\_ -> DemoReturnToHand placedCard <| List.length hand) (Process.sleep 1500), modelGame.seed )
+                            let
+                                ( placeCardIndex, newSeed ) =
+                                    Random.step (Random.int 0 <| (List.length hand) - 1) modelGame.seed
+                            in
+                                ( Task.perform (\_ -> DemoPlaceCard placeCardIndex) (Process.sleep 1250), newSeed )
 
                         newGame =
                             { modelGame | hand = hand, placed = placed, animationStep = NoTransitionRearrange, seed = seed }
                     in
                         ( { model | game = newGame }, command )
-
-        DemoReturnToHand card handIndex ->
-            let
-                modelGame =
-                    model.game
-
-                newGame =
-                    { modelGame | animationStep = ReturnCard handIndex }
-
-                nextHand =
-                    modelGame.hand ++ [ card ]
-
-                command =
-                    Task.perform (\_ -> DemoRearrange <| RearrangeAfterAnimation nextHand Nothing) (Process.sleep 1500)
-            in
-                ( { model | game = newGame }, command )

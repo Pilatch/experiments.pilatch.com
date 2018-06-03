@@ -14889,17 +14889,10 @@ var _user$project$Explanation_Model$Game = F5(
 	function (a, b, c, d, e) {
 		return {animationStep: a, hand: b, maxHandSize: c, placed: d, seed: e};
 	});
-var _user$project$Explanation_Model$ReturnCard = function (a) {
-	return {ctor: 'ReturnCard', _0: a};
-};
 var _user$project$Explanation_Model$NoTransitionRearrange = {ctor: 'NoTransitionRearrange'};
 var _user$project$Explanation_Model$PlaceCard = function (a) {
 	return {ctor: 'PlaceCard', _0: a};
 };
-var _user$project$Explanation_Model$DemoReturnToHand = F2(
-	function (a, b) {
-		return {ctor: 'DemoReturnToHand', _0: a, _1: b};
-	});
 var _user$project$Explanation_Model$DemoRearrange = function (a) {
 	return {ctor: 'DemoRearrange', _0: a};
 };
@@ -14994,8 +14987,8 @@ var _user$project$Explanation_View$handClass = F2(
 					}
 				}));
 	});
-var _user$project$Explanation_View$placedCardArea = F3(
-	function (step, maxHandSize, maybeCard) {
+var _user$project$Explanation_View$placedCardArea = F4(
+	function (step, maxHandSize, currentHandSize, maybeCard) {
 		var placed = function () {
 			var _p0 = maybeCard;
 			if (_p0.ctor === 'Nothing') {
@@ -15003,41 +14996,38 @@ var _user$project$Explanation_View$placedCardArea = F3(
 			} else {
 				var _p2 = _p0._0;
 				var _p1 = step;
-				switch (_p1.ctor) {
-					case 'PlaceCard':
-						return {ctor: '[]'};
-					case 'NoTransitionRearrange':
-						return {
-							ctor: '::',
-							_0: A3(
-								_user$project$Card$webComponent,
-								{
+				if (_p1.ctor === 'PlaceCard') {
+					return {
+						ctor: '::',
+						_0: A3(
+							_user$project$Card$webComponent,
+							{
+								ctor: '::',
+								_0: A2(_user$project$Explanation_View$handClass, maxHandSize, currentHandSize - 1),
+								_1: {ctor: '[]'}
+							},
+							_user$project$Card$Up,
+							_p2),
+						_1: {ctor: '[]'}
+					};
+				} else {
+					return {
+						ctor: '::',
+						_0: A3(
+							_user$project$Card$webComponent,
+							{
+								ctor: '::',
+								_0: _user$project$Explanation_View$placedClass,
+								_1: {
 									ctor: '::',
-									_0: _user$project$Explanation_View$placedClass,
-									_1: {
-										ctor: '::',
-										_0: _user$project$Explanation_View$noTransition,
-										_1: {ctor: '[]'}
-									}
-								},
-								_user$project$Card$Down,
-								_p2),
-							_1: {ctor: '[]'}
-						};
-					default:
-						return {
-							ctor: '::',
-							_0: A3(
-								_user$project$Card$webComponent,
-								{
-									ctor: '::',
-									_0: A2(_user$project$Explanation_View$handClass, maxHandSize, _p1._0),
+									_0: _user$project$Explanation_View$noTransition,
 									_1: {ctor: '[]'}
-								},
-								_user$project$Card$Up,
-								_p2),
-							_1: {ctor: '[]'}
-						};
+								}
+							},
+							_user$project$Card$Down,
+							_p2),
+						_1: {ctor: '[]'}
+					};
 				}
 			}
 		}();
@@ -15063,60 +15053,45 @@ var _user$project$Explanation_View$placedCardArea = F3(
 var _user$project$Explanation_View$hand = F3(
 	function (step, maxHandSize, cards) {
 		var _p3 = step;
-		switch (_p3.ctor) {
-			case 'PlaceCard':
-				var _p4 = _p3._0;
-				var mapper = F2(
-					function (listIndex, card) {
-						var cardNumber = (_elm_lang$core$Native_Utils.cmp(listIndex, _p4) < 1) ? listIndex : (listIndex - 1);
-						var attributes = A2(
-							_elm_lang$core$Basics_ops['++'],
-							{
+		if (_p3.ctor === 'PlaceCard') {
+			var _p4 = _p3._0;
+			var mapper = F2(
+				function (listIndex, card) {
+					var cardNumber = (_elm_lang$core$Native_Utils.cmp(listIndex, _p4) < 1) ? listIndex : (listIndex - 1);
+					var attributes = A2(
+						_elm_lang$core$Basics_ops['++'],
+						{
+							ctor: '::',
+							_0: A2(_user$project$Explanation_View$handClass, maxHandSize, cardNumber),
+							_1: {ctor: '[]'}
+						},
+						_elm_lang$core$Native_Utils.eq(_p4, listIndex) ? {
+							ctor: '::',
+							_0: _user$project$Explanation_View$placedClass,
+							_1: {ctor: '[]'}
+						} : {ctor: '[]'});
+					var facing = _elm_lang$core$Native_Utils.eq(listIndex, _p4) ? _user$project$Card$Down : _user$project$Card$Up;
+					return A3(_user$project$Card$webComponent, attributes, facing, card);
+				});
+			return A2(_elm_lang$core$List$indexedMap, mapper, cards);
+		} else {
+			var mapper = F2(
+				function (handIndex, card) {
+					return A3(
+						_user$project$Card$webComponent,
+						{
+							ctor: '::',
+							_0: A2(_user$project$Explanation_View$handClass, maxHandSize, handIndex),
+							_1: {
 								ctor: '::',
-								_0: A2(_user$project$Explanation_View$handClass, maxHandSize, cardNumber),
+								_0: _user$project$Explanation_View$noTransition,
 								_1: {ctor: '[]'}
-							},
-							_elm_lang$core$Native_Utils.eq(_p4, listIndex) ? {
-								ctor: '::',
-								_0: _user$project$Explanation_View$placedClass,
-								_1: {ctor: '[]'}
-							} : {ctor: '[]'});
-						var facing = _elm_lang$core$Native_Utils.eq(listIndex, _p4) ? _user$project$Card$Down : _user$project$Card$Up;
-						return A3(_user$project$Card$webComponent, attributes, facing, card);
-					});
-				return A2(_elm_lang$core$List$indexedMap, mapper, cards);
-			case 'NoTransitionRearrange':
-				var mapper = F2(
-					function (handIndex, card) {
-						return A3(
-							_user$project$Card$webComponent,
-							{
-								ctor: '::',
-								_0: A2(_user$project$Explanation_View$handClass, maxHandSize, handIndex),
-								_1: {
-									ctor: '::',
-									_0: _user$project$Explanation_View$noTransition,
-									_1: {ctor: '[]'}
-								}
-							},
-							_user$project$Card$Up,
-							card);
-					});
-				return A2(_elm_lang$core$List$indexedMap, mapper, cards);
-			default:
-				var mapper = F2(
-					function (handIndex, card) {
-						return A3(
-							_user$project$Card$webComponent,
-							{
-								ctor: '::',
-								_0: A2(_user$project$Explanation_View$handClass, maxHandSize, handIndex),
-								_1: {ctor: '[]'}
-							},
-							_user$project$Card$Up,
-							card);
-					});
-				return A2(_elm_lang$core$List$indexedMap, mapper, cards);
+							}
+						},
+						_user$project$Card$Up,
+						card);
+				});
+			return A2(_elm_lang$core$List$indexedMap, mapper, cards);
 		}
 	});
 var _user$project$Explanation_View$tableTop = function (game) {
@@ -15150,7 +15125,12 @@ var _user$project$Explanation_View$tableTop = function (game) {
 				_0: A3(_user$project$Explanation_View$hand, game.animationStep, game.maxHandSize, game.hand),
 				_1: {
 					ctor: '::',
-					_0: A3(_user$project$Explanation_View$placedCardArea, game.animationStep, game.maxHandSize, game.placed),
+					_0: A4(
+						_user$project$Explanation_View$placedCardArea,
+						game.animationStep,
+						game.maxHandSize,
+						_elm_lang$core$List$length(game.hand),
+						game.placed),
 					_1: {ctor: '[]'}
 				}
 			}));
@@ -15487,115 +15467,81 @@ var _user$project$Explanation_View$view = function (model) {
 var _user$project$Explanation_Update$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		switch (_p0.ctor) {
-			case 'DemoPlaceCard':
-				var _p2 = _p0._0;
-				var nextHand = A2(_elm_community$list_extra$List_Extra$removeAt, _p2, model.game.hand);
-				var placed = A2(_elm_community$list_extra$List_Extra$getAt, _p2, model.game.hand);
-				var command = A2(
-					_elm_lang$core$Task$perform,
-					function (_p1) {
-						return _user$project$Explanation_Model$DemoRearrange(
-							A2(_user$project$Explanation_Model$RearrangeAfterAnimation, nextHand, placed));
-					},
-					_elm_lang$core$Process$sleep(1500));
-				var modelGame = model.game;
-				var newGame = _elm_lang$core$Native_Utils.update(
-					modelGame,
-					{
-						animationStep: _user$project$Explanation_Model$PlaceCard(_p2)
-					});
+		if (_p0.ctor === 'DemoPlaceCard') {
+			var _p3 = _p0._0;
+			var nextHand = function () {
+				var _p1 = model.game.placed;
+				if (_p1.ctor === 'Nothing') {
+					return A2(_elm_community$list_extra$List_Extra$removeAt, _p3, model.game.hand);
+				} else {
+					return A2(
+						_elm_lang$core$Basics_ops['++'],
+						A2(_elm_community$list_extra$List_Extra$removeAt, _p3, model.game.hand),
+						{
+							ctor: '::',
+							_0: _p1._0,
+							_1: {ctor: '[]'}
+						});
+				}
+			}();
+			var nextPlaced = A2(_elm_community$list_extra$List_Extra$getAt, _p3, model.game.hand);
+			var command = A2(
+				_elm_lang$core$Task$perform,
+				function (_p2) {
+					return _user$project$Explanation_Model$DemoRearrange(
+						A2(_user$project$Explanation_Model$RearrangeAfterAnimation, nextHand, nextPlaced));
+				},
+				_elm_lang$core$Process$sleep(1250));
+			var modelGame = model.game;
+			var newGame = _elm_lang$core$Native_Utils.update(
+				modelGame,
+				{
+					animationStep: _user$project$Explanation_Model$PlaceCard(_p3)
+				});
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{game: newGame}),
+				_1: command
+			};
+		} else {
+			var _p4 = _p0._0;
+			var _p8 = _p4._0;
+			var modelGame = model.game;
+			var _p5 = function () {
+				var _p6 = A2(
+					_elm_lang$core$Random$step,
+					A2(
+						_elm_lang$core$Random$int,
+						0,
+						_elm_lang$core$List$length(_p8) - 1),
+					modelGame.seed);
+				var placeCardIndex = _p6._0;
+				var newSeed = _p6._1;
 				return {
 					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{game: newGame}),
-					_1: command
+					_0: A2(
+						_elm_lang$core$Task$perform,
+						function (_p7) {
+							return _user$project$Explanation_Model$DemoPlaceCard(placeCardIndex);
+						},
+						_elm_lang$core$Process$sleep(1250)),
+					_1: newSeed
 				};
-			case 'DemoRearrange':
-				var _p3 = _p0._0;
-				var _p10 = _p3._1;
-				var _p9 = _p3._0;
-				var modelGame = model.game;
-				var _p4 = function () {
-					var _p5 = _p10;
-					if (_p5.ctor === 'Nothing') {
-						var _p6 = A2(
-							_elm_lang$core$Random$step,
-							A2(
-								_elm_lang$core$Random$int,
-								0,
-								_elm_lang$core$List$length(_p9) - 1),
-							modelGame.seed);
-						var placeCardIndex = _p6._0;
-						var newSeed = _p6._1;
-						return {
-							ctor: '_Tuple2',
-							_0: A2(
-								_elm_lang$core$Task$perform,
-								function (_p7) {
-									return _user$project$Explanation_Model$DemoPlaceCard(placeCardIndex);
-								},
-								_elm_lang$core$Process$sleep(1500)),
-							_1: newSeed
-						};
-					} else {
-						return {
-							ctor: '_Tuple2',
-							_0: A2(
-								_elm_lang$core$Task$perform,
-								function (_p8) {
-									return A2(
-										_user$project$Explanation_Model$DemoReturnToHand,
-										_p5._0,
-										_elm_lang$core$List$length(_p9));
-								},
-								_elm_lang$core$Process$sleep(1500)),
-							_1: modelGame.seed
-						};
-					}
-				}();
-				var command = _p4._0;
-				var seed = _p4._1;
-				var newGame = _elm_lang$core$Native_Utils.update(
-					modelGame,
-					{hand: _p9, placed: _p10, animationStep: _user$project$Explanation_Model$NoTransitionRearrange, seed: seed});
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{game: newGame}),
-					_1: command
-				};
-			default:
-				var modelGame = model.game;
-				var newGame = _elm_lang$core$Native_Utils.update(
-					modelGame,
-					{
-						animationStep: _user$project$Explanation_Model$ReturnCard(_p0._1)
-					});
-				var nextHand = A2(
-					_elm_lang$core$Basics_ops['++'],
-					modelGame.hand,
-					{
-						ctor: '::',
-						_0: _p0._0,
-						_1: {ctor: '[]'}
-					});
-				var command = A2(
-					_elm_lang$core$Task$perform,
-					function (_p11) {
-						return _user$project$Explanation_Model$DemoRearrange(
-							A2(_user$project$Explanation_Model$RearrangeAfterAnimation, nextHand, _elm_lang$core$Maybe$Nothing));
-					},
-					_elm_lang$core$Process$sleep(1500));
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{game: newGame}),
-					_1: command
-				};
+			}();
+			var command = _p5._0;
+			var seed = _p5._1;
+			var newGame = _elm_lang$core$Native_Utils.update(
+				modelGame,
+				{hand: _p8, placed: _p4._1, animationStep: _user$project$Explanation_Model$NoTransitionRearrange, seed: seed});
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{game: newGame}),
+				_1: command
+			};
 		}
 	});
 
@@ -15613,7 +15559,7 @@ var Elm = {};
 Elm['Explanation'] = Elm['Explanation'] || {};
 Elm['Explanation']['Main'] = Elm['Explanation']['Main'] || {};
 if (typeof _user$project$Explanation_Main$main !== 'undefined') {
-    _user$project$Explanation_Main$main(Elm['Explanation']['Main'], 'Explanation.Main', {"types":{"unions":{"Card.Card":{"args":[],"tags":{"SevenOfPaper":[],"JackOfPaper":[],"JokerOfScissors":[],"SevenOfRock":[],"JackOfRock":[],"TwoOfScissors":[],"OneOfScissors":[],"ThreeOfRock":[],"FourOfRock":[],"KingOfScissors":[],"NineOfRock":[],"TenOfPaper":[],"FiveOfRock":[],"TwoOfPaper":[],"OneOfPaper":[],"TenOfRock":[],"JokerOfPaper":[],"EightOfScissors":[],"AceOfScissors":[],"SixOfScissors":[],"QueenOfScissors":[],"KingOfPaper":[],"KingOfRock":[],"FiveOfScissors":[],"NineOfScissors":[],"QueenOfPaper":[],"JackOfScissors":[],"SixOfPaper":[],"SevenOfScissors":[],"JokerOfRock":[],"TwoOfRock":[],"OneOfRock":[],"FourOfScissors":[],"AceOfPaper":[],"EightOfPaper":[],"ThreeOfScissors":[],"FiveOfPaper":[],"NineOfPaper":[],"EightOfRock":[],"AceOfRock":[],"QueenOfRock":[],"SixOfRock":[],"FourOfPaper":[],"TenOfScissors":[],"ThreeOfPaper":[]}},"Explanation.Model.RearrangeMsg":{"args":[],"tags":{"RearrangeAfterAnimation":["List Card.Card","Maybe.Maybe Card.Card"]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Explanation.Model.Msg":{"args":[],"tags":{"DemoPlaceCard":["Explanation.Model.HandIndex"],"DemoRearrange":["Explanation.Model.RearrangeMsg"],"DemoReturnToHand":["Card.Card","Explanation.Model.HandIndex"]}}},"aliases":{"Explanation.Model.HandIndex":{"args":[],"type":"Int"}},"message":"Explanation.Model.Msg"},"versions":{"elm":"0.18.0"}});
+    _user$project$Explanation_Main$main(Elm['Explanation']['Main'], 'Explanation.Main', {"types":{"unions":{"Card.Card":{"args":[],"tags":{"SevenOfPaper":[],"JackOfPaper":[],"JokerOfScissors":[],"SevenOfRock":[],"JackOfRock":[],"TwoOfScissors":[],"OneOfScissors":[],"ThreeOfRock":[],"FourOfRock":[],"KingOfScissors":[],"NineOfRock":[],"TenOfPaper":[],"FiveOfRock":[],"TwoOfPaper":[],"OneOfPaper":[],"TenOfRock":[],"JokerOfPaper":[],"EightOfScissors":[],"AceOfScissors":[],"SixOfScissors":[],"QueenOfScissors":[],"KingOfPaper":[],"KingOfRock":[],"FiveOfScissors":[],"NineOfScissors":[],"QueenOfPaper":[],"JackOfScissors":[],"SixOfPaper":[],"SevenOfScissors":[],"JokerOfRock":[],"TwoOfRock":[],"OneOfRock":[],"FourOfScissors":[],"AceOfPaper":[],"EightOfPaper":[],"ThreeOfScissors":[],"FiveOfPaper":[],"NineOfPaper":[],"EightOfRock":[],"AceOfRock":[],"QueenOfRock":[],"SixOfRock":[],"FourOfPaper":[],"TenOfScissors":[],"ThreeOfPaper":[]}},"Explanation.Model.RearrangeMsg":{"args":[],"tags":{"RearrangeAfterAnimation":["List Card.Card","Maybe.Maybe Card.Card"]}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}},"Explanation.Model.Msg":{"args":[],"tags":{"DemoPlaceCard":["Explanation.Model.HandIndex"],"DemoRearrange":["Explanation.Model.RearrangeMsg"]}}},"aliases":{"Explanation.Model.HandIndex":{"args":[],"type":"Int"}},"message":"Explanation.Model.Msg"},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

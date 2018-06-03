@@ -118,7 +118,7 @@ tableTop game =
         section (classes ++ attributes) <|
             List.concat
                 [ hand game.animationStep game.maxHandSize game.hand
-                , placedCardArea game.animationStep game.maxHandSize game.placed
+                , placedCardArea game.animationStep game.maxHandSize (List.length game.hand) game.placed
                 ]
 
 
@@ -159,16 +159,9 @@ hand step maxHandSize cards =
             in
                 List.indexedMap mapper cards
 
-        ReturnCard _ ->
-            let
-                mapper handIndex card =
-                    webComponent [ handClass maxHandSize handIndex ] Up card
-            in
-                List.indexedMap mapper cards
 
-
-placedCardArea : AnimationStep -> Int -> Maybe Card -> List (Html msg)
-placedCardArea step maxHandSize maybeCard =
+placedCardArea : AnimationStep -> Int -> Int -> Maybe Card -> List (Html msg)
+placedCardArea step maxHandSize currentHandSize maybeCard =
     let
         emptyArea =
             [ node "pilatch-card" [ placedClass, attribute "nothing" "" ] [] ]
@@ -180,14 +173,11 @@ placedCardArea step maxHandSize maybeCard =
 
                 Just card ->
                     case step of
-                        PlaceCard _ ->
-                            []
+                        PlaceCard handIndex ->
+                            [ webComponent [ handClass maxHandSize <| currentHandSize - 1 ] Up card ]
 
                         NoTransitionRearrange ->
                             [ webComponent [ placedClass, noTransition ] Down card ]
-
-                        ReturnCard handIndex ->
-                            [ webComponent [ handClass maxHandSize handIndex ] Up card ]
     in
         placed ++ emptyArea
 
