@@ -7737,6 +7737,126 @@ var _elm_lang$core$Json_Decode$bool = _elm_lang$core$Native_Json.decodePrimitive
 var _elm_lang$core$Json_Decode$string = _elm_lang$core$Native_Json.decodePrimitive('string');
 var _elm_lang$core$Json_Decode$Decoder = {ctor: 'Decoder'};
 
+//import Maybe, Native.List //
+
+var _elm_lang$core$Native_Regex = function() {
+
+function escape(str)
+{
+	return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
+function caseInsensitive(re)
+{
+	return new RegExp(re.source, 'gi');
+}
+function regex(raw)
+{
+	return new RegExp(raw, 'g');
+}
+
+function contains(re, string)
+{
+	return string.match(re) !== null;
+}
+
+function find(n, re, str)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	var out = [];
+	var number = 0;
+	var string = str;
+	var lastIndex = re.lastIndex;
+	var prevLastIndex = -1;
+	var result;
+	while (number++ < n && (result = re.exec(string)))
+	{
+		if (prevLastIndex === re.lastIndex) break;
+		var i = result.length - 1;
+		var subs = new Array(i);
+		while (i > 0)
+		{
+			var submatch = result[i];
+			subs[--i] = submatch === undefined
+				? _elm_lang$core$Maybe$Nothing
+				: _elm_lang$core$Maybe$Just(submatch);
+		}
+		out.push({
+			match: result[0],
+			submatches: _elm_lang$core$Native_List.fromArray(subs),
+			index: result.index,
+			number: number
+		});
+		prevLastIndex = re.lastIndex;
+	}
+	re.lastIndex = lastIndex;
+	return _elm_lang$core$Native_List.fromArray(out);
+}
+
+function replace(n, re, replacer, string)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	var count = 0;
+	function jsReplacer(match)
+	{
+		if (count++ >= n)
+		{
+			return match;
+		}
+		var i = arguments.length - 3;
+		var submatches = new Array(i);
+		while (i > 0)
+		{
+			var submatch = arguments[i];
+			submatches[--i] = submatch === undefined
+				? _elm_lang$core$Maybe$Nothing
+				: _elm_lang$core$Maybe$Just(submatch);
+		}
+		return replacer({
+			match: match,
+			submatches: _elm_lang$core$Native_List.fromArray(submatches),
+			index: arguments[arguments.length - 2],
+			number: count
+		});
+	}
+	return string.replace(re, jsReplacer);
+}
+
+function split(n, re, str)
+{
+	n = n.ctor === 'All' ? Infinity : n._0;
+	if (n === Infinity)
+	{
+		return _elm_lang$core$Native_List.fromArray(str.split(re));
+	}
+	var string = str;
+	var result;
+	var out = [];
+	var start = re.lastIndex;
+	var restoreLastIndex = re.lastIndex;
+	while (n--)
+	{
+		if (!(result = re.exec(string))) break;
+		out.push(string.slice(start, result.index));
+		start = re.lastIndex;
+	}
+	out.push(string.slice(start));
+	re.lastIndex = restoreLastIndex;
+	return _elm_lang$core$Native_List.fromArray(out);
+}
+
+return {
+	regex: regex,
+	caseInsensitive: caseInsensitive,
+	escape: escape,
+
+	contains: F2(contains),
+	find: F3(find),
+	replace: F4(replace),
+	split: F3(split)
+};
+
+}();
+
 var _elm_lang$core$Process$kill = _elm_lang$core$Native_Scheduler.kill;
 var _elm_lang$core$Process$sleep = _elm_lang$core$Native_Scheduler.sleep;
 var _elm_lang$core$Process$spawn = _elm_lang$core$Native_Scheduler.spawn;
@@ -8119,6 +8239,23 @@ var _elm_lang$core$Random$cmdMap = F2(
 			A2(_elm_lang$core$Random$map, func, _p79._0));
 	});
 _elm_lang$core$Native_Platform.effectManagers['Random'] = {pkg: 'elm-lang/core', init: _elm_lang$core$Random$init, onEffects: _elm_lang$core$Random$onEffects, onSelfMsg: _elm_lang$core$Random$onSelfMsg, tag: 'cmd', cmdMap: _elm_lang$core$Random$cmdMap};
+
+var _elm_lang$core$Regex$split = _elm_lang$core$Native_Regex.split;
+var _elm_lang$core$Regex$replace = _elm_lang$core$Native_Regex.replace;
+var _elm_lang$core$Regex$find = _elm_lang$core$Native_Regex.find;
+var _elm_lang$core$Regex$contains = _elm_lang$core$Native_Regex.contains;
+var _elm_lang$core$Regex$caseInsensitive = _elm_lang$core$Native_Regex.caseInsensitive;
+var _elm_lang$core$Regex$regex = _elm_lang$core$Native_Regex.regex;
+var _elm_lang$core$Regex$escape = _elm_lang$core$Native_Regex.escape;
+var _elm_lang$core$Regex$Match = F4(
+	function (a, b, c, d) {
+		return {match: a, submatches: b, index: c, number: d};
+	});
+var _elm_lang$core$Regex$Regex = {ctor: 'Regex'};
+var _elm_lang$core$Regex$AtMost = function (a) {
+	return {ctor: 'AtMost', _0: a};
+};
+var _elm_lang$core$Regex$All = {ctor: 'All'};
 
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrap;
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrapWithFlags;
@@ -14467,6 +14604,39 @@ var _elm_lang$html$Html_Attributes$classList = function (list) {
 };
 var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$style;
 
+var _lukewestby$elm_string_interpolate$String_Interpolate$applyInterpolation = F2(
+	function (replacements, match) {
+		var ordinalString = function (_p0) {
+			return A2(
+				_elm_lang$core$String$dropLeft,
+				1,
+				A2(_elm_lang$core$String$dropRight, 1, _p0));
+		}(match.match);
+		var ordinal = _elm_lang$core$String$toInt(ordinalString);
+		var _p1 = ordinal;
+		if (_p1.ctor === 'Err') {
+			return '';
+		} else {
+			var _p2 = A2(_elm_lang$core$Array$get, _p1._0, replacements);
+			if (_p2.ctor === 'Nothing') {
+				return '';
+			} else {
+				return _p2._0;
+			}
+		}
+	});
+var _lukewestby$elm_string_interpolate$String_Interpolate$interpolationRegex = _elm_lang$core$Regex$regex('\\{\\d+\\}');
+var _lukewestby$elm_string_interpolate$String_Interpolate$interpolate = F2(
+	function (string, args) {
+		var asArray = _elm_lang$core$Array$fromList(args);
+		return A4(
+			_elm_lang$core$Regex$replace,
+			_elm_lang$core$Regex$All,
+			_lukewestby$elm_string_interpolate$String_Interpolate$interpolationRegex,
+			_lukewestby$elm_string_interpolate$String_Interpolate$applyInterpolation(asArray),
+			string);
+	});
+
 var _user$project$Card$suitToString = function (suit) {
 	return _elm_lang$core$String$toLower(
 		_elm_lang$core$Basics$toString(suit));
@@ -14715,9 +14885,9 @@ var _user$project$Card$Up = {ctor: 'Up'};
 var _user$project$Explanation_Model$Model = function (a) {
 	return {game: a};
 };
-var _user$project$Explanation_Model$Game = F4(
-	function (a, b, c, d) {
-		return {animationStep: a, hand: b, placed: c, seed: d};
+var _user$project$Explanation_Model$Game = F5(
+	function (a, b, c, d, e) {
+		return {animationStep: a, hand: b, maxHandSize: c, placed: d, seed: e};
 	});
 var _user$project$Explanation_Model$ReturnCard = function (a) {
 	return {ctor: 'ReturnCard', _0: a};
@@ -14768,7 +14938,15 @@ var _user$project$Explanation_Model$initial = function (seedInt) {
 				_1: {
 					ctor: '::',
 					_0: _user$project$Card$QueenOfPaper,
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _user$project$Card$JackOfRock,
+						_1: {
+							ctor: '::',
+							_0: _user$project$Card$JokerOfScissors,
+							_1: {ctor: '[]'}
+						}
+					}
 				}
 			}
 		}
@@ -14785,6 +14963,7 @@ var _user$project$Explanation_Model$initial = function (seedInt) {
 			game: {
 				animationStep: _user$project$Explanation_Model$NoTransitionRearrange,
 				hand: hand,
+				maxHandSize: _elm_lang$core$List$length(hand),
 				placed: _elm_lang$core$Maybe$Nothing,
 				seed: _elm_lang$core$Random$initialSeed(seedInt)
 			}
@@ -14799,19 +14978,24 @@ var _user$project$Explanation_Model$RearrangeAfterAnimation = F2(
 
 var _user$project$Explanation_View$noTransition = A2(_elm_lang$html$Html_Attributes$attribute, 'no-transition', '');
 var _user$project$Explanation_View$placedClass = _elm_lang$html$Html_Attributes$class('player-placed-card-area');
-var _user$project$Explanation_View$handClassNoMath = function (handIndex) {
-	return _elm_lang$html$Html_Attributes$class(
-		A2(
-			F2(
-				function (x, y) {
-					return A2(_elm_lang$core$Basics_ops['++'], x, y);
-				}),
-			'player-hand card-',
-			_elm_lang$core$Basics$toString(handIndex)));
-};
-var _user$project$Explanation_View$handClass = _user$project$Explanation_View$handClassNoMath;
-var _user$project$Explanation_View$placedCardArea = F2(
-	function (step, maybeCard) {
+var _user$project$Explanation_View$handClass = F2(
+	function (maxHandSize, handIndex) {
+		return _elm_lang$html$Html_Attributes$class(
+			A2(
+				_lukewestby$elm_string_interpolate$String_Interpolate$interpolate,
+				'player-hand hand-size-{0} card-{1}',
+				{
+					ctor: '::',
+					_0: _elm_lang$core$Basics$toString(maxHandSize),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$core$Basics$toString(handIndex),
+						_1: {ctor: '[]'}
+					}
+				}));
+	});
+var _user$project$Explanation_View$placedCardArea = F3(
+	function (step, maxHandSize, maybeCard) {
 		var placed = function () {
 			var _p0 = maybeCard;
 			if (_p0.ctor === 'Nothing') {
@@ -14847,7 +15031,7 @@ var _user$project$Explanation_View$placedCardArea = F2(
 								_user$project$Card$webComponent,
 								{
 									ctor: '::',
-									_0: _user$project$Explanation_View$handClass(_p1._0),
+									_0: A2(_user$project$Explanation_View$handClass, maxHandSize, _p1._0),
 									_1: {ctor: '[]'}
 								},
 								_user$project$Card$Up,
@@ -14876,64 +15060,65 @@ var _user$project$Explanation_View$placedCardArea = F2(
 		};
 		return A2(_elm_lang$core$Basics_ops['++'], placed, emptyArea);
 	});
-var _user$project$Explanation_View$hand = function (step) {
-	var _p3 = step;
-	switch (_p3.ctor) {
-		case 'PlaceCard':
-			var _p4 = _p3._0;
-			var mapper = F2(
-				function (listIndex, card) {
-					var cardNumber = (_elm_lang$core$Native_Utils.cmp(listIndex, _p4) < 1) ? listIndex : (listIndex - 1);
-					var attributes = A2(
-						_elm_lang$core$Basics_ops['++'],
-						{
-							ctor: '::',
-							_0: _user$project$Explanation_View$handClassNoMath(cardNumber),
-							_1: {ctor: '[]'}
-						},
-						_elm_lang$core$Native_Utils.eq(_p4, listIndex) ? {
-							ctor: '::',
-							_0: _user$project$Explanation_View$placedClass,
-							_1: {ctor: '[]'}
-						} : {ctor: '[]'});
-					var facing = _elm_lang$core$Native_Utils.eq(listIndex, _p4) ? _user$project$Card$Down : _user$project$Card$Up;
-					return A3(_user$project$Card$webComponent, attributes, facing, card);
-				});
-			return _elm_lang$core$List$indexedMap(mapper);
-		case 'NoTransitionRearrange':
-			var mapper = F2(
-				function (handIndex, card) {
-					return A3(
-						_user$project$Card$webComponent,
-						{
-							ctor: '::',
-							_0: _user$project$Explanation_View$handClass(handIndex),
-							_1: {
+var _user$project$Explanation_View$hand = F3(
+	function (step, maxHandSize, cards) {
+		var _p3 = step;
+		switch (_p3.ctor) {
+			case 'PlaceCard':
+				var _p4 = _p3._0;
+				var mapper = F2(
+					function (listIndex, card) {
+						var cardNumber = (_elm_lang$core$Native_Utils.cmp(listIndex, _p4) < 1) ? listIndex : (listIndex - 1);
+						var attributes = A2(
+							_elm_lang$core$Basics_ops['++'],
+							{
 								ctor: '::',
-								_0: _user$project$Explanation_View$noTransition,
+								_0: A2(_user$project$Explanation_View$handClass, maxHandSize, cardNumber),
 								_1: {ctor: '[]'}
-							}
-						},
-						_user$project$Card$Up,
-						card);
-				});
-			return _elm_lang$core$List$indexedMap(mapper);
-		default:
-			var mapper = F2(
-				function (handIndex, card) {
-					return A3(
-						_user$project$Card$webComponent,
-						{
-							ctor: '::',
-							_0: _user$project$Explanation_View$handClass(handIndex),
-							_1: {ctor: '[]'}
-						},
-						_user$project$Card$Up,
-						card);
-				});
-			return _elm_lang$core$List$indexedMap(mapper);
-	}
-};
+							},
+							_elm_lang$core$Native_Utils.eq(_p4, listIndex) ? {
+								ctor: '::',
+								_0: _user$project$Explanation_View$placedClass,
+								_1: {ctor: '[]'}
+							} : {ctor: '[]'});
+						var facing = _elm_lang$core$Native_Utils.eq(listIndex, _p4) ? _user$project$Card$Down : _user$project$Card$Up;
+						return A3(_user$project$Card$webComponent, attributes, facing, card);
+					});
+				return A2(_elm_lang$core$List$indexedMap, mapper, cards);
+			case 'NoTransitionRearrange':
+				var mapper = F2(
+					function (handIndex, card) {
+						return A3(
+							_user$project$Card$webComponent,
+							{
+								ctor: '::',
+								_0: A2(_user$project$Explanation_View$handClass, maxHandSize, handIndex),
+								_1: {
+									ctor: '::',
+									_0: _user$project$Explanation_View$noTransition,
+									_1: {ctor: '[]'}
+								}
+							},
+							_user$project$Card$Up,
+							card);
+					});
+				return A2(_elm_lang$core$List$indexedMap, mapper, cards);
+			default:
+				var mapper = F2(
+					function (handIndex, card) {
+						return A3(
+							_user$project$Card$webComponent,
+							{
+								ctor: '::',
+								_0: A2(_user$project$Explanation_View$handClass, maxHandSize, handIndex),
+								_1: {ctor: '[]'}
+							},
+							_user$project$Card$Up,
+							card);
+					});
+				return A2(_elm_lang$core$List$indexedMap, mapper, cards);
+		}
+	});
 var _user$project$Explanation_View$tableTop = function (game) {
 	var attributes = function () {
 		var _p5 = game.animationStep;
@@ -14962,10 +15147,10 @@ var _user$project$Explanation_View$tableTop = function (game) {
 		_elm_lang$core$List$concat(
 			{
 				ctor: '::',
-				_0: A2(_user$project$Explanation_View$hand, game.animationStep, game.hand),
+				_0: A3(_user$project$Explanation_View$hand, game.animationStep, game.maxHandSize, game.hand),
 				_1: {
 					ctor: '::',
-					_0: A2(_user$project$Explanation_View$placedCardArea, game.animationStep, game.placed),
+					_0: A3(_user$project$Explanation_View$placedCardArea, game.animationStep, game.maxHandSize, game.placed),
 					_1: {ctor: '[]'}
 				}
 			}));

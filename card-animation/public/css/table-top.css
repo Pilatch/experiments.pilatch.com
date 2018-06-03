@@ -39,24 +39,60 @@ body {
   top: calc(var(--table-top-height) - var(--scaled-card-height) / 3);
 }
 
-.card-0 {
-  left: 0;
-  z-index: 0;
+.hand-size-3 {
+  --card-gap: calc(100% / 3);
 }
-.card-1 {
-  left: 25%;
-  z-index: 1;
+.hand-size-4 {
+  --card-gap: calc(100% / 4);
 }
-.card-2 {
-  left: 50%;
-  z-index: 2;
+.hand-size-5 {
+  --card-gap: calc(100% / 5);
 }
-.card-3 {
-  left: 75%;
-  z-index: 3;
+.hand-size-6 {
+  --card-gap: calc(100% / 6);
+}
+.hand-size-7 {
+  --card-gap: calc(100% / 7);
+}
+.hand-size-8 {
+  --card-gap: calc(100% / 8);
+}
+.hand-size-9 {
+  --card-gap: calc(100% / 9);
 }
 
-.player-placed-card-area { /* TODO use something like player.placed-card-area */
+.card-0 {
+  left: calc(var(--card-gap) * 0);
+}
+.card-1 {
+  left: calc(var(--card-gap) * 1);
+}
+.card-2 {
+  left: calc(var(--card-gap) * 2);
+}
+.card-3 {
+  left: calc(var(--card-gap) * 3);
+}
+.card-4 {
+  left: calc(var(--card-gap) * 4);
+}
+.card-5 {
+  left: calc(var(--card-gap) * 5);
+}
+.card-6 {
+  left: calc(var(--card-gap) * 6);
+}
+.card-7 {
+  left: calc(var(--card-gap) * 7);
+}
+.card-8 {
+  left: calc(var(--card-gap) * 8);
+}
+.card-9 {
+  left: calc(var(--card-gap) * 9);
+}
+
+.player-placed-card-area {
   left: calc(50% - var(--scaled-card-width) * var(--placed-card-scale) / 2);
   top: calc(var(--table-top-height) * 0.6);
   transform-origin: top left;

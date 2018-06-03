@@ -119,19 +119,19 @@ placedAreaClass =
 
 
 card0 =
-    class "player-hand card-0"
+    class "player-hand hand-size-4 card-0"
 
 
 card1 =
-    class "player-hand card-1"
+    class "player-hand hand-size-4 card-1"
 
 
 card2 =
-    class "player-hand card-2"
+    class "player-hand hand-size-4 card-2"
 
 
 card3 =
-    class "player-hand card-3"
+    class "player-hand hand-size-4 card-3"
 
 
 invisible =

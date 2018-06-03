@@ -9,7 +9,7 @@ import Task
 initial seedInt =
     let
         hand =
-            [ AceOfPaper, KingOfScissors, TenOfRock, QueenOfPaper ]
+            [ AceOfPaper, KingOfScissors, TenOfRock, QueenOfPaper, JackOfRock, JokerOfScissors ]
 
         ( command, steppedSeed ) =
             initialCommand seedInt <| List.length hand
@@ -17,6 +17,7 @@ initial seedInt =
         ( { game =
                 { animationStep = NoTransitionRearrange
                 , hand = hand
+                , maxHandSize = List.length hand
                 , placed = Nothing
                 , seed = Random.initialSeed seedInt
                 }
@@ -41,6 +42,7 @@ type alias Model =
 type alias Game =
     { animationStep : AnimationStep
     , hand : List Card
+    , maxHandSize : Int
     , placed : Maybe Card
     , seed : Random.Seed
     }

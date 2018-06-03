@@ -5,6 +5,7 @@ import Explanation.Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (attribute, class, href, id, property, type_)
 import Json.Encode as Encode
+import String.Interpolate exposing (interpolate)
 
 
 dirtyP textAndHtml =
@@ -116,13 +117,13 @@ tableTop game =
     in
         section (classes ++ attributes) <|
             List.concat
-                [ hand game.animationStep game.hand
-                , placedCardArea game.animationStep game.placed
+                [ hand game.animationStep game.maxHandSize game.hand
+                , placedCardArea game.animationStep game.maxHandSize game.placed
                 ]
 
 
-hand : AnimationStep -> List Card -> List (Html msg)
-hand step =
+hand : AnimationStep -> Int -> List Card -> List (Html msg)
+hand step maxHandSize cards =
     case step of
         PlaceCard handIndex ->
             let
@@ -141,7 +142,7 @@ hand step =
                                 listIndex - 1
 
                         attributes =
-                            [ handClassNoMath cardNumber ]
+                            [ handClass maxHandSize cardNumber ]
                                 ++ if handIndex == listIndex then
                                     [ placedClass ]
                                    else
@@ -149,25 +150,25 @@ hand step =
                     in
                         webComponent attributes facing card
             in
-                List.indexedMap mapper
+                List.indexedMap mapper cards
 
         NoTransitionRearrange ->
             let
                 mapper handIndex card =
-                    webComponent [ handClass handIndex, noTransition ] Up card
+                    webComponent [ handClass maxHandSize handIndex, noTransition ] Up card
             in
-                List.indexedMap mapper
+                List.indexedMap mapper cards
 
         ReturnCard _ ->
             let
                 mapper handIndex card =
-                    webComponent [ handClass handIndex ] Up card
+                    webComponent [ handClass maxHandSize handIndex ] Up card
             in
-                List.indexedMap mapper
+                List.indexedMap mapper cards
 
 
-placedCardArea : AnimationStep -> Maybe Card -> List (Html msg)
-placedCardArea step maybeCard =
+placedCardArea : AnimationStep -> Int -> Maybe Card -> List (Html msg)
+placedCardArea step maxHandSize maybeCard =
     let
         emptyArea =
             [ node "pilatch-card" [ placedClass, attribute "nothing" "" ] [] ]
@@ -186,17 +187,13 @@ placedCardArea step maybeCard =
                             [ webComponent [ placedClass, noTransition ] Down card ]
 
                         ReturnCard handIndex ->
-                            [ webComponent [ handClass handIndex ] Up card ]
+                            [ webComponent [ handClass maxHandSize handIndex ] Up card ]
     in
         placed ++ emptyArea
 
 
-handClass =
-    handClassNoMath
-
-
-handClassNoMath handIndex =
-    handIndex |> toString |> (++) "player-hand card-" |> class
+handClass maxHandSize handIndex =
+    interpolate "player-hand hand-size-{0} card-{1}" [ toString maxHandSize, toString handIndex ] |> class
 
 
 placedClass =

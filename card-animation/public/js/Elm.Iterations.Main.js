@@ -12543,10 +12543,10 @@ var _user$project$Iterations_View$render = F3(
 				}
 			});
 	});
-var _user$project$Iterations_View$card3 = _elm_lang$html$Html_Attributes$class('player-hand card-3');
-var _user$project$Iterations_View$card2 = _elm_lang$html$Html_Attributes$class('player-hand card-2');
-var _user$project$Iterations_View$card1 = _elm_lang$html$Html_Attributes$class('player-hand card-1');
-var _user$project$Iterations_View$card0 = _elm_lang$html$Html_Attributes$class('player-hand card-0');
+var _user$project$Iterations_View$card3 = _elm_lang$html$Html_Attributes$class('player-hand hand-size-4 card-3');
+var _user$project$Iterations_View$card2 = _elm_lang$html$Html_Attributes$class('player-hand hand-size-4 card-2');
+var _user$project$Iterations_View$card1 = _elm_lang$html$Html_Attributes$class('player-hand hand-size-4 card-1');
+var _user$project$Iterations_View$card0 = _elm_lang$html$Html_Attributes$class('player-hand hand-size-4 card-0');
 var _user$project$Iterations_View$placedAreaClass = _elm_lang$html$Html_Attributes$class('player-placed-card-area');
 var _user$project$Iterations_View$pCard = function (attributes) {
 	return A3(
