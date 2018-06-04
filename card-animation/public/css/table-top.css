@@ -31,6 +31,7 @@ body {
 
 .table-top pilatch-card {
   position: absolute;
+  will-change: transform, left, top;
 }
 
 /* player */
