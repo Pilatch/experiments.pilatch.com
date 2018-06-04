@@ -11,7 +11,7 @@ view : { a | game : Game } -> Html Msg
 view { game } =
     let
         classes =
-            [ class "table-top", class "half-height" ]
+            [ class "table-top" ]
 
         attributes =
             case game.animationStep of

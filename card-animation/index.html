@@ -4,6 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Card Animation Demonstrations</title>
+  <script>
+  function startDemo() {
+    var demoNode = document.getElementById('demo')
+
+    if (demoNode && startDemo.spriteLoaded) {
+      Elm.Explanation.Main.embed(demoNode, Math.floor(Math.random() * 10000))
+    }
+  }
+  </script>
+  <link rel="preload" href="public/img/sprite.png" as="image" type="image/png" onload="startDemo.spriteLoaded = true; startDemo()">
   <link rel="stylesheet" type="text/css" href="https://staticresource.com/template/css/basic.css">
   <script src="public/js/define-custom-element.js"></script>
   <link rel="stylesheet" href="public/css/variables.css">
@@ -35,7 +45,7 @@
   .explanation p {
     padding: 0 1em;
   }
-  .explanation .table-top {
+  .explanation .table-top, #demo {
     --table-top-height: 400px;
     height: var(--table-top-height);
     margin-top: 1em;
@@ -48,14 +58,14 @@
   }
   </style>
 </head>
-<body>
+<body onload="startDemo()">
   <main class="explanation">
     <header>
       <h1>Card Animations</h1>
       <p>Using web components, Elm, and CSS transitions</p>
     </header>
     <figure>
-      <div id="demo"></div>
+      <section id="demo"></section>
       <figcaption>A hand with cards being randomly placed to simulate user interaction</figcaption>
     </figure>
     <p>
@@ -105,7 +115,4 @@
     <p>See how I tried and failed multiple times: <a href="iterations.html">Iterations</a></p>
   </main>
 </body>
-<script>
-Elm.Explanation.Main.embed(document.getElementById('demo'), Math.floor(Math.random() * 10000))
-</script>
 </html>

@@ -15112,11 +15112,7 @@ var _user$project$Explanation_View$view = function (_p5) {
 	var classes = {
 		ctor: '::',
 		_0: _elm_lang$html$Html_Attributes$class('table-top'),
-		_1: {
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('half-height'),
-			_1: {ctor: '[]'}
-		}
+		_1: {ctor: '[]'}
 	};
 	return A2(
 		_elm_lang$html$Html$section,
