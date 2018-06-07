@@ -6,11 +6,8 @@ import Random
 import Task
 
 
-initial seedInt =
+initial hand seedInt =
     let
-        hand =
-            [ AceOfPaper, KingOfScissors, TenOfRock, QueenOfPaper, JackOfRock, JokerOfScissors ]
-
         ( command, steppedSeed ) =
             initialCommand seedInt <| List.length hand
     in
@@ -24,6 +21,19 @@ initial seedInt =
           }
         , command
         )
+
+
+initialNoSeed hand =
+    ( { game =
+            { animationStep = NoTransitionRearrange
+            , hand = hand
+            , maxHandSize = List.length hand
+            , placed = Nothing
+            , seed = Random.initialSeed 8675309
+            }
+      }
+    , Task.perform (\_ -> DemoPlaceCard 0) (Process.sleep 2500)
+    )
 
 
 initialCommand seedInt handSize =
@@ -55,6 +65,7 @@ type alias HandIndex =
 type AnimationStep
     = PlaceCard HandIndex
     | NoTransitionRearrange
+    | NaiveRearrange
 
 
 type Msg

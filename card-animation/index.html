@@ -5,21 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Card Animation Demonstrations</title>
   <script>
-  function startDemo() {
-    var demoNode = document.getElementById('demo')
+  function startDemos() {
+    const demoNode = document.getElementById('demo')
+    const naiveDemoNode = document.getElementById('naiveDemo')
 
-    if (demoNode && startDemo.spriteLoaded) {
+    if (demoNode && startDemos.spriteLoaded) {
       Elm.Explanation.Main.embed(demoNode, Math.floor(Math.random() * 10000))
+    }
+
+    if (naiveDemoNode && startDemos.spriteLoaded) {
+      Elm.Explanation.Naive.embed(naiveDemoNode)
     }
   }
   </script>
-  <link rel="preload" href="public/img/sprite.png" as="image" type="image/png" onload="startDemo.spriteLoaded = true; startDemo()">
-  <link rel="stylesheet" type="text/css" href="https://staticresource.com/template/css/basic.css">
+  <link rel="preload" href="public/img/sprite.png" as="image" type="image/png" onload="startDemos.spriteLoaded = true; startDemos()">
+  <link rel="stylesheet" type="text/css" href="public/css/blog-theme.css">
   <script src="public/js/define-custom-element.js"></script>
   <link rel="stylesheet" href="public/css/variables.css">
   <link rel="stylesheet" href="public/css/table-top.css">
+  <link rel="stylesheet" href="public/node_modules/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="public/node_modules/codemirror/theme/monokai.css">
   <link rel="import" href="public/html/pilatch-card.html">
-  <script src="public/js/Elm.Explanation.Main.js"></script>
+  <script src="public/node_modules/codemirror/lib/codemirror.js"></script>
+  <script src="public/node_modules/codemirror/mode/css/css.js"></script>
+  <script src="public/node_modules/codemirror/mode/elm/elm.js"></script>
+  <script src="public/node_modules/codemirror/mode/xml/xml.js"></script>
+  <script src="public/js/Elm.Explanation.js"></script>
   <style>
   body {
     max-width: none;
@@ -29,23 +40,37 @@
     text-align: center;
   }
   figure {
-    margin: 0;
+    margin: 1em 0;
   }
   figcaption {
+    margin-top: 0.5em;
     text-align: center;
   }
   figure pre {
     margin-bottom: 1em;
+  }
+  p {
+    font-size: 1.45rem;
+    line-height: 2.25rem;
+    padding: 0 1em;
+  }
+  p code {
+    background-color: #ccc;
+    padding: 0 0.3em;
+    white-space: nowrap;
+  }
+  .elm-logo, .meteor-logo, .pomelo-logo, .unreal-logo {
+    float: left;
+    height: 60px;
+    margin-right: 1em;
+    width: 60px;
   }
   .explanation {
     margin: 0 auto;
     max-width: 54em;
     padding: 0 1em 2em;
   }
-  .explanation p {
-    padding: 0 1em;
-  }
-  .explanation .table-top, #demo {
+  .explanation .table-top, #demo, #naiveDemo {
     --table-top-height: 400px;
     height: var(--table-top-height);
     margin-top: 1em;
@@ -56,9 +81,16 @@
   .player-hand {
     top: 250px;
   }
+  .CodeMirror {
+    height: auto;
+  }
+  .CodeMirror-lines {
+    font-size: 1.25em;
+    line-height: 1.75em;
+  }
   </style>
 </head>
-<body onload="startDemo()">
+<body onload="startDemos()">
   <main class="explanation">
     <header>
       <h1>Card Animations</h1>
@@ -68,51 +100,198 @@
       <section id="demo"></section>
       <figcaption>A hand with cards being randomly placed to simulate user interaction</figcaption>
     </figure>
+    <p>I wanted to make an online game with cards moving realistically between players' hands and the table-top.</p>
     <p>
-      I wanted to make an online card game. It would need realistic visualizations of cards moving from a player's hand to the table-top. Several years ago I had done something similar with game demonstrations that were meant to augment textual
-      rules.
-      <a href="https://pilatch.com/games/casual/Runway">You can see one here.</a> (Click the "Watch the Demo" button when you get there.)
+      In the past I had developed <a href="https://pilatch.com/games/casual/Runway">game demonstrations</a> that were meant to augment textual rules.
+      Those used jQuery animations, which is impossible to replicate today because the web police would confiscate my license to dev.
     </p>
-    <p>
-      Back then I used jQuery to move around a known set of cards in a pre-determined order.
-      This time such an approach would not be advisable because the web police would take away my license to dev.
-    </p>
-    <p>My initial attempt involved creating a web component for each spot in the game, like so:</p>
+    <p>Instead my modern approach was to create a <a href="https://www.webcomponents.org/">web component</a> for each zone in the game:</p>
     <figure>
-      <pre>&lt;pilatch-hand&gt;
-  &lt;pilatch-card rank="5" suit="scissors"&gt;&lt;/pilatch-card&gt;
-  &lt;pilatch-card rank="12" suit="rock"&gt;&lt;/pilatch-card&gt;
-  &lt;pilatch-card rank="1" suit="paper"&gt;&lt;/pilatch-card&gt;
-&lt;/pilatch-hand&gt;
-&lt;placed-card-area&gt;&lt;/placed-card-area&gt;</pre>
-      <figcaption>A hand of three pilatch cards with an empty area waiting for the player to place a card</figcaption>
+      <code-mirror mode="xml"><!--<table-top>
+  <pilatch-hand>
+    <pilatch-card rank="12" suit="scissors"></pilatch-card>
+    <pilatch-card rank="7" suit="paper"></pilatch-card>
+    <pilatch-card rank="1" suit="paper"></pilatch-card>
+  </pilatch-hand>
+  <placed-card-area>
+    <pilatch-card rank="10" suit="rock"></pilatch-card>
+  </placed-card-area>
+  <!-- ... --&gt;
+</table-top>--></code-mirror>
+      <figcaption>A hand of three pilatch cards with the ten-of-rock placed on the table</figcaption>
     </figure>
     <p>
-      Each web component was responsible for positioning the cards contained within it, which was great for abstraction and separation of concerns. However it failed because the concept of moving a card from the hand to the placed card area didn't apply in
-      virtual DOM. The renderer would destroy the card that was in the hand, and re-make it at its destination. That didn't play well with animations, as cards would just pop in and out of existence.</p>
-    <p>The next concept was to have a table-top element that would contain each game element without additional nesting. The table-top's style is <code>position: relative;</code> and each card within it is <code>position: absolute;</code> allowing the cards
-      to float around on the table top by adding or removing CSS classes from them.
+      Each web component was responsible for positioning its children, which was great for abstraction and separation of concerns.
+      Unfortunately it failed because the concept of moving a card between zones didn't apply in virtual DOM.
+      <a href="http://elm-lang.org/">Elm</a>'s renderer would destroy the card element that was in the hand, and re-make it at its destination.
+      The result was more teleportation than animation.
     </p>
-    <p>Using this approach I could place a card from the player's hand just by adding an attribute to it, such as <code>placed</code>.</p>
-    <figure><pre>&lt;pilatch-card hand-1 rank="5" suit="scissors"&gt;&lt;/pilatch-card&gt;
-&lt;pilatch-card placed hand-2 rank="12" suit="rock"&gt;&lt;/pilatch-card&gt;
-&lt;pilatch-card hand-3 rank="1" suit="paper"&gt;&lt;/pilatch-card&gt;</pre>
-      <figcaption>A hand of two pilatch cards, with the queen of rock placed on the table</figcaption>
+    <p>
+      My next attempt featured a single table-top element that would contain each card <em>without</em> additional nesting.
+      Cards fly about the table top by adding or removing HTML attributes or CSS classes from them.
+    </p>
+    <figure>
+      <code-mirror mode="css"><!--.table-top {
+  position: relative;
+}
+.table-top pilatch-card {
+  position: absolute;
+  will-change: left, top; /* for performance! */
+}
+
+[hand] { top: 80%; }
+[hand=1] { left: 0; }
+[hand=2] { left: 20%; }
+/* ... more [hand=n] styles ... */
+
+[placed] {
+  top: 50%;
+  left: 33.3%;
+}--></code-mirror>
+      <figcaption>A simplified snippet of table-top CSS</figcaption>
+    </figure>
+    <p>Now a card in hand could move to the table just by adding an attribute to it, such as <code>placed</code>.</p>
+    <figure>
+      <code-mirror mode="xml"><!--<pilatch-card hand="1" rank="12" suit="scissors"></pilatch-card>
+<pilatch-card hand="2" rank="7" suit="paper"></pilatch-card>
+<pilatch-card placed hand="3" rank="10" suit="rock"></pilatch-card>
+<pilatch-card hand="4" rank="1" suit="paper"></pilatch-card>--></code-mirror>
+      <figcaption>A hand of four pilatch cards, with the ten of rock transitioning to the table</figcaption>
     </figure>
     <p>
-      Yet a problem arose with this approach too because it's still necessary to move a card in the DOM after it has been animated, which triggered unwanted animations. If you didn't do this, your model of the game state would be a nightmare. To explain, in
-      the example above I would need a separate render thereafter to remove the <code>card-2</code> attribute from the middle card, put it underneath the two cards in the player's hand, and nudge the one of paper from <code>card-3</code> to <code>card-2</code>    to make the remaining cards in hand fill the gap that was left by the placed card. So it would have looked like this:</p>
-    <figure><pre>&lt;pilatch-card hand-1 rank="5" suit="scissors"&gt;&lt;/pilatch-card&gt;
-&lt;pilatch-card hand-2 rank="1" suit="paper"&gt;&lt;/pilatch-card&gt;
-&lt;pilatch-card placed rank="12" suit="rock"&gt;&lt;/pilatch-card&gt;</pre>
-      <figcaption>So close to a workable implementation!</figcaption>
+      Yet this approach is naïve because it's still necessary to change the order of cards in the DOM after one card has moved, which triggers repititions of animations. If I didn't do this, my model of the game state would be a nightmare.
+    </p>
+    <figure>
+      <section id="naiveDemo"></section>
+      <figcaption>An illustration of an early attempt</figcaption>
     </figure>
+    <p>
+      The demonstration above is written in a loop that keeps placing the leftmost card on the table.
+      Watch the rank number on the rightmost card closely.
+      See how sometimes it switches then goes to the table?
+      That's the unwanted CSS transition.
+    </p>
     <h2>Solution</h2>
-    <p>When rearranging the cards in the DOM, I had to turn off CSS animations. It took a number of iterations to come to this conclusion.</p>
+    <p>It seems obvious in retrospect. Don't animate when rearranging the cards in the DOM.</p>
+    <figure>
+      <code-mirror mode="css"><!--/* in table-top.css */
+.table-top:not([no-transition]) pilatch-card {
+  transition-duration: 1s;
+}
+
+/* in pilatch-card.css */
+:host(:not([no-transition])) #front,
+:host(:not([no-transition])) #back {
+  /* flip speed goes here */
+  transition: transform 0.6s;
+}--></code-mirror>
+      <figcaption>Thank you, <code>no-transition</code> attribute</figcaption>
+    </figure>
+    <p>
+      With the above CSS, cards will transition unless we specifically tell them not to.
+      That's exactly what happens during the rearrange step by adding the <code>no-transition</code> attribute to each card.
+    </p>
+    <figure>
+      <code-mirror mode="xml"><!--<pilatch-card no-transition hand="1" rank="12" suit="scissors"></pilatch-card>
+<pilatch-card no-transition hand="2" rank="7" suit="paper"></pilatch-card>
+<pilatch-card no-transition hand="3" rank="1" suit="paper"></pilatch-card>
+<pilatch-card no-transition placed rank="10" suit="rock"></pilatch-card>--></code-mirror>
+      <figcaption>How to only have animations when we want them</figcaption>
+    </figure>
+    <h2><a href="http://elm-lang.org/">Elm</a></h2>
+    <p>
+      <a href="http://elm-lang.org/"><img class="elm-logo" src="http://package.elm-lang.org/assets/elm_logo.svg" alt="Elm tangram logo"></a>
+      Why only lip service for the language with an arbor appellation? My choice of virtual DOM renderer seemed irrelevant, in terms of animation. I'd expect the same problem to arise with <a href="https://infernojs.org/">Inferno</a>, <a href="https://vuejs.org/">Vue</a>, <a href="https://reactjs.org/">React</a> or whatever your favorite flavor is. <a href="https://chocolatejs.org/">Chocolate JS</a> anyone?
+    </p>
+    <p>
+      Seriously.
+      How is a virtual-DOM-diffing algorithm to know that, between frames, an HTML element which was the first child of it parent is now the same one as the fourth child, though it has different attributes?
+      Exactly how slow would that be?
+    </p>
+    <figure>
+      <code-mirror mode="elm"><!--frameOne =
+    div [ class "table-top" ]
+        [ QueenOfPaper
+        , OneOfRock
+        , TwoOfRock
+        , ThreeOfRock
+        ]
+
+
+frameTwo =
+    div [ class "table-top" ]
+        [ OneOfRock
+        , TwoOfRock
+        , ThreeOfRock
+        , PlacedQueenOfPaper
+        ]--></code-mirror>
+      <figcaption>If only it were this simple to place the Queen of Paper on the table</figcaption>
+    </figure>
+    <p>
+      For those who don't know what <a href="http://elm-lang.org/">Elm</a> is, it's a concentrated dose of confidence to usher my dilemma to its demise. It took a square-root of the problem space I had to work in. Absent were: delayed discovery of type errors at runtime, unwarranted state mutations, fussing over dependencies, <a href="https://webpack.js.org/">an inscrutable build system</a>, fear of refactoring, <a href="http://sinonjs.org/">stubbing, spying</a>, mocking, or forgetting to <code><a href="https://redux.js.org/basics/usage-with-react#implementing-container-components">mapDispatchToProps</a></code>.
+    </p>
+    <p>
+      ...I take that back.
+      Confidence isn't the limiting factor.
+      Elm gave me the <em>time</em> to get it done.
+      That's why both the front-end and back-end are being written in Elm.
+    </p>
+    <p>
+      For those who are already writing Elm, you might want to see some code.
+      TODO!
+    </p>
+    <h2>Failures</h2>
+    <p>
+      The fact that I'm debugging CSS animations at all is a testament to the power of Elm.
+    </p>
+    <h3><a href="https://www.meteor.com/">Meteor</a></h3>
+    <p>
+      <img class="meteor-logo" src="public/img/meteor-logo.png" alt="meteor logo">
+      A few years ago I tried writing my online game with <a href="https://www.meteor.com/">Meteor</a>, which is marketed as a framework for ultra-productivity because of how closely it ties the back-end to the front. It even had the real-time interaction stuff built in!
+    </p>
+    <p>
+      I tried to make a simple game work with <a href="https://www.meteor.com/">Meteor</a> <em>twice</em> over the course of a couple years. Anything more complex than what was featured in tutorials led me down rabbit-holes of documentation, or the lack thereof.
+    </p>
+    <p>
+      If you have a simple <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> app, then sure, give <a href="https://www.meteor.com/">Meteor</a> a try.
+      Anything more than that, I'd question.
+    </p>
+    <h3><a href="http://pomelo.netease.com/">Pomelo</a></h3>
+    <p>
+      <img class="pomelo-logo" src="public/img/pomelo-logo.png" alt="pomelo logo"> I also researched <a href="http://pomelo.netease.com/">Pomelo</a> which is built to be a super-scalable, distributed game server framework.
+      Sounds perfect for my use-case.
+    </p>
+    <p>
+      The issue is that Pomelo is so concerned about getting your game to be fast, it doesn't put as much emphasis on the step that needs to come before that, <a href="http://wiki.c2.com/?MakeItWorkMakeItRightMakeItFast">make it work</a>.
+    </p>
+    <h3><a href="https://www.unrealengine.com/en-US/blog">Unreal Engine</a></h3>
+    <p>
+      <img class="unreal-logo" src="public/img/unreal-logo.png" alt="Unreal Engine logo">
+      Heck, I even went so far as experimenting with an über-powerful game engine, <a href="https://www.unrealengine.com/en-US/blog">Unreal</a>. As you may have guessed, that's overkill for a simple card game.
+    </p>
+    <h2>Iterative Development</h2>
+    <p>If you're interested in the nitty gritty, read on.</p>
     <p>In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner.</p>
     <p>The goal is the same in each: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand.</p>
-    <h2>Failures</h2>
     <p>See how I tried and failed multiple times: <a href="iterations.html">Iterations</a></p>
   </main>
+  <script>
+  Array.prototype.forEach.call(document.querySelectorAll('code-mirror'), element => {
+    const mode = element.getAttribute('mode')
+    let code = element.childNodes[0].textContent
+
+    if (mode === 'xml') {
+      code = code.replace(/--&gt;/g, '-->')
+    }
+
+    CodeMirror(element, {
+      lineNumbers: true,
+      readOnly: true,
+      theme: 'monokai',
+      mode: mode,
+      value : code
+    })
+  })
+  </script>
 </body>
 </html>

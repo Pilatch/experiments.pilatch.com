@@ -1,4 +1,4 @@
-module Explanation.Update exposing (update)
+module Explanation.Update exposing (naiveUpdate, update)
 
 import Explanation.Model exposing (..)
 import Process
@@ -50,5 +50,48 @@ update msg model =
 
                         newGame =
                             { modelGame | hand = hand, placed = placed, animationStep = NoTransitionRearrange, seed = seed }
+                    in
+                        ( { model | game = newGame }, command )
+
+
+naiveUpdate : Msg -> Model -> ( Model, Cmd Msg )
+naiveUpdate msg model =
+    case msg of
+        DemoPlaceCard handIndex ->
+            let
+                modelGame =
+                    model.game
+
+                newGame =
+                    { modelGame | animationStep = PlaceCard handIndex }
+
+                nextPlaced =
+                    List.Extra.getAt handIndex model.game.hand
+
+                nextHand =
+                    case model.game.placed of
+                        Nothing ->
+                            List.Extra.removeAt handIndex model.game.hand
+
+                        Just card ->
+                            (List.Extra.removeAt handIndex model.game.hand) ++ [ card ]
+
+                command =
+                    Task.perform (\_ -> DemoRearrange <| RearrangeAfterAnimation nextHand nextPlaced) (Process.sleep 2500)
+            in
+                ( { model | game = newGame }, command )
+
+        DemoRearrange rearrangeMsg ->
+            case rearrangeMsg of
+                RearrangeAfterAnimation hand placed ->
+                    let
+                        modelGame =
+                            model.game
+
+                        command =
+                            Task.perform (\_ -> DemoPlaceCard 0) (Process.sleep 2500)
+
+                        newGame =
+                            { modelGame | hand = hand, placed = placed, animationStep = NaiveRearrange }
                     in
                         ( { model | game = newGame }, command )

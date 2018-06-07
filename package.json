@@ -4,12 +4,14 @@
   "private": true,
   "description": "trying stuff",
   "main": "index.html",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "chokidar-cli": "^1.2.0",
     "express": "^4.15.2"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd card-animation/public && yarn install --flat"
   },
   "keywords": [
     "play",

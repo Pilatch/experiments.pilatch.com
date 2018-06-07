@@ -1,3 +1,3 @@
 cd source/elm
-elm-make --debug Explanation/Main.elm --output ../../public/js/Elm.Explanation.Main.js
-elm-make --debug Iterations/Main.elm --output ../../public/js/Elm.Iterations.Main.js
+elm-make Explanation/Main.elm Explanation/Naive.elm --output ../../public/js/Elm.Explanation.js
+elm-make Iterations/Main.elm --debug --output ../../public/js/Elm.Iterations.js

@@ -1,4 +1,4 @@
-module Explanation.Main exposing (..)
+module Explanation.Naive exposing (..)
 
 import Card exposing (Card(..))
 import Explanation.Model as Model
@@ -10,9 +10,9 @@ import Process
 
 
 main =
-    Html.programWithFlags
-        { init = Model.initial [ AceOfPaper, KingOfScissors, TenOfRock, QueenOfPaper, JackOfRock, JokerOfScissors ]
+    Html.program
+        { init = Model.initialNoSeed [ OneOfScissors, TwoOfScissors, ThreeOfScissors, FourOfScissors, FiveOfScissors ]
         , view = View.view
-        , update = Update.update
+        , update = Update.naiveUpdate
         , subscriptions = \_ -> Sub.none
         }

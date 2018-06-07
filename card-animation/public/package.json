@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "pilatch-experiment-card-animations-public",
+  "version": "0.1.0",
+  "description": "Public assets for the card animations experiment",
+  "author": "Ethan B. Martin",
+  "license": "ISC",
+  "dependencies": {
+    "codemirror": "^5.38.0"
+  }
+}

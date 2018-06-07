@@ -1,0 +1,1 @@
+../node_modules/.bin/chokidar 'source/elm/**/*.elm' -c './build.sh'

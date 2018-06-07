@@ -65,6 +65,13 @@ hand step maxHandSize cards =
             in
                 List.indexedMap mapper cards
 
+        NaiveRearrange ->
+            let
+                mapper handIndex card =
+                    webComponent [ handClass maxHandSize handIndex ] Up card
+            in
+                List.indexedMap mapper cards
+
 
 placedCardArea : AnimationStep -> Int -> Int -> Maybe Card -> List (Html msg)
 placedCardArea step maxHandSize currentHandSize maybeCard =
@@ -84,6 +91,9 @@ placedCardArea step maxHandSize currentHandSize maybeCard =
 
                         NoTransitionRearrange ->
                             [ webComponent [ placedClass, noTransition ] Down card ]
+
+                        NaiveRearrange ->
+                            [ webComponent [ placedClass ] Down card ]
     in
         placed ++ emptyArea
 
