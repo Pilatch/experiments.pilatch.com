@@ -107,7 +107,8 @@
     </p>
     <p>Instead my modern approach was to create a <a href="https://www.webcomponents.org/">web component</a> for each zone in the game:</p>
     <figure>
-      <code-mirror mode="xml"><!--<table-top>
+      <code-mirror mode="xml"><!--
+<table-top>
   <pilatch-hand>
     <pilatch-card rank="12" suit="scissors"></pilatch-card>
     <pilatch-card rank="7" suit="paper"></pilatch-card>
@@ -117,7 +118,8 @@
     <pilatch-card rank="10" suit="rock"></pilatch-card>
   </placed-card-area>
   <!-- ... --&gt;
-</table-top>--></code-mirror>
+</table-top>
+--></code-mirror>
       <figcaption>A hand of three pilatch cards with the ten-of-rock placed on the table</figcaption>
     </figure>
     <p>
@@ -131,7 +133,8 @@
       Cards fly about the table top by adding or removing HTML attributes or CSS classes from them.
     </p>
     <figure>
-      <code-mirror mode="css"><!--.table-top {
+      <code-mirror mode="css"><!--
+.table-top {
   position: relative;
 }
 .table-top pilatch-card {
@@ -147,15 +150,18 @@
 [placed] {
   top: 50%;
   left: 33.3%;
-}--></code-mirror>
+}
+--></code-mirror>
       <figcaption>A simplified snippet of table-top CSS</figcaption>
     </figure>
     <p>Now a card in hand could move to the table just by adding an attribute to it, such as <code>placed</code>.</p>
     <figure>
-      <code-mirror mode="xml"><!--<pilatch-card hand="1" rank="12" suit="scissors"></pilatch-card>
+      <code-mirror mode="xml"><!--
+<pilatch-card hand="1" rank="12" suit="scissors"></pilatch-card>
 <pilatch-card hand="2" rank="7" suit="paper"></pilatch-card>
 <pilatch-card placed hand="3" rank="10" suit="rock"></pilatch-card>
-<pilatch-card hand="4" rank="1" suit="paper"></pilatch-card>--></code-mirror>
+<pilatch-card hand="4" rank="1" suit="paper"></pilatch-card>
+--></code-mirror>
       <figcaption>A hand of four pilatch cards, with the ten of rock transitioning to the table</figcaption>
     </figure>
     <p>
@@ -174,7 +180,8 @@
     <h2>Solution</h2>
     <p>It seems obvious in retrospect. Don't animate when rearranging the cards in the DOM.</p>
     <figure>
-      <code-mirror mode="css"><!--/* in table-top.css */
+      <code-mirror mode="css"><!--
+/* in table-top.css */
 .table-top:not([no-transition]) pilatch-card {
   transition-duration: 1s;
 }
@@ -184,7 +191,8 @@
 :host(:not([no-transition])) #back {
   /* flip speed goes here */
   transition: transform 0.6s;
-}--></code-mirror>
+}
+--></code-mirror>
       <figcaption>Thank you, <code>no-transition</code> attribute</figcaption>
     </figure>
     <p>
@@ -192,24 +200,23 @@
       That's exactly what happens during the rearrange step by adding the <code>no-transition</code> attribute to each card.
     </p>
     <figure>
-      <code-mirror mode="xml"><!--<pilatch-card no-transition hand="1" rank="12" suit="scissors"></pilatch-card>
+      <code-mirror mode="xml"><!--
+<pilatch-card no-transition hand="1" rank="12" suit="scissors"></pilatch-card>
 <pilatch-card no-transition hand="2" rank="7" suit="paper"></pilatch-card>
 <pilatch-card no-transition hand="3" rank="1" suit="paper"></pilatch-card>
-<pilatch-card no-transition placed rank="10" suit="rock"></pilatch-card>--></code-mirror>
+<pilatch-card no-transition placed rank="10" suit="rock"></pilatch-card>
+--></code-mirror>
       <figcaption>How to only have animations when we want them</figcaption>
     </figure>
-    <h2><a href="http://elm-lang.org/">Elm</a></h2>
+    <h2>Virtual DOM</h2>
     <p>
-      <a href="http://elm-lang.org/"><img class="elm-logo" src="http://package.elm-lang.org/assets/elm_logo.svg" alt="Elm tangram logo"></a>
-      Why only lip service for the language with an arbor appellation? My choice of virtual DOM renderer seemed irrelevant, in terms of animation. I'd expect the same problem to arise with <a href="https://infernojs.org/">Inferno</a>, <a href="https://vuejs.org/">Vue</a>, <a href="https://reactjs.org/">React</a> or whatever your favorite flavor is. <a href="https://chocolatejs.org/">Chocolate JS</a> anyone?
-    </p>
-    <p>
-      Seriously.
-      How is a virtual-DOM-diffing algorithm to know that, between frames, an HTML element which was the first child of it parent is now the same one as the fourth child, though it has different attributes?
-      Exactly how slow would that be?
+      My choice of virtual DOM renderer seems irrelevant, in terms of animation.
+      I'd expect the same problem to arise with <a href="https://infernojs.org/">Inferno</a>, <a href="https://vuejs.org/">Vue</a>, <a href="https://reactjs.org/">React</a> or whatever your favorite flavor is.
+      <a href="https://chocolatejs.org/">Chocolate JS</a> anyone?
     </p>
     <figure>
-      <code-mirror mode="elm"><!--frameOne =
+      <code-mirror mode="elm"><!--
+frameOne =
     div [ class "table-top" ]
         [ QueenOfPaper
         , OneOfRock
@@ -228,46 +235,50 @@ frameTwo =
       <figcaption>If only it were this simple to place the Queen of Paper on the table</figcaption>
     </figure>
     <p>
-      For those who don't know what <a href="http://elm-lang.org/">Elm</a> is, it's a concentrated dose of confidence to usher my dilemma to its demise. It took a square-root of the problem space I had to work in. Absent were: delayed discovery of type errors at runtime, unwarranted state mutations, fussing over dependencies, <a href="https://webpack.js.org/">an inscrutable build system</a>, fear of refactoring, <a href="http://sinonjs.org/">stubbing, spying</a>, mocking, or forgetting to <code><a href="https://redux.js.org/basics/usage-with-react#implementing-container-components">mapDispatchToProps</a></code>.
+      Seriously.
+      How is a virtual-DOM-diffing algorithm to know that, between frames, an HTML element which was the first child of its parent is now the same one as the fourth child, but with different attributes?
+      Exactly how slow would that be?
     </p>
-    <p>
-      ...I take that back.
-      Confidence isn't the limiting factor.
-      Elm gave me the <em>time</em> to get it done.
-      That's why both the front-end and back-end are being written in Elm.
-    </p>
-    <p>
-      For those who are already writing Elm, you might want to see some code.
-      TODO!
-    </p>
+    <p>Don't answer that.</p>
     <h2>Failures</h2>
-    <p>
-      The fact that I'm debugging CSS animations at all is a testament to the power of Elm.
-    </p>
     <h3><a href="https://www.meteor.com/">Meteor</a></h3>
     <p>
-      <img class="meteor-logo" src="public/img/meteor-logo.png" alt="meteor logo">
+      <a href="https://www.meteor.com/"><img class="meteor-logo" src="public/img/meteor-logo.png" alt="meteor logo"></a>
       A few years ago I tried writing my online game with <a href="https://www.meteor.com/">Meteor</a>, which is marketed as a framework for ultra-productivity because of how closely it ties the back-end to the front. It even had the real-time interaction stuff built in!
     </p>
     <p>
       I tried to make a simple game work with <a href="https://www.meteor.com/">Meteor</a> <em>twice</em> over the course of a couple years. Anything more complex than what was featured in tutorials led me down rabbit-holes of documentation, or the lack thereof.
     </p>
     <p>
-      If you have a simple <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> app, then sure, give <a href="https://www.meteor.com/">Meteor</a> a try.
+      If you have a simple <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> app, then sure, give Meteor a try.
       Anything more than that, I'd question.
     </p>
     <h3><a href="http://pomelo.netease.com/">Pomelo</a></h3>
     <p>
-      <img class="pomelo-logo" src="public/img/pomelo-logo.png" alt="pomelo logo"> I also researched <a href="http://pomelo.netease.com/">Pomelo</a> which is built to be a super-scalable, distributed game server framework.
+      <a href="http://pomelo.netease.com/"><img class="pomelo-logo" src="public/img/pomelo-logo.png" alt="pomelo logo"></a> I also researched <a href="http://pomelo.netease.com/">Pomelo</a> which is built to be a super-scalable, distributed game server framework.
       Sounds perfect for my use-case.
     </p>
     <p>
       The issue is that Pomelo is so concerned about getting your game to be fast, it doesn't put as much emphasis on the step that needs to come before that, <a href="http://wiki.c2.com/?MakeItWorkMakeItRightMakeItFast">make it work</a>.
     </p>
-    <h3><a href="https://www.unrealengine.com/en-US/blog">Unreal Engine</a></h3>
+    <h3><a href="https://www.unrealengine.com">Unreal Engine</a></h3>
     <p>
-      <img class="unreal-logo" src="public/img/unreal-logo.png" alt="Unreal Engine logo">
-      Heck, I even went so far as experimenting with an über-powerful game engine, <a href="https://www.unrealengine.com/en-US/blog">Unreal</a>. As you may have guessed, that's overkill for a simple card game.
+      <a href="https://www.unrealengine.com"><img class="unreal-logo" src="public/img/unreal-logo.png" alt="Unreal Engine logo"></a>
+      Heck, I even went so far as experimenting with an über-powerful game engine. As you may have guessed, that's overkill for a simple card game.
+    </p>
+    <h2>Success, with <a href="http://elm-lang.org/">Elm</a></h2>
+    <p>
+      <a href="http://elm-lang.org/"><img class="elm-logo" src="http://package.elm-lang.org/assets/elm_logo.svg" alt="Elm tangram logo"></a>
+      For those who don't know what <a href="http://elm-lang.org/">Elm</a> is, it's a concentrated dose of confidence to usher my dilemma to its demise.
+      It took a square-root of the problem space I had to work in.
+      Absent were: delayed discovery of type errors at runtime, unwarranted state mutations, fussing over dependencies, <a href="https://webpack.js.org/">an inscrutable build system</a>, fear of refactoring, <a href="http://sinonjs.org/">stubbing, spying</a>, mocking, or forgetting to <code><a href="https://redux.js.org/basics/usage-with-react#implementing-container-components">mapDispatchToProps</a></code>.
+    </p>
+    <p>...I take that back.</p>
+    <p>
+      Confidence isn't the limiting factor.
+      Elm gave me the <em>time</em> to get it done.
+      That's why both the front-end and back-end are being written in Elm.
+      The fact that I'm debugging CSS animations at all is a testament to the power of Elm.
     </p>
     <h2>Iterative Development</h2>
     <p>If you're interested in the nitty gritty, read on.</p>
@@ -278,7 +289,7 @@ frameTwo =
   <script>
   Array.prototype.forEach.call(document.querySelectorAll('code-mirror'), element => {
     const mode = element.getAttribute('mode')
-    let code = element.childNodes[0].textContent
+    let code = element.childNodes[0].textContent.trim()
 
     if (mode === 'xml') {
       code = code.replace(/--&gt;/g, '-->')
