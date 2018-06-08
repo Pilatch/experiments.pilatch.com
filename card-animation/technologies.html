@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Animation - Technologies</title>
+  <link rel="preload" href="public/img/sprite.png" as="image" type="image/png" onload="startDemos.spriteLoaded = true; startDemos()">
+  <link rel="stylesheet" type="text/css" href="public/css/blog-theme.css">
+  <style>
+  .elm-logo, .meteor-logo, .pomelo-logo, .unreal-logo {
+    float: left;
+    height: 60px;
+    margin-right: 1em;
+    width: 60px;
+  }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Technologies</h1>
+      <p>Multiple attempts at building an online game</p>
+    </header>
+    <h2>Failures</h2>
+    <h3><a href="https://www.meteor.com/">Meteor</a></h3>
+    <p>
+      <a href="https://www.meteor.com/"><img class="meteor-logo" src="public/img/meteor-logo.png" alt="meteor logo"></a>
+      I first tried writing my card game with <a href="https://www.meteor.com/">Meteor</a>, which is marketed as a framework for ultra-productivity because of how closely it ties the back-end to the front. It even had the real-time interaction stuff built in!
+    </p>
+    <p>
+      I tried to make a simple game work with <a href="https://www.meteor.com/">Meteor</a> <em>twice</em> over the course of a couple years. Anything more complex than what was featured in tutorials led me down rabbit-holes of documentation, or the lack thereof.
+    </p>
+    <p>
+      If you have a simple <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> app, then sure, give Meteor a try.
+      Anything more than that, I'd question.
+    </p>
+    <h3><a href="http://pomelo.netease.com/">Pomelo</a></h3>
+    <p>
+      <a href="http://pomelo.netease.com/"><img class="pomelo-logo" src="public/img/pomelo-logo.png" alt="pomelo logo"></a> I also researched <a href="http://pomelo.netease.com/">Pomelo</a> which is built to be a super-scalable, distributed game server framework.
+      Sounds perfect for my use-case.
+    </p>
+    <p>
+      The issue is that Pomelo is so concerned about getting your game to be fast, it doesn't put as much emphasis on the step that needs to come before that, <a href="http://wiki.c2.com/?MakeItWorkMakeItRightMakeItFast">make it work</a>.
+    </p>
+    <h3><a href="https://www.unrealengine.com">Unreal Engine</a></h3>
+    <p>
+      <a href="https://www.unrealengine.com"><img class="unreal-logo" src="public/img/unreal-logo.png" alt="Unreal Engine logo"></a>
+      Heck, I even went so far as experimenting with an über-powerful game engine. As you may have guessed, that's overkill for a simple card game.
+    </p>
+    <h2>Success, with <a href="http://elm-lang.org/">Elm</a></h2>
+    <p>
+      <a href="http://elm-lang.org/"><img class="elm-logo" src="http://package.elm-lang.org/assets/elm_logo.svg" alt="Elm tangram logo"></a>
+      For those who don't know what <a href="http://elm-lang.org/">Elm</a> is, it's a concentrated dose of confidence to usher my dilemma to its demise.
+      It took a square-root of the problem space I had to work in.
+      Absent were: delayed discovery of type errors at runtime, unwarranted state mutations, fussing over dependencies, <a href="https://webpack.js.org/">an inscrutable build system</a>, fear of refactoring, <a href="http://sinonjs.org/">stubbing, spying</a>, mocking, or forgetting to <code><a href="https://redux.js.org/basics/usage-with-react#implementing-container-components">mapDispatchToProps</a></code>.
+    </p>
+    <p>...I take that back.</p>
+    <p>
+      Confidence isn't the limiting factor.
+      Elm gave me the <em>time</em> to get it done.
+      That's why both the front-end and back-end are being written in Elm.
+      The fact that I'm debugging CSS animations at all is a testament to the power of Elm.
+    </p>
+    <p><a href="index.html">Back to the main page</a></p>
+  </main>
+</body>
+</html>

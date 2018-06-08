@@ -526,3 +526,45 @@ video {
 [data-theme=dark] hr {
   background: #555;
 }
+
+/* Ethan-specific stuff */
+
+body {
+  max-width: none;
+}
+header p {
+  font-size: 1.5em;
+  text-align: center;
+}
+figure {
+  margin: 1em 0;
+}
+figcaption {
+  margin-top: 0.5em;
+  text-align: center;
+}
+figure pre {
+  margin-bottom: 1em;
+}
+main {
+  margin: 0 auto;
+  max-width: 54em;
+  padding: 0 1em 2em;
+}
+p {
+  font-size: 1.45rem;
+  line-height: 2.25rem;
+  padding: 0 1em;
+}
+p code {
+  background-color: #ccc;
+  padding: 0 0.3em;
+  white-space: nowrap;
+}
+.CodeMirror {
+  height: auto;
+}
+.CodeMirror-lines {
+  font-size: 1.25em;
+  line-height: 1.75em;
+}

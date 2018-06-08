@@ -12482,13 +12482,9 @@ var _user$project$Iterations_View$startOver = A2(
 			}),
 		_1: {
 			ctor: '::',
-			_0: _user$project$Iterations_View$sourceCodezLink,
-			_1: {
-				ctor: '::',
-				_0: _user$project$Iterations_View$tableTop(
-					{ctor: '[]'}),
-				_1: {ctor: '[]'}
-			}
+			_0: _user$project$Iterations_View$tableTop(
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
 		}
 	});
 var _user$project$Iterations_View$next = function (animationNumber) {
@@ -13636,7 +13632,7 @@ var _user$project$Iterations_View$view = function (model) {
 									{ctor: '[]'},
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html$text('The experiments and refinements I went through to make animations work with virtual DOM.'),
+										_0: _elm_lang$html$Html$text('Experiments and refinements I went through to make animations work with virtual DOM.'),
 										_1: {ctor: '[]'}
 									}),
 								_1: {ctor: '[]'}
@@ -13753,7 +13749,18 @@ var _user$project$Iterations_View$view = function (model) {
 										}),
 									_1: {ctor: '[]'}
 								}),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$p,
+									{ctor: '[]'},
+									{
+										ctor: '::',
+										_0: _user$project$Iterations_View$sourceCodezLink,
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				});

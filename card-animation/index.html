@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Card Animation Demonstrations</title>
   <script>
-  function startDemos() {
+  const startDemos = () => {
     const demoNode = document.getElementById('demo')
     const naiveDemoNode = document.getElementById('naiveDemo')
 
@@ -19,12 +19,12 @@
   }
   </script>
   <link rel="preload" href="public/img/sprite.png" as="image" type="image/png" onload="startDemos.spriteLoaded = true; startDemos()">
+  <link rel="stylesheet" href="public/node_modules/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="public/node_modules/codemirror/theme/monokai.css">
   <link rel="stylesheet" type="text/css" href="public/css/blog-theme.css">
   <script src="public/js/define-custom-element.js"></script>
   <link rel="stylesheet" href="public/css/variables.css">
   <link rel="stylesheet" href="public/css/table-top.css">
-  <link rel="stylesheet" href="public/node_modules/codemirror/lib/codemirror.css">
-  <link rel="stylesheet" href="public/node_modules/codemirror/theme/monokai.css">
   <link rel="import" href="public/html/pilatch-card.html">
   <script src="public/node_modules/codemirror/lib/codemirror.js"></script>
   <script src="public/node_modules/codemirror/mode/css/css.js"></script>
@@ -32,66 +32,21 @@
   <script src="public/node_modules/codemirror/mode/xml/xml.js"></script>
   <script src="public/js/Elm.Explanation.js"></script>
   <style>
-  body {
-    max-width: none;
-  }
-  header p {
-    font-size: 1.5em;
-    text-align: center;
-  }
-  figure {
-    margin: 1em 0;
-  }
-  figcaption {
-    margin-top: 0.5em;
-    text-align: center;
-  }
-  figure pre {
-    margin-bottom: 1em;
-  }
-  p {
-    font-size: 1.45rem;
-    line-height: 2.25rem;
-    padding: 0 1em;
-  }
-  p code {
-    background-color: #ccc;
-    padding: 0 0.3em;
-    white-space: nowrap;
-  }
-  .elm-logo, .meteor-logo, .pomelo-logo, .unreal-logo {
-    float: left;
-    height: 60px;
-    margin-right: 1em;
-    width: 60px;
-  }
-  .explanation {
-    margin: 0 auto;
-    max-width: 54em;
-    padding: 0 1em 2em;
-  }
-  .explanation .table-top, #demo, #naiveDemo {
+  main .table-top, #demo, #naiveDemo {
     --table-top-height: 400px;
     height: var(--table-top-height);
     margin-top: 1em;
   }
-  .explanation .player-placed-card-area {
+  main .player-placed-card-area {
     top: 45px;
   }
   .player-hand {
     top: 250px;
   }
-  .CodeMirror {
-    height: auto;
-  }
-  .CodeMirror-lines {
-    font-size: 1.25em;
-    line-height: 1.75em;
-  }
   </style>
 </head>
 <body onload="startDemos()">
-  <main class="explanation">
+  <main>
     <header>
       <h1>Card Animations</h1>
       <p>Using web components, Elm, and CSS transitions</p>
@@ -103,8 +58,9 @@
     <p>I wanted to make an online game with cards moving realistically between players' hands and the table-top.</p>
     <p>
       In the past I had developed <a href="https://pilatch.com/games/casual/Runway">game demonstrations</a> that were meant to augment textual rules.
-      Those used jQuery animations, which is impossible to replicate today because the web police would confiscate my license to dev.
+      Those used <a href="https://jquery.com/">jQuery</a> animations, which is impossible to replicate today because the web police would confiscate my license to dev.
     </p>
+    <h2>Web Components</h2>
     <p>Instead my modern approach was to create a <a href="https://www.webcomponents.org/">web component</a> for each zone in the game:</p>
     <figure>
       <code-mirror mode="xml"><!--
@@ -167,6 +123,44 @@
     <p>
       Yet this approach is naïve because it's still necessary to change the order of cards in the DOM after one card has moved, which triggers repititions of animations. If I didn't do this, my model of the game state would be a nightmare.
     </p>
+    <h2>Virtual DOM</h2>
+    <p>
+      Unlike jQuery, which encourages developers to work with references to long-lived HTML elements objects, and tell them to mutate by fiat, the concept of virtual DOM takes a more data-driven approach.
+      Through a virtual DOM architecture you change the state of your program's model, and expect something to happen on screen the next time the renderer runs its view function.
+    </p>
+    <p>
+      Here's an example of two different data structures that would be fed to a virtual DOM renderer. One before placing the Queen of Paper on the table, and one after. This approach works, but requires special attention.
+    </p>
+    <figure>
+      <code-mirror mode="elm"><!--
+frameOne =
+    div [ class "table-top" ]
+        [ QueenOfPaper
+        , OneOfRock
+        , TwoOfRock
+        , ThreeOfRock
+        ]
+
+
+frameTwo =
+    div [ class "table-top" ]
+        [ OneOfRock
+        , TwoOfRock
+        , ThreeOfRock
+        , PlacedQueenOfPaper
+        ]--></code-mirror>
+      <figcaption>If only it were this simple</figcaption>
+    </figure>
+    <p>
+      How is a virtual-DOM-diffing algorithm to know that, between frames, an HTML element which was the first child of its parent is now the same one as the fourth child, but with different attributes?
+      How fast could that be?
+    </p>
+    <p>Probably unbearably slow.</p>
+    <p>
+      By this reasoning my choice of virtual DOM renderer seems irrelevant, in terms of animation.
+      I'd expect the same challenge to arise with <a href="https://infernojs.org/">Inferno</a>, <a href="https://vuejs.org/">Vue</a>, <a href="https://reactjs.org/">React</a> or whatever your favorite flavor is.
+    </p>
+    <p>Here's what that lack of clairvoyance on the renderer's part looks like.</p>
     <figure>
       <section id="naiveDemo"></section>
       <figcaption>An illustration of an early attempt</figcaption>
@@ -208,96 +202,67 @@
 --></code-mirror>
       <figcaption>How to only have animations when we want them</figcaption>
     </figure>
-    <h2>Virtual DOM</h2>
+    <h2>Exploding Animations</h2>
     <p>
-      My choice of virtual DOM renderer seems irrelevant, in terms of animation.
-      I'd expect the same problem to arise with <a href="https://infernojs.org/">Inferno</a>, <a href="https://vuejs.org/">Vue</a>, <a href="https://reactjs.org/">React</a> or whatever your favorite flavor is.
-      <a href="https://chocolatejs.org/">Chocolate JS</a> anyone?
+      Placing a card on the table is a single action, but it takes two separate renders to make it happen smoothly and not <em>bork</em> your program's state.
+      So the server would send a message to the clients, saying "Player one placed the second card in her hand on the table."
+      Then client-side code would explode that animation into the steps that it needs to render.
     </p>
     <figure>
       <code-mirror mode="elm"><!--
-frameOne =
-    div [ class "table-top" ]
-        [ QueenOfPaper
-        , OneOfRock
-        , TwoOfRock
-        , ThreeOfRock
-        ]
+
+type AnimationFromServer
+    = PlaceCardAnimation
+    | DrawCardAnimation
+    -- ...
 
 
-frameTwo =
-    div [ class "table-top" ]
-        [ OneOfRock
-        , TwoOfRock
-        , ThreeOfRock
-        , PlacedQueenOfPaper
-        ]--></code-mirror>
-      <figcaption>If only it were this simple to place the Queen of Paper on the table</figcaption>
+type RenderStep
+    = PlaceStep
+    | DrawStep
+    | NoTransitionRearrange
+    -- ...
+
+
+explode : AnimationFromServer -> List RenderStep
+explode animation =
+    case animation of
+        PlaceCard ->
+            [ PlaceStep, NoTransitionRearrange ]
+
+        -- ...
+
+  --></code-mirror>
+      <figcaption>Simple example of how to convert an abstract animation into something actionable</figcaption>
     </figure>
     <p>
-      Seriously.
-      How is a virtual-DOM-diffing algorithm to know that, between frames, an HTML element which was the first child of its parent is now the same one as the fourth child, but with different attributes?
-      Exactly how slow would that be?
-    </p>
-    <p>Don't answer that.</p>
-    <h2>Failures</h2>
-    <h3><a href="https://www.meteor.com/">Meteor</a></h3>
-    <p>
-      <a href="https://www.meteor.com/"><img class="meteor-logo" src="public/img/meteor-logo.png" alt="meteor logo"></a>
-      A few years ago I tried writing my online game with <a href="https://www.meteor.com/">Meteor</a>, which is marketed as a framework for ultra-productivity because of how closely it ties the back-end to the front. It even had the real-time interaction stuff built in!
+      The server sends high-level updates of the game state via <a href="https://socket.io/">socket.io</a>, which Elm decodes from JSON into a type like <code>AnimationFromServer</code>.
     </p>
     <p>
-      I tried to make a simple game work with <a href="https://www.meteor.com/">Meteor</a> <em>twice</em> over the course of a couple years. Anything more complex than what was featured in tutorials led me down rabbit-holes of documentation, or the lack thereof.
+      The <code>explode</code> function is what knows the render steps necessary to make it look good on screen.
     </p>
-    <p>
-      If you have a simple <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a> app, then sure, give Meteor a try.
-      Anything more than that, I'd question.
-    </p>
-    <h3><a href="http://pomelo.netease.com/">Pomelo</a></h3>
-    <p>
-      <a href="http://pomelo.netease.com/"><img class="pomelo-logo" src="public/img/pomelo-logo.png" alt="pomelo logo"></a> I also researched <a href="http://pomelo.netease.com/">Pomelo</a> which is built to be a super-scalable, distributed game server framework.
-      Sounds perfect for my use-case.
-    </p>
-    <p>
-      The issue is that Pomelo is so concerned about getting your game to be fast, it doesn't put as much emphasis on the step that needs to come before that, <a href="http://wiki.c2.com/?MakeItWorkMakeItRightMakeItFast">make it work</a>.
-    </p>
-    <h3><a href="https://www.unrealengine.com">Unreal Engine</a></h3>
-    <p>
-      <a href="https://www.unrealengine.com"><img class="unreal-logo" src="public/img/unreal-logo.png" alt="Unreal Engine logo"></a>
-      Heck, I even went so far as experimenting with an über-powerful game engine. As you may have guessed, that's overkill for a simple card game.
-    </p>
-    <h2>Success, with <a href="http://elm-lang.org/">Elm</a></h2>
-    <p>
-      <a href="http://elm-lang.org/"><img class="elm-logo" src="http://package.elm-lang.org/assets/elm_logo.svg" alt="Elm tangram logo"></a>
-      For those who don't know what <a href="http://elm-lang.org/">Elm</a> is, it's a concentrated dose of confidence to usher my dilemma to its demise.
-      It took a square-root of the problem space I had to work in.
-      Absent were: delayed discovery of type errors at runtime, unwarranted state mutations, fussing over dependencies, <a href="https://webpack.js.org/">an inscrutable build system</a>, fear of refactoring, <a href="http://sinonjs.org/">stubbing, spying</a>, mocking, or forgetting to <code><a href="https://redux.js.org/basics/usage-with-react#implementing-container-components">mapDispatchToProps</a></code>.
-    </p>
-    <p>...I take that back.</p>
-    <p>
-      Confidence isn't the limiting factor.
-      Elm gave me the <em>time</em> to get it done.
-      That's why both the front-end and back-end are being written in Elm.
-      The fact that I'm debugging CSS animations at all is a testament to the power of Elm.
-    </p>
-    <h2>Iterative Development</h2>
     <p>If you're interested in the nitty gritty, read on.</p>
+    <h2>Iterative Development</h2>
     <p>In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner.</p>
     <p>The goal is the same in each: to place the five of paper face-down, rearrange the remaining cards in hand, then return the card to hand.</p>
-    <p>See how I tried and failed multiple times: <a href="iterations.html">Iterations</a></p>
+    <p><a href="iterations.html">See the bumpy road to success.</a></p>
+    <h2>Technologies</h2>
+    <p>
+      <a href="technologies.html">I took a swing at a few technologies before settling on Elm.</a>
+    </p>
   </main>
   <script>
   Array.prototype.forEach.call(document.querySelectorAll('code-mirror'), element => {
     const mode = element.getAttribute('mode')
     let code = element.childNodes[0].textContent.trim()
 
-    if (mode === 'xml') {
+    if (mode === 'xml' || mode.startsWith('html')) {
       code = code.replace(/--&gt;/g, '-->')
     }
 
     CodeMirror(element, {
       lineNumbers: true,
-      readOnly: true,
+      readOnly: false,
       theme: 'monokai',
       mode: mode,
       value : code

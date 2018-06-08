@@ -12,7 +12,7 @@ view model =
             main_ []
                 [ header []
                     [ h1 [] [ text "Iterative Development" ]
-                    , p [] [ text "The experiments and refinements I went through to make animations work with virtual DOM." ]
+                    , p [] [ text "Experiments and refinements I went through to make animations work with virtual DOM." ]
                     ]
                 , p [ class "iteration-buttons" ]
                     [ button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ]
@@ -20,9 +20,8 @@ view model =
                     , button [ type_ "button", onClick <| ChooseImplementation DisablingTransitions ] [ text "Disabling Transitions" ]
                     , button [ type_ "button", onClick <| ChooseImplementation Collapsed ] [ text "Collapsed" ]
                     ]
-                , p []
-                    [ a [ href "index.html" ] [ text "Back to explanation" ]
-                    ]
+                , p [] [ a [ href "index.html" ] [ text "Back to explanation" ] ]
+                , p [] [ sourceCodezLink ]
                 ]
 
         Naive ->
@@ -157,7 +156,6 @@ sourceCodezLink =
 startOver =
     section []
         [ button [ onClick <| StartOver ] [ text "START OVER" ]
-        , sourceCodezLink
         , tableTop []
         ]
 
