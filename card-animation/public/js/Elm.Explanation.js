@@ -10923,10 +10923,7 @@ var _user$project$Card$webComponent = F3(
 var _user$project$Card$Down = {ctor: 'Down'};
 var _user$project$Card$Up = {ctor: 'Up'};
 
-var _user$project$Explanation_Model$Model = function (a) {
-	return {game: a};
-};
-var _user$project$Explanation_Model$Game = F5(
+var _user$project$Explanation_Model$Model = F5(
 	function (a, b, c, d, e) {
 		return {animationStep: a, hand: b, maxHandSize: c, placed: d, seed: e};
 	});
@@ -10945,13 +10942,11 @@ var _user$project$Explanation_Model$initialNoSeed = function (hand) {
 	return {
 		ctor: '_Tuple2',
 		_0: {
-			game: {
-				animationStep: _user$project$Explanation_Model$NoTransitionRearrange,
-				hand: hand,
-				maxHandSize: _elm_lang$core$List$length(hand),
-				placed: _elm_lang$core$Maybe$Nothing,
-				seed: _elm_lang$core$Random$initialSeed(8675309)
-			}
+			animationStep: _user$project$Explanation_Model$NoTransitionRearrange,
+			hand: hand,
+			maxHandSize: _elm_lang$core$List$length(hand),
+			placed: _elm_lang$core$Maybe$Nothing,
+			seed: _elm_lang$core$Random$initialSeed(8675309)
 		},
 		_1: A2(
 			_elm_lang$core$Task$perform,
@@ -10991,13 +10986,11 @@ var _user$project$Explanation_Model$initial = F2(
 		return {
 			ctor: '_Tuple2',
 			_0: {
-				game: {
-					animationStep: _user$project$Explanation_Model$NoTransitionRearrange,
-					hand: hand,
-					maxHandSize: _elm_lang$core$List$length(hand),
-					placed: _elm_lang$core$Maybe$Nothing,
-					seed: _elm_lang$core$Random$initialSeed(seedInt)
-				}
+				animationStep: _user$project$Explanation_Model$NoTransitionRearrange,
+				hand: hand,
+				maxHandSize: _elm_lang$core$List$length(hand),
+				placed: _elm_lang$core$Maybe$Nothing,
+				seed: _elm_lang$core$Random$initialSeed(seedInt)
 			},
 			_1: command
 		};
@@ -11162,12 +11155,10 @@ var _user$project$Explanation_View$hand = F3(
 				return A2(_elm_lang$core$List$indexedMap, mapper, cards);
 		}
 	});
-var _user$project$Explanation_View$view = function (_p5) {
-	var _p6 = _p5;
-	var _p8 = _p6.game;
+var _user$project$Explanation_View$view = function (model) {
 	var attributes = function () {
-		var _p7 = _p8.animationStep;
-		if (_p7.ctor === 'NoTransitionRearrange') {
+		var _p5 = model.animationStep;
+		if (_p5.ctor === 'NoTransitionRearrange') {
 			return {
 				ctor: '::',
 				_0: _user$project$Explanation_View$noTransition,
@@ -11188,15 +11179,15 @@ var _user$project$Explanation_View$view = function (_p5) {
 		_elm_lang$core$List$concat(
 			{
 				ctor: '::',
-				_0: A3(_user$project$Explanation_View$hand, _p8.animationStep, _p8.maxHandSize, _p8.hand),
+				_0: A3(_user$project$Explanation_View$hand, model.animationStep, model.maxHandSize, model.hand),
 				_1: {
 					ctor: '::',
 					_0: A4(
 						_user$project$Explanation_View$placedCardArea,
-						_p8.animationStep,
-						_p8.maxHandSize,
-						_elm_lang$core$List$length(_p8.hand),
-						_p8.placed),
+						model.animationStep,
+						model.maxHandSize,
+						_elm_lang$core$List$length(model.hand),
+						model.placed),
 					_1: {ctor: '[]'}
 				}
 			}));
@@ -11208,13 +11199,13 @@ var _user$project$Explanation_Update$naiveUpdate = F2(
 		if (_p0.ctor === 'DemoPlaceCard') {
 			var _p3 = _p0._0;
 			var nextHand = function () {
-				var _p1 = model.game.placed;
+				var _p1 = model.placed;
 				if (_p1.ctor === 'Nothing') {
-					return A2(_elm_community$list_extra$List_Extra$removeAt, _p3, model.game.hand);
+					return A2(_elm_community$list_extra$List_Extra$removeAt, _p3, model.hand);
 				} else {
 					return A2(
 						_elm_lang$core$Basics_ops['++'],
-						A2(_elm_community$list_extra$List_Extra$removeAt, _p3, model.game.hand),
+						A2(_elm_community$list_extra$List_Extra$removeAt, _p3, model.hand),
 						{
 							ctor: '::',
 							_0: _p1._0,
@@ -11222,7 +11213,7 @@ var _user$project$Explanation_Update$naiveUpdate = F2(
 						});
 				}
 			}();
-			var nextPlaced = A2(_elm_community$list_extra$List_Extra$getAt, _p3, model.game.hand);
+			var nextPlaced = A2(_elm_community$list_extra$List_Extra$getAt, _p3, model.hand);
 			var command = A2(
 				_elm_lang$core$Task$perform,
 				function (_p2) {
@@ -11230,38 +11221,24 @@ var _user$project$Explanation_Update$naiveUpdate = F2(
 						A2(_user$project$Explanation_Model$RearrangeAfterAnimation, nextHand, nextPlaced));
 				},
 				_elm_lang$core$Process$sleep(2500));
-			var modelGame = model.game;
-			var newGame = _elm_lang$core$Native_Utils.update(
-				modelGame,
+			var newModel = _elm_lang$core$Native_Utils.update(
+				model,
 				{
 					animationStep: _user$project$Explanation_Model$PlaceCard(_p3)
 				});
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{game: newGame}),
-				_1: command
-			};
+			return {ctor: '_Tuple2', _0: newModel, _1: command};
 		} else {
 			var _p4 = _p0._0;
+			var newModel = _elm_lang$core$Native_Utils.update(
+				model,
+				{hand: _p4._0, placed: _p4._1, animationStep: _user$project$Explanation_Model$NaiveRearrange});
 			var command = A2(
 				_elm_lang$core$Task$perform,
 				function (_p5) {
 					return _user$project$Explanation_Model$DemoPlaceCard(0);
 				},
 				_elm_lang$core$Process$sleep(2500));
-			var modelGame = model.game;
-			var newGame = _elm_lang$core$Native_Utils.update(
-				modelGame,
-				{hand: _p4._0, placed: _p4._1, animationStep: _user$project$Explanation_Model$NaiveRearrange});
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{game: newGame}),
-				_1: command
-			};
+			return {ctor: '_Tuple2', _0: newModel, _1: command};
 		}
 	});
 var _user$project$Explanation_Update$update = F2(
@@ -11270,13 +11247,13 @@ var _user$project$Explanation_Update$update = F2(
 		if (_p6.ctor === 'DemoPlaceCard') {
 			var _p9 = _p6._0;
 			var nextHand = function () {
-				var _p7 = model.game.placed;
+				var _p7 = model.placed;
 				if (_p7.ctor === 'Nothing') {
-					return A2(_elm_community$list_extra$List_Extra$removeAt, _p9, model.game.hand);
+					return A2(_elm_community$list_extra$List_Extra$removeAt, _p9, model.hand);
 				} else {
 					return A2(
 						_elm_lang$core$Basics_ops['++'],
-						A2(_elm_community$list_extra$List_Extra$removeAt, _p9, model.game.hand),
+						A2(_elm_community$list_extra$List_Extra$removeAt, _p9, model.hand),
 						{
 							ctor: '::',
 							_0: _p7._0,
@@ -11284,7 +11261,7 @@ var _user$project$Explanation_Update$update = F2(
 						});
 				}
 			}();
-			var nextPlaced = A2(_elm_community$list_extra$List_Extra$getAt, _p9, model.game.hand);
+			var nextPlaced = A2(_elm_community$list_extra$List_Extra$getAt, _p9, model.hand);
 			var command = A2(
 				_elm_lang$core$Task$perform,
 				function (_p8) {
@@ -11292,23 +11269,15 @@ var _user$project$Explanation_Update$update = F2(
 						A2(_user$project$Explanation_Model$RearrangeAfterAnimation, nextHand, nextPlaced));
 				},
 				_elm_lang$core$Process$sleep(1250));
-			var modelGame = model.game;
-			var newGame = _elm_lang$core$Native_Utils.update(
-				modelGame,
+			var newModel = _elm_lang$core$Native_Utils.update(
+				model,
 				{
 					animationStep: _user$project$Explanation_Model$PlaceCard(_p9)
 				});
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{game: newGame}),
-				_1: command
-			};
+			return {ctor: '_Tuple2', _0: newModel, _1: command};
 		} else {
 			var _p10 = _p6._0;
 			var _p14 = _p10._0;
-			var modelGame = model.game;
 			var _p11 = function () {
 				var _p12 = A2(
 					_elm_lang$core$Random$step,
@@ -11316,7 +11285,7 @@ var _user$project$Explanation_Update$update = F2(
 						_elm_lang$core$Random$int,
 						0,
 						_elm_lang$core$List$length(_p14) - 1),
-					modelGame.seed);
+					model.seed);
 				var placeCardIndex = _p12._0;
 				var newSeed = _p12._1;
 				return {
@@ -11332,16 +11301,10 @@ var _user$project$Explanation_Update$update = F2(
 			}();
 			var command = _p11._0;
 			var seed = _p11._1;
-			var newGame = _elm_lang$core$Native_Utils.update(
-				modelGame,
+			var newModel = _elm_lang$core$Native_Utils.update(
+				model,
 				{hand: _p14, placed: _p10._1, animationStep: _user$project$Explanation_Model$NoTransitionRearrange, seed: seed});
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{game: newGame}),
-				_1: command
-			};
+			return {ctor: '_Tuple2', _0: newModel, _1: command};
 		}
 	});
 

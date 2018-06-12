@@ -61,7 +61,7 @@
       Those used <a href="https://jquery.com/">jQuery</a> animations, which is impossible to replicate today because the web police would confiscate my license to dev.
     </p>
     <h2>Web Components</h2>
-    <p>Instead my modern approach was to create a <a href="https://www.webcomponents.org/">web component</a> for each zone in the game:</p>
+    <p>Instead my modern approach was to create <a href="https://www.webcomponents.org/">web components</a> representing the zones in the game:</p>
     <figure>
       <code-mirror mode="xml"><!--
 <table-top>
@@ -80,19 +80,27 @@
     </figure>
     <p>
       Each web component was responsible for positioning its children, which was great for abstraction and separation of concerns.
-      Unfortunately it failed because the concept of moving a card between zones didn't apply in virtual DOM.
-      <a href="http://elm-lang.org/">Elm</a>'s renderer would destroy the card element that was in the hand, and re-make it at its destination.
+      For instance to make a card flip, I just toggle an <code>up</code> attribute, and a <code>pilatch-hand</code> would space out the cards it contained evenly.
+    </p>
+    <p>
+      Unfortunately this fails because the concept of moving a card between zones didn't apply in virtual DOM.
+      <a href="http://elm-lang.org/">Elm</a>'s renderer would destroy the card element that was in the hand, and make a similar one elsewhere.
       The result was more teleportation than animation.
     </p>
     <p>
-      My next attempt featured a single table-top element that would contain each card <em>without</em> additional nesting.
-      Cards fly about the table top by adding or removing HTML attributes or CSS classes from them.
+      I had solved this same problem in the past with my jQuery game-rules demos by noting which zone a card was moving to, calculating its position, animating the card to that new position, then finally appending the card element to its new parent.
+      Were I to do this in Elm, I would need to use ports to do that destination-position calculation, or somehow track the placement of every zone <em>in</em> Elm.
+    </p>
+    <p>
+      Neither of those options were appealing.
+    </p>
+    <p>
+      So my next attempt featured a single table-top element that would contain each card <em>without</em> additional nesting.
+      Cards fly about the table thanks to CSS transitions by adding or removing HTML attributes. The CSS is solely responsible for knowing the position of cards on the table, thus dividing the layout concern from the logic and view-model.
     </p>
     <figure>
       <code-mirror mode="css"><!--
-.table-top {
-  position: relative;
-}
+.table-top { position: relative; }
 .table-top pilatch-card {
   position: absolute;
   will-change: left, top; /* for performance! */
@@ -113,54 +121,48 @@
     <p>Now a card in hand could move to the table just by adding an attribute to it, such as <code>placed</code>.</p>
     <figure>
       <code-mirror mode="xml"><!--
-<pilatch-card hand="1" rank="12" suit="scissors"></pilatch-card>
-<pilatch-card hand="2" rank="7" suit="paper"></pilatch-card>
-<pilatch-card placed hand="3" rank="10" suit="rock"></pilatch-card>
-<pilatch-card hand="4" rank="1" suit="paper"></pilatch-card>
+<pilatch-card placed hand="1" rank="1" suit="scissors"></pilatch-card>
+<pilatch-card hand="2" rank="2" suit="scissors"></pilatch-card>
+<pilatch-card hand="3" rank="3" suit="scissors"></pilatch-card>
+<pilatch-card hand="4" rank="4" suit="scissors"></pilatch-card>
+<pilatch-card hand="5" rank="5" suit="scissors"></pilatch-card>
 --></code-mirror>
-      <figcaption>A hand of four pilatch cards, with the ten of rock transitioning to the table</figcaption>
+      <figcaption>A hand of five pilatch cards, with the One of Scissors transitioning to the table</figcaption>
     </figure>
     <p>
-      Yet this approach is naïve because it's still necessary to change the order of cards in the DOM after one card has moved, which triggers repititions of animations. If I didn't do this, my model of the game state would be a nightmare.
-    </p>
-    <h2>Virtual DOM</h2>
-    <p>
-      Unlike jQuery, which encourages developers to work with references to long-lived HTML elements objects, and tell them to mutate by fiat, the concept of virtual DOM takes a more data-driven approach.
-      Through a virtual DOM architecture you change the state of your program's model, and expect something to happen on screen the next time the renderer runs its view function.
+      In the example above, adding that <code>placed</code> attribute is what triggers the animation to move the One of Scissors card.
     </p>
     <p>
-      Here's an example of two different data structures that would be fed to a virtual DOM renderer. One before placing the Queen of Paper on the table, and one after. This approach works, but requires special attention.
+      Once that's done, however, it would be naïve to think I could leave the DOM out of order.
+      That card isn't really in a player's hand any more, so it shouldn't be mixed in with the other cards in hand.
+      Specifically, it should lose its <code>hand</code> attribute and move below the list of cards that still do have <code>hand</code> attributes, while each of their hand-indicies are decremented:
     </p>
     <figure>
-      <code-mirror mode="elm"><!--
-frameOne =
-    div [ class "table-top" ]
-        [ QueenOfPaper
-        , OneOfRock
-        , TwoOfRock
-        , ThreeOfRock
-        ]
-
-
-frameTwo =
-    div [ class "table-top" ]
-        [ OneOfRock
-        , TwoOfRock
-        , ThreeOfRock
-        , PlacedQueenOfPaper
-        ]--></code-mirror>
-      <figcaption>If only it were this simple</figcaption>
+      <code-mirror mode="xml"><!--
+<pilatch-card hand="1" rank="2" suit="scissors"></pilatch-card>
+<pilatch-card hand="2" rank="3" suit="scissors"></pilatch-card>
+<pilatch-card hand="3" rank="4" suit="scissors"></pilatch-card>
+<pilatch-card hand="4" rank="5" suit="scissors"></pilatch-card>
+<pilatch-card placed rank="1" suit="scissors"></pilatch-card>
+--></code-mirror>
+    <figcaption>A hand of four cards, and the One of Scissors placed on the table</figcaption>
     </figure>
     <p>
-      How is a virtual-DOM-diffing algorithm to know that, between frames, an HTML element which was the first child of its parent is now the same one as the fourth child, but with different attributes?
-      How fast could that be?
+      If this process weren't broken into two steps, then to accurately render a player's cards, my model would also have to track the placed card's previous hand-index.
+      This same concept would apply for each pair of zones that cards move between, necessitating the tracking of more than just game state, but also the history of different card zones.
     </p>
-    <p>Probably unbearably slow.</p>
     <p>
-      By this reasoning my choice of virtual DOM renderer seems irrelevant, in terms of animation.
-      I'd expect the same challenge to arise with <a href="https://infernojs.org/">Inferno</a>, <a href="https://vuejs.org/">Vue</a>, <a href="https://reactjs.org/">React</a> or whatever your favorite flavor is.
+      Sounds like a nightmare.
     </p>
-    <p>Here's what that lack of clairvoyance on the renderer's part looks like.</p>
+    <p>
+      Therefore I swap of card positions in the DOM... but undesired animations are triggered!
+    </p>
+    <p>
+      If you look at the two code snippets above, you might understand how a browser would interpret this phenomenon.
+      The fifth <code>pilatch-card</code> seems to morph from the Five of Scissors to the One of Scissors.
+      At the same time the first card in hand gives up its top/left positions associated with being placed, and the fifth card is suddenly placed, causing an animation that looks like the <em>last</em> card in hand is being plunked down.
+    </p>
+    <p>Or visually:</p>
     <figure>
       <section id="naiveDemo"></section>
       <figcaption>An illustration of an early attempt</figcaption>
@@ -168,8 +170,58 @@ frameTwo =
     <p>
       The demonstration above is written in a loop that keeps placing the leftmost card on the table.
       Watch the rank number on the rightmost card closely.
-      See how sometimes it switches then goes to the table?
+      See how sometimes it switches, then goes to the table?
       That's the unwanted CSS transition.
+    </p>
+    <p>What's going on here?</p>
+    <h2>Virtual DOM</h2>
+    <p>
+      Even in frameworks requiring developers create immutable data structures from pure functions, what happens in browsers doesn't follow such constraints.
+      They must not, for performance reasons.
+      It would be more costly to cull each HTML element and instantialize very similar ones, than to reuse the existing elements and modify them.
+      That's what's going on here.
+      The browser is reusing HTML elements in a way the developer did not intend.
+    </p>
+    <p>
+      Unlike jQuery, which encourages developers to work with references to long-lived HTML elements, and mutate them by fiat, the concept of virtual DOM takes a data-driven approach.
+      Through a virtual DOM architecture you change the state of your program's model, and expect something to happen on screen the next time the renderer runs its view function.
+      As developers we're giving up low-level control over the DOM in favor of productivity gains.
+    </p>
+    <p>
+      Here's an example of two different data structures that would be fed to a virtual DOM renderer: <code>frameOne</code> is before placing the One of Scissors on the table, and <code>frameTwo</code> is after.
+    </p>
+    <figure>
+      <code-mirror mode="elm"><!--
+frameOne =
+    div [ class "table-top" ]
+        [ OneOfScissors
+        , TwoOfScissors
+        , ThreeOfScissors
+        , FourOfScissors
+        , FiveOfScissors
+        ]
+
+
+frameTwo =
+    div [ class "table-top" ]
+        [ TwoOfScissors
+        , ThreeOfScissors
+        , FourOfScissors
+        , FiveOfScissors
+        , PlacedOneOfScissors
+        ]--></code-mirror>
+      <figcaption>Whether it's JSX or Elm, we're not writing HTML directly</figcaption>
+    </figure>
+    <p>
+      How is a virtual-DOM-diffing algorithm to know that, between frames, an HTML element which was the first child of its parent is now the same one as the fourth child, but with different attributes?
+      How could it know the developer's intent?
+      How fast could that be?
+    </p>
+    <p>Clairvoyance probably <em>ain't</em> fast.</p>
+    <p>
+      By this reasoning my choice of Elm as virtual DOM renderer seems irrelevant, in terms of animation.
+      I'd expect the same challenge to arise with <a href="https://infernojs.org/">Inferno</a>, <a href="https://vuejs.org/">Vue</a>, <a href="https://reactjs.org/">React</a> or whatever your favorite flavor is.
+      Never did I consider switching technology to eliminate my animation problem.
     </p>
     <h2>Solution</h2>
     <p>It seems obvious in retrospect. Don't animate when rearranging the cards in the DOM.</p>
@@ -195,52 +247,14 @@ frameTwo =
     </p>
     <figure>
       <code-mirror mode="xml"><!--
-<pilatch-card no-transition hand="1" rank="12" suit="scissors"></pilatch-card>
-<pilatch-card no-transition hand="2" rank="7" suit="paper"></pilatch-card>
-<pilatch-card no-transition hand="3" rank="1" suit="paper"></pilatch-card>
-<pilatch-card no-transition placed rank="10" suit="rock"></pilatch-card>
+<pilatch-card no-transition hand="1" rank="2" suit="scissors"></pilatch-card>
+<pilatch-card no-transition hand="2" rank="3" suit="scissors"></pilatch-card>
+<pilatch-card no-transition hand="3" rank="4" suit="scissors"></pilatch-card>
+<pilatch-card no-transition hand="4" rank="5" suit="scissors"></pilatch-card>
+<pilatch-card no-transition placed rank="1" suit="scissors"></pilatch-card>
 --></code-mirror>
       <figcaption>How to only have animations when we want them</figcaption>
     </figure>
-    <h2>Exploding Animations</h2>
-    <p>
-      Placing a card on the table is a single action, but it takes two separate renders to make it happen smoothly and not <em>bork</em> your program's state.
-      So the server would send a message to the clients, saying "Player one placed the second card in her hand on the table."
-      Then client-side code would explode that animation into the steps that it needs to render.
-    </p>
-    <figure>
-      <code-mirror mode="elm"><!--
-
-type AnimationFromServer
-    = PlaceCardAnimation
-    | DrawCardAnimation
-    -- ...
-
-
-type RenderStep
-    = PlaceStep
-    | DrawStep
-    | NoTransitionRearrange
-    -- ...
-
-
-explode : AnimationFromServer -> List RenderStep
-explode animation =
-    case animation of
-        PlaceCard ->
-            [ PlaceStep, NoTransitionRearrange ]
-
-        -- ...
-
-  --></code-mirror>
-      <figcaption>Simple example of how to convert an abstract animation into something actionable</figcaption>
-    </figure>
-    <p>
-      The server sends high-level updates of the game state via <a href="https://socket.io/">socket.io</a>, which Elm decodes from JSON into a type like <code>AnimationFromServer</code>.
-    </p>
-    <p>
-      The <code>explode</code> function is what knows the render steps necessary to make it look good on screen.
-    </p>
     <p>If you're interested in the nitty gritty, read on.</p>
     <h2>Iterative Development</h2>
     <p>In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner.</p>

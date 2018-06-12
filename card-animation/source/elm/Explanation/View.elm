@@ -7,14 +7,14 @@ import Html.Attributes exposing (attribute, class)
 import String.Interpolate exposing (interpolate)
 
 
-view : { a | game : Game } -> Html Msg
-view { game } =
+view : Model -> Html Msg
+view model =
     let
         classes =
             [ class "table-top" ]
 
         attributes =
-            case game.animationStep of
+            case model.animationStep of
                 NoTransitionRearrange ->
                     [ noTransition ]
 
@@ -23,8 +23,8 @@ view { game } =
     in
         section (classes ++ attributes) <|
             List.concat
-                [ hand game.animationStep game.maxHandSize game.hand
-                , placedCardArea game.animationStep game.maxHandSize (List.length game.hand) game.placed
+                [ hand model.animationStep model.maxHandSize model.hand
+                , placedCardArea model.animationStep model.maxHandSize (List.length model.hand) model.placed
                 ]
 
 

@@ -11,26 +11,22 @@ initial hand seedInt =
         ( command, steppedSeed ) =
             initialCommand seedInt <| List.length hand
     in
-        ( { game =
-                { animationStep = NoTransitionRearrange
-                , hand = hand
-                , maxHandSize = List.length hand
-                , placed = Nothing
-                , seed = Random.initialSeed seedInt
-                }
+        ( { animationStep = NoTransitionRearrange
+          , hand = hand
+          , maxHandSize = List.length hand
+          , placed = Nothing
+          , seed = Random.initialSeed seedInt
           }
         , command
         )
 
 
 initialNoSeed hand =
-    ( { game =
-            { animationStep = NoTransitionRearrange
-            , hand = hand
-            , maxHandSize = List.length hand
-            , placed = Nothing
-            , seed = Random.initialSeed 8675309
-            }
+    ( { animationStep = NoTransitionRearrange
+      , hand = hand
+      , maxHandSize = List.length hand
+      , placed = Nothing
+      , seed = Random.initialSeed 8675309
       }
     , Task.perform (\_ -> DemoPlaceCard 0) (Process.sleep 2500)
     )
@@ -45,11 +41,6 @@ initialCommand seedInt handSize =
 
 
 type alias Model =
-    { game : Game
-    }
-
-
-type alias Game =
     { animationStep : AnimationStep
     , hand : List Card
     , maxHandSize : Int

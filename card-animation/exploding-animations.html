@@ -1,0 +1,57 @@
+<to-do>TODO work on this stuff.</to-do>
+    <h2>Exploding Animations</h2>
+    <p>
+      Though placing a card on the table is a single, visual action, it takes two separate renders to make it happen smoothly and not encumber your program's model.
+    </p>
+    <p>
+      Concretely, the server would send a message to the clients, saying "Player one placed the first card in her hand on the table."
+      Then client-side code would split that animation into the steps that it needs to render:
+      <ol>
+        <li>Add the <code>placed</code> attribute to the first card in hand while decrementing the other cards' hand-indicies.</li>
+        <li>Rearrange the DOM to match the new game state after the transition is complete.</li>
+      </ol>
+    </p>
+    <figure>
+      <code-mirror mode="elm"><!--
+
+type AnimationFromServer
+    = PlaceCardAnimation Int
+    | DrawCardAnimation
+    -- ...more animations
+
+
+type RenderStep
+    = PlaceStep Int
+    | DrawStep
+    | NoTransitionRearrange
+    -- ...more render steps
+
+
+explode : AnimationFromServer -> List RenderStep
+explode animation =
+    case animation of
+        PlaceCardAnimation handIndex ->
+            [ PlaceStep handIndex, NoTransitionRearrange ]
+
+        DrawCardAnimation ->
+            [ DrawStep, NoTransitionRearrange ]
+
+  --></code-mirror>
+      <figcaption>Simple example of how to convert an abstract animation into something actionable</figcaption>
+    </figure>
+    <p>
+      The server sends high-level updates of the game state via <a href="https://socket.io/">socket.io</a>, which Elm decodes from JSON into a type like <code>AnimationFromServer</code>.
+    </p>
+    <p>
+      The <code>explode</code> function knows the render steps that make an animation look good on screen.
+      Those steps get crammed into the model.
+    </p>
+    <figure>
+      <code-mirror mode="elm"><!--
+type alias Model =
+    { animationSteps : List RenderStep
+    , hand : List Card
+    , placed : Maybe Card
+    }
+      --></code-mirror>
+    </figure>
