@@ -1,0 +1,95 @@
+@import 'variables.css';
+
+:root {
+  --sprite-width: 4100px;
+  --sprite-height: 1050px;
+  --scaled-background-height: calc(var(--sprite-height) * var(--pilatch-card-scale));
+  --scaled-background-width: calc(var(--sprite-width) * var(--pilatch-card-scale));
+  --negative-scaled-background-width: calc(-1 * var(--scaled-background-width));
+  --negative-scaled-card-height: calc(-1 * var(--scaled-card-height));
+}
+pilatch-card .pilatch-card_container {
+  position: relative;
+  height: var(--scaled-card-height);
+  width: var(--scaled-card-width);
+  /* entire container, keeps perspective */
+  perspective: 1000px;
+}
+pilatch-card[binary] .pilatch-card_container {
+  /* Binary cards are presented rotate ninety degrees, so width and height are swapped. */
+  height: var(--scaled-card-width);
+  width: var(--scaled-card-height);
+}
+pilatch-card[binary] .pilatch-card_front {
+  background-position-x: calc(var(--negative-scaled-background-width) + var(--scaled-card-height));
+  background-position-y: var(--negative-scaled-card-height);
+}
+pilatch-card[binary] .pilatch-card_back {
+  background-position-x: calc(var(--negative-scaled-background-width) + var(--scaled-card-height));
+  background-position-y: calc(var(--negative-scaled-card-height) - var(--scaled-card-width));
+}
+pilatch-card[nothing] .pilatch-card_container {
+  border: calc(2px * var(--pilatch-card-scale)) dashed gray;
+  border-radius: calc(6px * var(--pilatch-card-scale));
+}
+pilatch-card[nothing] .pilatch-card_front, pilatch-card[nothing] .pilatch-card_back {
+  background: none;
+}
+pilatch-card[clickable] {
+  cursor: pointer;
+}
+pilatch-card:not([up][known]) .pilatch-card_front {
+  backface-visibility: visible;
+}
+pilatch-card:not([up][known]) .pilatch-card_back {
+  opacity: 0.5;
+}
+pilatch-card .pilatch-card_front,
+pilatch-card .pilatch-card_back {
+  backface-visibility: hidden;
+  background-image: url(sprite.png);
+  background-size: calc(var(--sprite-width) * var(--pilatch-card-scale)) calc(var(--sprite-height) * var(--pilatch-card-scale));
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+pilatch-card:not([no-transition]) .pilatch-card_front,
+pilatch-card:not([no-transition]) .pilatch-card_back {
+  /* flip speed goes here */
+  transition: transform var(--pilatch-card-flip-duration, 0.6s);
+}
+pilatch-card .pilatch-card_back {
+  background-position-x: calc(var(--negative-scaled-background-width) + var(--scaled-card-height));
+  /* for firefox 31 */
+  transform: rotateY(0deg);
+  z-index: 2;
+}
+pilatch-card .pilatch-card_front {
+  /* initially hidden pane */
+  transform: rotateY(-180deg);
+}
+
+pilatch-card[suit='rock'] .pilatch-card_front {background-position-y: var(--negative-scaled-card-height);}
+pilatch-card[suit='scissors'] .pilatch-card_front {background-position-y: calc(2 * var(--negative-scaled-card-height));}
+
+pilatch-card[rank='2'] .pilatch-card_front {background-position-x: calc(-1 * var(--scaled-card-width));}
+pilatch-card[rank='3'] .pilatch-card_front {background-position-x: calc(-2 * var(--scaled-card-width));}
+pilatch-card[rank='4'] .pilatch-card_front {background-position-x: calc(-3 * var(--scaled-card-width));}
+pilatch-card[rank='5'] .pilatch-card_front {background-position-x: calc(-4 * var(--scaled-card-width));}
+pilatch-card[rank='6'] .pilatch-card_front {background-position-x: calc(-5 * var(--scaled-card-width));}
+pilatch-card[rank='7'] .pilatch-card_front {background-position-x: calc(-6 * var(--scaled-card-width));}
+pilatch-card[rank='8'] .pilatch-card_front {background-position-x: calc(-7 * var(--scaled-card-width));}
+pilatch-card[rank='9'] .pilatch-card_front {background-position-x: calc(-8 * var(--scaled-card-width));}
+pilatch-card[rank='10'] .pilatch-card_front {background-position-x: calc(-9 * var(--scaled-card-width));}
+pilatch-card[rank='11'] .pilatch-card_front {background-position-x: calc(-10 * var(--scaled-card-width));}
+pilatch-card[rank='12'] .pilatch-card_front {background-position-x: calc(-11 * var(--scaled-card-width));}
+pilatch-card[rank='13'] .pilatch-card_front {background-position-x: calc(-12 * var(--scaled-card-width));}
+pilatch-card[rank='14'] .pilatch-card_front {background-position-x: calc(-13 * var(--scaled-card-width));}
+pilatch-card[rank='15'] .pilatch-card_front {background-position-x: calc(-14 * var(--scaled-card-width));}
+
+pilatch-card[up] .pilatch-card_back {
+  transform: rotateY(180deg);
+}
+pilatch-card[up] .pilatch-card_front {
+  transform: rotateY(0deg);
+}

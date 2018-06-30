@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "name": "pilatch-card",
+  "version": "2.1.0",
+  "description": "Web component for PennMutual search bar",
+  "main": "pilatch-card.html",
+  "scripts": {
+    "build": "postcss --config postcss.config.js -o pilatch-card.css src/pilatch-card.css",
+    "build/watch": "postcss --watch --config postcss.config.js -o pilatch-card.css src/pilatch-card.css",
+    "demo": "browser-sync start -c bs-config.js"
+  },
+  "dependencies": {
+    "register-element": "git+ssh://git@gitlab.pennmutual.com:npm-modules/register-element.git#2.0.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.13",
+    "postcss-cli": "^5.0.0",
+    "postcss-css-variables": "^0.8.1",
+    "postcss-filter-rules": "^0.2.2",
+    "postcss-import": "^11.1.0",
+    "webcomponentsjs": "git://github.com/webcomponents/webcomponentsjs.git#v0"
+  },
+  "keywords": [
+    "pilatch-card",
+    "web-component"
+  ],
+  "author": "Ethan B. Martin"
+}
