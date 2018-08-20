@@ -11,7 +11,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd card-animation/public && yarn install --flat"
+    "postinstall": "cd card-animation/public && yarn install --flat",
+    "start": "node web-server.js"
   },
   "keywords": [
     "play",

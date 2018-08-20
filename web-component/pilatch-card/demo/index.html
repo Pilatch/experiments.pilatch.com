@@ -19,9 +19,14 @@
   </p>
   <h3>Five Of Scissors:</h3>
   <p><code>&lt;pilatch-card rank="5" suit="scissors" up clickable&gt;&lt;/pilatch-card&gt;</code></p>
+  <p><code>&lt;pilatch-card rank="13" suit="paper" clickable&gt;&lt;/pilatch-card&gt;</code></p>
+  <p><code>&lt;pilatch-card rank="12" suit="rock" up&gt;&lt;/pilatch-card&gt;</code></p>
   <pilatch-card rank="5" suit="scissors" up clickable></pilatch-card>
+  <pilatch-card rank="13" suit="paper" clickable></pilatch-card>
+  <pilatch-card rank="12" suit="rock" up></pilatch-card>
+
   <script>
-    Array.prototype.forEach.call(document.querySelectorAll('pilatch-card'), card => {
+    Array.prototype.forEach.call(document.querySelectorAll('pilatch-card[clickable]'), card => {
       card.addEventListener('click', event => {
         // Gotta do event retargeting!
         const host = event.target.closest('pilatch-card')

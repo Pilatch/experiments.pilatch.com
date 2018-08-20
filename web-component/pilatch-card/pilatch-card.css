@@ -7,6 +7,7 @@
 }
 
 pilatch-card .pilatch-card_container {
+  display: inline-block;
   position: relative;
   height: calc(350px * 1);
   width: calc(250px * 1);

@@ -9,6 +9,7 @@
   --negative-scaled-card-height: calc(-1 * var(--scaled-card-height));
 }
 pilatch-card .pilatch-card_container {
+  display: inline-block;
   position: relative;
   height: var(--scaled-card-height);
   width: var(--scaled-card-width);

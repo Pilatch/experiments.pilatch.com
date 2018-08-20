@@ -6,6 +6,7 @@
   "author": "Ethan B. Martin",
   "license": "ISC",
   "dependencies": {
-    "codemirror": "^5.38.0"
+    "codemirror": "^5.38.0",
+    "pilatch-card": "^1.0.0"
   }
 }

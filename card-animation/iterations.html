@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <title>Card Animation Demonstrations</title>
   <link rel="stylesheet" type="text/css" href="public/css/blog-theme.css">
-  <script src="public/js/define-custom-element.js"></script>
+  <script src="public/node_modules/webcomponentsjsv0/webcomponents-lite.js"></script>
+  <script src="public/node_modules/simple-component-v0/index.js"></script>
+  <link rel="import" href="public/node_modules/pilatch-card/pilatch-card.html">
+  <link rel="stylesheet" type="text/css" href="public/node_modules/pilatch-card/pilatch-card.css">
   <link rel="stylesheet" href="public/css/variables.css">
   <link rel="stylesheet" href="public/css/table-top.css">
-  <link rel="import" href="public/html/pilatch-card.html">
-  <link rel="preload" href="public/img/sprite.png" as="image" type="image/png">
   <script defer src="public/js/Elm.Iterations.js"></script>
   <style>
   main {
@@ -30,5 +31,6 @@
   </style>
 </head>
 <body onload="Elm.Iterations.Main.fullscreen()">
+  <img alt="" class="preload" src="public/node_modules/pilatch-card/sprite.png">
 </body>
 </html>

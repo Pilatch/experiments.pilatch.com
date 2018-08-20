@@ -4,28 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Card Animation Demonstrations</title>
-  <script>
-  const startDemos = () => {
-    const demoNode = document.getElementById('demo')
-    const naiveDemoNode = document.getElementById('naiveDemo')
-
-    if (demoNode && startDemos.spriteLoaded) {
-      Elm.Explanation.Main.embed(demoNode, Math.floor(Math.random() * 10000))
-    }
-
-    if (naiveDemoNode && startDemos.spriteLoaded) {
-      Elm.Explanation.Naive.embed(naiveDemoNode)
-    }
-  }
-  </script>
-  <link rel="preload" href="public/img/sprite.png" as="image" type="image/png" onload="startDemos.spriteLoaded = true; startDemos()">
+  <script src="public/node_modules/webcomponentsjsv0/webcomponents-lite.js"></script>
+  <script src="public/node_modules/simple-component-v0/index.js"></script>
+  <link rel="import" href="public/node_modules/pilatch-card/pilatch-card.html">
+  <link rel="stylesheet" type="text/css" href="public/node_modules/pilatch-card/pilatch-card.css">
   <link rel="stylesheet" href="public/node_modules/codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="public/node_modules/codemirror/theme/monokai.css">
   <link rel="stylesheet" type="text/css" href="public/css/blog-theme.css">
-  <script src="public/js/define-custom-element.js"></script>
   <link rel="stylesheet" href="public/css/variables.css">
   <link rel="stylesheet" href="public/css/table-top.css">
-  <link rel="import" href="public/html/pilatch-card.html">
   <script src="public/node_modules/codemirror/lib/codemirror.js"></script>
   <script src="public/node_modules/codemirror/mode/css/css.js"></script>
   <script src="public/node_modules/codemirror/mode/elm/elm.js"></script>
@@ -283,5 +270,27 @@ frameTwo =
     })
   })
   </script>
+  <script>
+  const startDemos = () => {
+    const demoNode = document.getElementById('demo')
+    const naiveDemoNode = document.getElementById('naiveDemo')
+
+    if (demoNode && startDemos.spriteLoaded && !startDemos.demoStarted) {
+      console.log('starting demo')
+      Elm.Explanation.Main.embed(demoNode, Math.floor(Math.random() * 10000))
+      startDemos.demoStarted = true
+    }
+
+    if (naiveDemoNode && startDemos.spriteLoaded && !startDemos.naiveDemoStarted) {
+      console.log('starting naive')
+      Elm.Explanation.Naive.embed(naiveDemoNode)
+      startDemos.naiveDemoStarted = true
+    }
+  }
+  </script>
+  <!-- Preload the sprite needed for the demos in a cross-browser way. -->
+  <img alt="" class="preload"
+    src="public/node_modules/pilatch-card/sprite.png"
+    onload="startDemos.spriteLoaded = true; startDemos()">
 </body>
 </html>

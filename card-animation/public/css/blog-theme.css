@@ -568,3 +568,6 @@ p code {
   font-size: 1.25em;
   line-height: 1.75em;
 }
+.preload {
+  display: none;
+}
