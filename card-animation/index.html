@@ -253,11 +253,11 @@ frameTwo =
     </p>
   </main>
   <script>
-  Array.prototype.forEach.call(document.querySelectorAll('code-mirror'), element => {
-    const mode = element.getAttribute('mode')
-    let code = element.childNodes[0].textContent.trim()
+  Array.prototype.forEach.call(document.querySelectorAll('code-mirror'), function(element) {
+    var mode = element.getAttribute('mode')
+    var code = element.childNodes[0].textContent.trim()
 
-    if (mode === 'xml' || mode.startsWith('html')) {
+    if (mode === 'xml' || mode.indexOf('html') === 0) {
       code = code.replace(/--&gt;/g, '-->')
     }
 
@@ -271,18 +271,16 @@ frameTwo =
   })
   </script>
   <script>
-  const startDemos = () => {
-    const demoNode = document.getElementById('demo')
-    const naiveDemoNode = document.getElementById('naiveDemo')
+  function startDemos() {
+    var demoNode = document.getElementById('demo')
+    var naiveDemoNode = document.getElementById('naiveDemo')
 
     if (demoNode && startDemos.spriteLoaded && !startDemos.demoStarted) {
-      console.log('starting demo')
       Elm.Explanation.Main.embed(demoNode, Math.floor(Math.random() * 10000))
       startDemos.demoStarted = true
     }
 
     if (naiveDemoNode && startDemos.spriteLoaded && !startDemos.naiveDemoStarted) {
-      console.log('starting naive')
       Elm.Explanation.Naive.embed(naiveDemoNode)
       startDemos.naiveDemoStarted = true
     }
