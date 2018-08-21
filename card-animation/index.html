@@ -200,7 +200,7 @@ frameTwo =
       <figcaption>Whether it's JSX or Elm, we're not writing HTML directly</figcaption>
     </figure>
     <p>
-      How is a virtual-DOM-diffing algorithm to know that, between frames, an HTML element which was the first child of its parent is now the same one as the fourth child, but with different attributes?
+      How is a virtual-DOM-diffing algorithm to know that, between frames, an HTML element which was the first child of its parent is now the same one as the fifth child, but with different attributes?
       How could it know the developer's intent?
       How fast could that be?
     </p>
@@ -208,7 +208,6 @@ frameTwo =
     <p>
       By this reasoning my choice of Elm as virtual DOM renderer seems irrelevant, in terms of animation.
       I'd expect the same challenge to arise with <a href="https://infernojs.org/">Inferno</a>, <a href="https://vuejs.org/">Vue</a>, <a href="https://reactjs.org/">React</a> or whatever your favorite flavor is.
-      Never did I consider switching technology to eliminate my animation problem.
     </p>
     <h2>Solution</h2>
     <p>It seems obvious in retrospect. Don't animate when rearranging the cards in the DOM.</p>
@@ -269,8 +268,7 @@ frameTwo =
       value : code
     })
   })
-  </script>
-  <script>
+
   function startDemos() {
     var demoNode = document.getElementById('demo')
     var naiveDemoNode = document.getElementById('naiveDemo')
