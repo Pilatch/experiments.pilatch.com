@@ -1,0 +1,393 @@
+:root {
+  --pilatch-card-scale: 1;
+  --pilatch-card-height: 350px;
+  --pilatch-card-width: 250px;
+}
+
+:root {
+  /*
+    TODO calculate scaled card height and width based on viewport width
+    TODO calculate the pilatch-card-scale based on the relationship between the card height and scaled height,
+    if possible, as pilatch-card.css uses that in a few places.
+  */
+  --scaled-card-height: 350px;
+  --scaled-card-height: calc(var(--pilatch-card-height) * var(--pilatch-card-scale));
+  --scaled-card-width: 250px;
+  --scaled-card-width: calc(var(--pilatch-card-width) * var(--pilatch-card-scale));
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.table-top:not([no-transition]) pilatch-card {
+  transition-duration: 1s;
+  transition-duration: var(--pilatch-card-transition-duration, 1s);
+}
+
+:root {
+  --table-top-height: 100vh;
+  --player-deck-scale: 0.25;
+  --player-deck-left: calc(50% - 43.75px);
+  --player-deck-left: calc(50% - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --deck-stack-increment: 3px;
+  --placed-card-scale: 0.33;
+  --opponent-hand-scale: 0.25;
+  --opponent-hand-card-overlap: 31.25px;
+  --opponent-hand-card-overlap: calc(var(--scaled-card-width) * var(--opponent-hand-scale) / 2);
+  --opponent-1-deck-left: calc(16.7% - 43.75px);
+  --opponent-1-deck-left: calc(16.7% - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --opponent-1-deck-top: 25vh;
+  --opponent-1-deck-top: calc(var(--table-top-height) * 0.25);
+  --opponent-2-deck-left: calc(83.3% - 43.75px);
+  --opponent-2-deck-left: calc(83.3% - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --opponent-2-deck-top: 25vh;
+  --opponent-2-deck-top: calc(var(--table-top-height) * 0.25);
+  --player-deck-top: 85vh;
+  --player-deck-top: calc(var(--table-top-height) * 0.85);
+}
+
+.table-top {
+  border: 1px dashed purple;
+  display: block;
+  height: 100vh;
+  height: var(--table-top-height);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.table-top pilatch-card {
+  position: absolute;
+  will-change: transform, left, top;
+}
+
+/* player */
+
+.player-hand {
+  top: calc(100vh - 116.66667px);
+  top: calc(var(--table-top-height) - var(--scaled-card-height) / 3);
+}
+
+/* TODO refactor the hand-size and card-gap implementation so it'll work in IE. */
+
+.hand-size-3 {
+  --card-gap: 33.33333%;
+}
+
+.hand-size-4 {
+  --card-gap: 25%;
+}
+
+.hand-size-5 {
+  --card-gap: 20%;
+}
+
+.hand-size-6 {
+  --card-gap: 16.66667%;
+}
+
+.hand-size-7 {
+  --card-gap: 14.28571%;
+}
+
+.hand-size-8 {
+  --card-gap: 12.5%;
+}
+
+.hand-size-9 {
+  --card-gap: 11.11111%;
+}
+
+.card-0 {
+  left: calc(var(--card-gap) * 0);
+}
+
+.card-1 {
+  left: calc(var(--card-gap) * 1);
+}
+
+.card-2 {
+  left: calc(var(--card-gap) * 2);
+}
+
+.card-3 {
+  left: calc(var(--card-gap) * 3);
+}
+
+.card-4 {
+  left: calc(var(--card-gap) * 4);
+}
+
+.card-5 {
+  left: calc(var(--card-gap) * 5);
+}
+
+.card-6 {
+  left: calc(var(--card-gap) * 6);
+}
+
+.card-7 {
+  left: calc(var(--card-gap) * 7);
+}
+
+.card-8 {
+  left: calc(var(--card-gap) * 8);
+}
+
+.card-9 {
+  left: calc(var(--card-gap) * 9);
+}
+
+.player-placed-card-area {
+  left: calc(50% - 41.25px);
+  left: calc(50% - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: 60vh;
+  top: calc(var(--table-top-height) * 0.6);
+  transform-origin: top left;
+  transform: scale(0.33);
+  transform: scale(var(--placed-card-scale));
+}
+
+.player-deck, .opponent-1-deck, .opponent-2-deck {
+  transform: rotate(-90deg) scale(0.25);
+  transform: rotate(-90deg) scale(var(--player-deck-scale));
+  transform-origin: top left;
+}
+
+.player-deck.card-1 {
+  left: calc(50% - 40.75px);
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(85vh - 3px);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 1);
+}
+
+.player-deck.card-2 {
+  left: calc(50% - 37.75px);
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(85vh - 6px);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 2);
+}
+
+.player-deck.card-3 {
+  left: calc(50% - 34.75px);
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(85vh - 9px);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 3);
+}
+
+.player-deck.card-4 {
+  left: calc(50% - 31.75px);
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(85vh - 12px);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 4);
+}
+
+.player-deck.card-5, .player-deck {
+  left: calc(50% - 28.75px);
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(85vh - 15px);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 5);
+}
+
+/* center */
+
+pilatch-card[binary] {
+  left: calc(50% - 87.5px);
+  left: calc(50% - var(--scaled-card-height) * 0.5 / 2);
+  top: calc(50vh - 62.5px);
+  top: calc(var(--table-top-height) / 2 - var(--scaled-card-width) * 0.5 / 2);
+  transform: scale(0.5);
+  transform-origin: top left;
+}
+
+.claimed-suit {
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: calc(50vh - 62.5px);
+  top: calc(var(--table-top-height) / 2 - var(--scaled-card-width) * 0.5 / 2);
+  width: 33%;
+}
+
+.wins-in-a-row {
+  left: 66%;
+  position: absolute;
+  text-align: center;
+  top: calc(50vh - 62.5px);
+  top: calc(var(--table-top-height) / 2 - var(--scaled-card-width) * 0.5 / 2);
+  width: 33%;
+}
+
+/* opponents */
+
+.opponent-1-hand, .opponent-2-hand {
+  top: -29.16667px;
+  top: calc(var(--scaled-card-height) * var(--opponent-hand-scale) / -3);
+  transform: scale(0.25);
+  transform: scale(var(--opponent-hand-scale));
+  transform-origin: top left;
+}
+
+/* opponent 1 */
+
+.opponent-1-hand.card-1 {
+  left: 0;
+  z-index: 0;
+}
+
+.opponent-1-hand.card-2 {
+  left: 31.25px;
+  left: calc(var(--opponent-hand-card-overlap) * 1);
+  z-index: 1;
+}
+
+.opponent-1-hand.card-3 {
+  left: 62.5px;
+  left: calc(var(--opponent-hand-card-overlap) * 2);
+  z-index: 2;
+}
+
+.opponent-1-hand.card-4 {
+  left: 93.75px;
+  left: calc(var(--opponent-hand-card-overlap) * 3);
+  z-index: 2;
+}
+
+.opponent-1-placed-card-area { /* TODO use something like player.placed-card-area */
+  left: calc(16.7% - 41.25px);
+  left: calc(16.7% - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: 26vh;
+  top: calc(var(--table-top-height) * 0.26);
+  transform-origin: top left;
+  transform: scale(0.33);
+  transform: scale(var(--placed-card-scale));
+}
+
+.opponent-1-deck.card-1 {
+  left: calc(16.7% - 40.75px);
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(25vh - 3px);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 1);
+}
+
+.opponent-1-deck.card-2 {
+  left: calc(16.7% - 37.75px);
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(25vh - 6px);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 2);
+}
+
+.opponent-1-deck.card-3 {
+  left: calc(16.7% - 34.75px);
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(25vh - 9px);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 3);
+}
+
+.opponent-1-deck.card-4 {
+  left: calc(16.7% - 31.75px);
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(25vh - 12px);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 4);
+}
+
+.opponent-1-deck.card-5, .opponent-1-deck {
+  left: calc(16.7% - 28.75px);
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(25vh - 15px);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 5);
+}
+
+/* opponent 2 */
+
+.opponent-2-hand.card-1 {
+  left: calc(100% - 156.25px);
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 3);
+  z-index: 0;
+}
+
+.opponent-2-hand.card-2 {
+  left: calc(100% - 125px);
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 2);
+  z-index: 1;
+}
+
+.opponent-2-hand.card-3 {
+  left: calc(100% - 93.75px);
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 1);
+  z-index: 2;
+}
+
+.opponent-2-hand.card-4 {
+  left: calc(100% - 62.5px);
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 0);
+  z-index: 2;
+}
+
+.opponent-2-placed-card-area { /* TODO use something like player.placed-card-area */
+  left: calc(83.3% - 41.25px);
+  left: calc(83.3% - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: 26vh;
+  top: calc(var(--table-top-height) * 0.26);
+  transform-origin: top left;
+  transform: scale(0.33);
+  transform: scale(var(--placed-card-scale));
+}
+
+.opponent-2-deck.card-1 {
+  left: calc(83.3% - 40.75px);
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(25vh - 3px);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 1);
+}
+
+.opponent-2-deck.card-2 {
+  left: calc(83.3% - 37.75px);
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(25vh - 6px);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 2);
+}
+
+.opponent-2-deck.card-3 {
+  left: calc(83.3% - 34.75px);
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(25vh - 9px);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 3);
+}
+
+.opponent-2-deck.card-4 {
+  left: calc(83.3% - 31.75px);
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(25vh - 12px);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 4);
+}
+
+.opponent-2-deck.card-5, .opponent-2-deck {
+  left: calc(83.3% - 28.75px);
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(25vh - 15px);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 5);
+}
+
+main {
+  max-width: 55em;
+  padding: 0;
+}
+
+.interaction {
+  height: 1.5em;
+}
+
+.interaction button {
+  margin-right: 1em;
+}
+
+.iteration-buttons button {
+  margin-right: 1em;
+}
+
+.table-top {
+  height: calc(100vh - 1.5em);
+}

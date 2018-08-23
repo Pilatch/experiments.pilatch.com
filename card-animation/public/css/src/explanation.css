@@ -1,0 +1,14 @@
+@import 'variables.css';
+@import 'table-top.css';
+
+main .table-top, #demo, #naiveDemo {
+  --table-top-height: 400px;
+  height: var(--table-top-height);
+  margin-top: 1em;
+}
+main .player-placed-card-area {
+  top: 45px;
+}
+.player-hand {
+  top: 250px;
+}

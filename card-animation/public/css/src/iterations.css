@@ -1,0 +1,19 @@
+@import 'variables.css';
+@import 'table-top.css';
+
+main {
+  max-width: 55em;
+  padding: 0;
+}
+.interaction {
+  height: 1.5em;
+}
+.interaction button {
+  margin-right: 1em;
+}
+.iteration-buttons button {
+  margin-right: 1em;
+}
+.table-top {
+  height: calc(100vh - 1.5em);
+}

@@ -11,28 +11,14 @@
   <link rel="stylesheet" href="public/node_modules/codemirror/lib/codemirror.css">
   <link rel="stylesheet" href="public/node_modules/codemirror/theme/monokai.css">
   <link rel="stylesheet" type="text/css" href="public/css/blog-theme.css">
-  <link rel="stylesheet" href="public/css/variables.css">
-  <link rel="stylesheet" href="public/css/table-top.css">
+  <link rel="stylesheet" href="public/css/explanation.css">
   <script src="public/node_modules/codemirror/lib/codemirror.js"></script>
   <script src="public/node_modules/codemirror/mode/css/css.js"></script>
   <script src="public/node_modules/codemirror/mode/elm/elm.js"></script>
   <script src="public/node_modules/codemirror/mode/xml/xml.js"></script>
   <script src="public/js/Elm.Explanation.js"></script>
-  <style>
-  main .table-top, #demo, #naiveDemo {
-    --table-top-height: 400px;
-    height: var(--table-top-height);
-    margin-top: 1em;
-  }
-  main .player-placed-card-area {
-    top: 45px;
-  }
-  .player-hand {
-    top: 250px;
-  }
-  </style>
 </head>
-<body onload="startDemos()">
+<body>
   <main>
     <header>
       <h1>Card Animations</h1>
@@ -272,17 +258,36 @@ frameTwo =
   function startDemos() {
     var demoNode = document.getElementById('demo')
     var naiveDemoNode = document.getElementById('naiveDemo')
+    var customPropertiesSupported = window.CSS.supports('color', 'var(--primary)')
+    var unsupportedMessage = `
+      BOOM. Your browser does not fully support CSS custom properties, so we can not run this demo. Sorry!
+      Consider viewing this page in Chrome, FireFox, Opera, or Safari
+    `
 
-    if (demoNode && startDemos.spriteLoaded && !startDemos.demoStarted) {
-      Elm.Explanation.Main.embed(demoNode, Math.floor(Math.random() * 10000))
-      startDemos.demoStarted = true
-    }
+    if (customPropertiesSupported) {
+      if (demoNode && startDemos.spriteLoaded && !startDemos.demoStarted) {
+        Elm.Explanation.Main.embed(demoNode, Math.floor(Math.random() * 10000))
+        startDemos.demoStarted = true
+      }
 
-    if (naiveDemoNode && startDemos.spriteLoaded && !startDemos.naiveDemoStarted) {
-      Elm.Explanation.Naive.embed(naiveDemoNode)
-      startDemos.naiveDemoStarted = true
+      if (naiveDemoNode && startDemos.spriteLoaded && !startDemos.naiveDemoStarted) {
+        Elm.Explanation.Naive.embed(naiveDemoNode)
+        startDemos.naiveDemoStarted = true
+      }
+    } else {
+        showUnsupportedMessage(demoNode, unsupportedMessage)
+        showUnsupportedMessage(naiveDemoNode, unsupportedMessage)
     }
   }
+
+  function showUnsupportedMessage(node, unsupportedMessage) {
+    node.textContent = unsupportedMessage
+    node.style.height = 'auto'
+    node.style.textAlight = 'center'
+    node.style.border = '1px dashed red'
+  }
+
+  startDemos()
   </script>
   <!-- Preload the sprite needed for the demos in a cross-browser way. -->
   <img alt="" class="preload"
