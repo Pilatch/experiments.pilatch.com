@@ -1,12 +1,18 @@
 module Iterations.View exposing (view)
 
-import Iterations.Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (attribute, class, href, id, placeholder, property, type_, value)
 import Html.Events exposing (onClick)
+import Iterations.Model exposing (..)
 
 
 view model =
+    { title = "Attempting card animation"
+    , body = [ viewMain model ]
+    }
+
+
+viewMain model =
     case model.implementation of
         NoneChosen ->
             main_ []
@@ -42,11 +48,11 @@ emptyArea =
 
 
 hidden =
-    attribute "hidden" ""
+    attribute "hidden" " "
 
 
 noTransition =
-    attribute "no-transition" ""
+    attribute "no-transition" " "
 
 
 aceOfScissors attribute =
@@ -94,7 +100,7 @@ fiveOfPaperDown2 attribute1 attribute2 =
 
 
 up =
-    attribute "up" ""
+    attribute "up" " "
 
 
 rank =
@@ -106,7 +112,7 @@ suit =
 
 
 blank =
-    attribute "nothing" ""
+    attribute "nothing" " "
 
 
 pCard attributes =
@@ -164,7 +170,7 @@ render animationNumber comment cards =
     section []
         [ div [ class "interaction" ]
             [ next (animationNumber + 1)
-            , text <| comment ++ ". Animation: " ++ toString (animationNumber + 1)
+            , text <| comment ++ ". Animation: " ++ String.fromInt (animationNumber + 1)
             ]
         , tableTop
             cards
@@ -175,7 +181,7 @@ renderNoTransition animationNumber comment cards =
     section []
         [ div [ class "interaction" ]
             [ next (animationNumber + 1)
-            , text <| comment ++ ". Animation: " ++ toString (animationNumber + 1)
+            , text <| comment ++ ". Animation: " ++ String.fromInt (animationNumber + 1)
             ]
         , tableTop1 noTransition
             cards

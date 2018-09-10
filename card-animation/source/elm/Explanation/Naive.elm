@@ -1,16 +1,14 @@
-module Explanation.Naive exposing (..)
+module Explanation.Naive exposing (main)
 
+import Browser
 import Card exposing (Card(..))
 import Explanation.Model as Model
-import Explanation.View as View
 import Explanation.Update as Update
-import Html
-import Task
-import Process
+import Explanation.View as View
 
 
 main =
-    Html.program
+    Browser.element
         { init = Model.initialNoSeed [ OneOfScissors, TwoOfScissors, ThreeOfScissors, FourOfScissors, FiveOfScissors ]
         , view = View.view
         , update = Update.naiveUpdate

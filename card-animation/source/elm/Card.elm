@@ -93,18 +93,24 @@ webComponent attrs facing card =
                 ++ [ attribute "suit" <| suitToString data.suit
                    , attribute "rank" <| rankToString data.rank
                    ]
-                ++ case facing of
-                    Up ->
-                        [ attribute "up" "" ]
+                ++ (case facing of
+                        Up ->
+                            [ attribute "up" " " ]
 
-                    Down ->
-                        []
+                        Down ->
+                            []
+                   )
     in
         node "pilatch-card" attributes []
 
 
 facingToString facing =
-    toString facing |> String.toLower
+    case facing of
+        Up ->
+            "up"
+
+        Down ->
+            "down"
 
 
 rankToString rank =
@@ -156,7 +162,15 @@ rankToString rank =
 
 
 suitToString suit =
-    toString suit |> String.toLower
+    case suit of
+        Paper ->
+            "paper"
+
+        Rock ->
+            "rock"
+
+        Scissors ->
+            "scissors"
 
 
 cardToData card =

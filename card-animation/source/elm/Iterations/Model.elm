@@ -1,4 +1,4 @@
-module Iterations.Model exposing (..)
+module Iterations.Model exposing (Implementation(..), Model, Msg(..))
 
 
 type alias Model =

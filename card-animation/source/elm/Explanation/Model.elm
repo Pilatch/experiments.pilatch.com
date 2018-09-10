@@ -1,4 +1,4 @@
-module Explanation.Model exposing (..)
+module Explanation.Model exposing (AnimationStep(..), HandIndex, Model, Msg(..), RearrangeMsg(..), initial, initialCommand, initialNoSeed)
 
 import Card exposing (Card(..))
 import Process
@@ -21,7 +21,8 @@ initial hand seedInt =
         )
 
 
-initialNoSeed hand =
+initialNoSeed : List Card -> Int -> ( Model, Cmd Msg )
+initialNoSeed hand flags =
     ( { animationStep = NoTransitionRearrange
       , hand = hand
       , maxHandSize = List.length hand

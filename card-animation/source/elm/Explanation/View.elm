@@ -49,10 +49,11 @@ hand step maxHandSize cards =
 
                         attributes =
                             [ handClass maxHandSize cardNumber ]
-                                ++ if handIndex == listIndex then
-                                    [ placedClass ]
-                                   else
-                                    []
+                                ++ (if handIndex == listIndex then
+                                        [ placedClass ]
+                                    else
+                                        []
+                                   )
                     in
                         webComponent attributes facing card
             in
@@ -77,7 +78,7 @@ placedCardArea : AnimationStep -> Int -> Int -> Maybe Card -> List (Html msg)
 placedCardArea step maxHandSize currentHandSize maybeCard =
     let
         emptyArea =
-            [ node "pilatch-card" [ placedClass, attribute "nothing" "" ] [] ]
+            [ node "pilatch-card" [ placedClass, attribute "nothing" " " ] [] ]
 
         placed =
             case maybeCard of
@@ -99,7 +100,7 @@ placedCardArea step maxHandSize currentHandSize maybeCard =
 
 
 handClass maxHandSize handIndex =
-    interpolate "player-hand hand-size-{0} card-{1}" [ toString maxHandSize, toString handIndex ] |> class
+    interpolate "player-hand hand-size-{0} card-{1}" [ String.fromInt maxHandSize, String.fromInt handIndex ] |> class
 
 
 placedClass =
@@ -107,4 +108,4 @@ placedClass =
 
 
 noTransition =
-    attribute "no-transition" ""
+    attribute "no-transition" " "
