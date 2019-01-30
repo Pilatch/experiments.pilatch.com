@@ -4,21 +4,16 @@
   "private": true,
   "description": "trying stuff",
   "main": "index.html",
-  "dependencies": {},
-  "devDependencies": {
-    "chokidar-cli": "^1.2.0",
-    "express": "^4.15.2",
-    "postcss-calc": "^6.0.1",
-    "postcss-cli": "^6.0.0",
-    "postcss-custom-properties": "^7.0.0",
-    "postcss-discard-duplicates": "^4.0.0",
-    "postcss-import": "^12.0.0"
+  "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.2.4",
+    "codemirror": "^5.43.0",
+    "pilatch-card": "^2.0.2"
   },
   "scripts": {
     "build": "./commands/build.sh",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd card-animation/public && yarn install --flat",
-    "start": "node web-server.js"
+    "postinstall": "cd dev && yarn install",
+    "start": "node dev/web-server.js"
   },
   "keywords": [
     "play",
