@@ -13,6 +13,10 @@
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.1.tgz#53f349bb986ab273d601175aa1b25a655ab90ee3"
 
+"@webcomponents/webcomponentsjs@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-2.2.4.tgz#b520d586e46517914d9708c2220b263116d5f86a"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -488,7 +492,7 @@ escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
 
-escape-string-regexp@^1.0.3, escape-string-regexp@^1.0.5:
+escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
@@ -583,10 +587,6 @@ extend-shallow@^3.0.0, extend-shallow@^3.0.2:
   dependencies:
     assign-symbols "^1.0.0"
     is-extendable "^1.0.1"
-
-extend@^3.0.1:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
 
 extglob@^0.3.1:
   version "0.3.2"
@@ -1560,14 +1560,6 @@ postcss-cli@^6.0.0:
     pretty-hrtime "^1.0.3"
     read-cache "^1.0.0"
     yargs "^12.0.1"
-
-postcss-css-variables@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/postcss-css-variables/-/postcss-css-variables-0.9.0.tgz#dc442742b460949fa0a53f5a7c91b0115319cf7f"
-  dependencies:
-    escape-string-regexp "^1.0.3"
-    extend "^3.0.1"
-    postcss "^6.0.8"
 
 postcss-custom-properties@^7.0.0:
   version "7.0.0"

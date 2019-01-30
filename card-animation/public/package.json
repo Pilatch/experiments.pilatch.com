@@ -6,7 +6,8 @@
   "author": "Ethan B. Martin",
   "license": "ISC",
   "dependencies": {
+    "@webcomponents/webcomponentsjs": "^2.2.4",
     "codemirror": "^5.38.0",
-    "pilatch-card": "^1.0.0"
+    "pilatch-card": "^2.0.2"
   }
 }
