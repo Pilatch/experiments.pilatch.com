@@ -30,14 +30,24 @@ class App extends React.Component {
 
 class Hand extends Component {
   render() {
+    if (this.props.placed === -1) {
+      return [0,1,2,3,4].map(index => {
+        let cssClass = `player-hand hand-size-5 card-${index}`
+        return <pilatch-card suit="rock" rank={index + 1} up class={cssClass}></pilatch-card>
+      })
+    }
+
     return (
       [0,1,2,3,4].map(index => {
-        let cssClass = `player-hand hand-size-5 card-${index} ${
+        let adjustedHandIndex = this.props.placed > index
+          ? index
+          : index - 1
+        let cssClass = `player-hand hand-size-5 card-${adjustedHandIndex} ${
           this.props.placed === index
             ? 'player-placed-card-area'
             : ''
         }`
-        return <pilatch-card suit="rock" rank={index + 1} up class={cssClass}></pilatch-card>
+        return <pilatch-card suit="rock" rank={index + 1} up={index === this.props.placed ? null : true} class={cssClass}></pilatch-card>
       })
     )
   }
