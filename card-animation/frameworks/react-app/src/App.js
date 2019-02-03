@@ -37,6 +37,9 @@ class App extends React.Component {
             <Hand placedIndex={this.state.placedIndex} placedCard={this.state.placedCard} removePlaced={true}/>
             <PlacedCardArea placedCard={this.state.placedCard} />
           </div>
+        </main>
+        <hr/>
+        <main>
           <h2>duplicating placed cards in hand</h2>
           <div class="table-top">
             <Hand placedIndex={this.state.placedIndex} placedCard={this.state.placedCard}/>
