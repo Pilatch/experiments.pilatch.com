@@ -5,14 +5,19 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      placedCardIndex: -1
+      placedCardIndex: -1,
+      placedCard: null,
     }
     setInterval(() => {
       this.setState({
+        placedCard: null,
         placedCardIndex: this.state.placedCardIndex === 4
           ? 0
-          : this.state.placedCardIndex + 1
+          : this.state.placedCardIndex + 1,
       })
+      setTimeout(() => {
+        this.setState({...this.state, placedCard: {rank: this.state.placedCardIndex + 1, suit: 'rock'}})
+      }, 1000)
     }, 1250)
   }
 
@@ -21,10 +26,27 @@ class App extends React.Component {
       <main>
         <div class="table-top">
           <Hand placed={this.state.placedCardIndex}/>
-          <pilatch-card nothing class="player-placed-card-area"></pilatch-card>
+          <PlacedCardArea placed={this.state.placedCard} />
         </div>
       </main>
     );
+  }
+}
+
+class PlacedCardArea extends Component {
+  render() {
+    let card = this.props.placed
+
+    if (card) {
+      return (
+        <>
+          <pilatch-card suit={card.suit} rank={card.rank} class="player-placed-card-area"></pilatch-card>
+          <pilatch-card nothing class="player-placed-card-area"></pilatch-card>
+        </>
+      )
+    } else {
+      return <pilatch-card nothing class="player-placed-card-area"></pilatch-card>
+    }
   }
 }
 
