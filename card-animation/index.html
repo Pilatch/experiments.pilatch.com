@@ -38,18 +38,18 @@
     <p>I wanted to make an online game with cards moving realistically between players' hands and the table-top.</p>
     <p>
       In the past I had developed <a href="https://pilatch.com/games/casual/Runway">game demonstrations</a> that were meant to augment textual rules.
-      Those used <a href="https://jquery.com/">jQuery</a> animations, which is impossible to replicate today because the web police would confiscate my license to dev.
+      Those used <a href="https://jquery.com/">jQuery</a> animations, which is impossible to replicate today because the Web Police would confiscate my license to dev.
     </p>
-    <h2>Web Components</h2>
-    <p>Instead my modern approach was to create <a href="https://www.webcomponents.org/">web components</a> representing the zones in the game:</p>
+    <h2>Many Web Components</h2>
+    <p>To keep it modern my first approach was to create a <a href="https://www.webcomponents.org/">web component</a> representing each zone in the game:</p>
     <figure>
       <code-mirror mode="xml"><!--
 <table-top>
-  <pilatch-hand>
+  <player-hand>
     <pilatch-card rank="12" suit="scissors"></pilatch-card>
     <pilatch-card rank="7" suit="paper"></pilatch-card>
     <pilatch-card rank="1" suit="paper"></pilatch-card>
-  </pilatch-hand>
+  </player-hand>
   <placed-card-area>
     <pilatch-card rank="10" suit="rock"></pilatch-card>
   </placed-card-area>
@@ -60,11 +60,11 @@
     </figure>
     <p>
       Each web component was responsible for positioning its children, which was great for abstraction and separation of concerns.
-      For instance to make a card flip, I just toggle an <code>up</code> attribute, and a <code>pilatch-hand</code> would space out the cards it contained evenly.
+      For instance to make a <code>&lt;pilatch-card&gt;</code> flip, I just toggle its <code>up</code> attribute, and a <code>&lt;player-hand&gt;</code> would space out the cards it contained evenly.
     </p>
     <p>
       Unfortunately this fails because the concept of moving a card between zones didn't apply in virtual DOM.
-      <a href="http://elm-lang.org/">Elm</a>'s renderer would destroy the card element that was in the hand, and make a similar one elsewhere.
+      <a href="http://elm-lang.org/">Elm</a>'s renderer would destroy the card element that was in the player's hand, and make a similar one elsewhere.
       The result was more teleportation than animation.
     </p>
     <p>
@@ -72,10 +72,11 @@
       Were I to do this in Elm, I would need to use ports to do that destination-position calculation, or somehow track the placement of every zone <em>in</em> Elm.
     </p>
     <p>
-      Neither of those options was appealing.
+      Neither of those options were appealing.
     </p>
+    <h2>One relative table-top</h2>
     <p>
-      So my next attempt featured a single table-top element that would contain each card <em>without</em> additional nesting.
+      So my next attempt featured a single <code>&lt;div class="table-top"&gt;</code> containing each card <em>without</em> additional nesting.
       Cards fly about the table thanks to CSS transitions by adding or removing HTML attributes. The CSS is solely responsible for knowing the position of cards on the table, thus dividing the layout concern from the logic and view-model.
     </p>
     <figure>
@@ -98,7 +99,7 @@
 --></code-mirror>
       <figcaption>A simplified snippet of table-top CSS</figcaption>
     </figure>
-    <p>Now a card in hand could move to the table just by adding an attribute to it, such as <code>placed</code>.</p>
+    <p>Now a card in hand could move to the table by adding an attribute to it, such as <code>placed</code>.</p>
     <figure>
       <code-mirror mode="xml"><!--
 <pilatch-card placed hand="1" rank="1" suit="scissors"></pilatch-card>
@@ -132,23 +133,22 @@
       This same concept would apply for each pair of zones that cards move between, necessitating the tracking of more than just game state, but also the history of different card zones.
     </p>
     <p>
-      Sounds like a nightmare.
+      Sounds like a nightmare. Therefore I swap positions of cards in the DOM.
     </p>
     <p>
-      Therefore I swap positions of cards in the DOM... but undesired animations are triggered!
+      But undesired animations are triggered!
     </p>
     <p>
       If you look at the two code snippets above, you might understand how a browser would interpret this phenomenon.
-      The fifth <code>pilatch-card</code> seems to morph from the Five of Scissors to the One of Scissors.
+      The fifth <code>&lt;pilatch-card&gt;</code> seems to morph from the Five of Scissors to the One of Scissors.
       At the same time the first card in hand gives up its top/left positions associated with being placed, and the fifth card is suddenly placed, causing an animation that looks like the <em>last</em> card in hand is being plunked down.
     </p>
     <p>Or visually:</p>
     <figure>
       <section id="naiveDemo"></section>
-      <figcaption>An illustration of an early attempt</figcaption>
+      <figcaption>A loop that keeps placing the leftmost card on the table</figcaption>
     </figure>
     <p>
-      The demonstration above is written in a loop that keeps placing the leftmost card on the table.
       Watch the rank number on the rightmost card closely.
       See how sometimes it switches, then goes to the table?
       That's the unwanted CSS transition.
@@ -156,14 +156,20 @@
     <p>What's going on here?</p>
     <h2>Virtual DOM</h2>
     <p>
-      Even in frameworks requiring developers create immutable data structures from pure functions, what happens in browsers doesn't follow such constraints.
-      They must not, for performance reasons.
+      Even in frameworks requiring developers to create immutable data structures from pure functions, what happens in browsers doesn't follow such constraints.
+    </p>
+    <p>
+      Performance reasons, I suppose.
+    </p>
+    <p>
       It would be more costly to cull each HTML element and instantialize very similar ones, than to reuse the existing elements and modify them.
       That's what's going on here.
       The browser is reusing HTML elements in a way the developer did not intend.
     </p>
+    <p>React does something similar, and thankfully it's more obvious.</p>
+    <iframe src="frameworks/react-app/build" width="100%" height="430px" importance="low" style="overflow: hidden" scrolling="no"></iframe>
     <p>
-      Unlike jQuery, which encourages developers to work with references to long-lived HTML elements, and mutate them by fiat, the concept of virtual DOM takes a data-driven approach.
+      Unlike jQuery, which encourages developers to work with references to long-lived HTML elements and mutate them by fiat, the concept of virtual DOM takes a data-driven approach.
       Through a virtual DOM architecture you change the state of your program's model, and expect something to happen on screen the next time the renderer runs its view function.
       As developers we're giving up low-level control over the DOM in favor of productivity gains.
     </p>
@@ -198,10 +204,6 @@ frameTwo =
       How fast could that be?
     </p>
     <p>Clairvoyance probably <em>ain't</em> fast.</p>
-    <p>
-      By this reasoning my choice of Elm as virtual DOM renderer seems irrelevant, in terms of animation.
-      I'd expect the same challenge to arise with <a href="https://infernojs.org/">Inferno</a>, <a href="https://vuejs.org/">Vue</a>, <a href="https://reactjs.org/">React</a> or whatever your favorite flavor is.
-    </p>
     <h2>Solution</h2>
     <p>It seems obvious in retrospect. Don't animate when rearranging the cards in the DOM.</p>
     <figure>
@@ -234,6 +236,12 @@ frameTwo =
 --></code-mirror>
       <figcaption>How to only have animations when we want them</figcaption>
     </figure>
+    <h2>Another option</h2>
+    <p>
+      While experimenting with React I stumbled upon a lazy approach.
+      When moving a card from one zone to another, put it in both zones at the same time!
+      <a href="frameworks/react-app/build?showBoth">Have a look here.</a>
+    </p>
     <p>If you're interested in the nitty gritty, read on.</p>
     <h2>Iterative Development</h2>
     <p>In each demonstration you can step through the animations by clicking the NEXT button that appears in the upper left corner.</p>

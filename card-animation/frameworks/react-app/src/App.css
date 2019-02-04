@@ -1,0 +1,1215 @@
+/*
+
+# The Mad CSScientist's Basic CSS Stylesheet
+written by Tommy Hodgins: https://gist.github.com/tomhodgins/e330ec1826d1cde2b8b0
+
+## Usage
+Add this stylesheet to barebones HTML documents to instantly add some sensible defaults for text or documentation
+
+    <link href=http://staticresource.com/basic.css rel=stylesheet>
+
+This stylesheet contains multiple themes. To apply a theme add the attribute `data-theme` with the value `book`, `dark`, or `code` to the HTML tag.
+
+    <html data-theme=dark>
+
+*/
+
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-kerning: auto;
+  /* outline: none; */
+}
+::-moz-selection {
+  color: #fff;
+  text-shadow: #007931 1px 1px 1px;
+  background-color: #26ba62 !important;
+}
+::-webkit-selection {
+  color: #fff;
+  text-shadow: #007931 1px 1px 1px;
+  background-color: #26ba62 !important;
+}
+::selection {
+  color: #fff;
+  text-shadow: #007931 1px 1px 1px;
+  background-color: #26ba62 !important;
+}
+::-webkit-input-placeholder {
+  color: rgba(0,0,0,.5);
+}
+::-moz-placeholder {
+  color: rgba(0,0,0,.5);
+}
+:-ms-input-placeholder {
+  color: rgba(0,0,0,.5);
+}
+:placeholder-shown {
+  color: rgba(0,0,0,.5);
+}
+html {
+  font-size: 10pt;
+  line-height: 1.4;
+  font-weight: 400;
+  min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+  font-family: 'Source Sans Pro', 'Open Sans', Roboto, 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Myriad Pro', 'Segoe UI', 'Fira Sans', Myriad, Helvetica, 'Lucida Grande', 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, Geneva, Arial, sans-serif;
+  color: #333;
+  background: rgba(0,0,0,.1);
+  background: -moz-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,.1) 100vh);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.3)), color-stop(100vh,rgba(0,0,0,.1)));
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0.3) 0%,rgba(0,0,0,.1) 100vh);
+  background: -o-linear-gradient(top, rgba(0,0,0,0.3) 0%,rgba(0,0,0,.1) 100vh);
+  background: -ms-linear-gradient(top, rgba(0,0,0,0.3) 0%,rgba(0,0,0,.1) 100vh);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%,rgba(0,0,0,.1) 100vh);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bbbbbb00', endColorstr='#dddddd00',GradientType=0);
+}
+body {
+  margin: 0 auto;
+  max-width: 850px;
+  min-height: 100%;
+  padding: 2em;
+}
+q:before {content: '\201c'}
+q:after  {content: '\201d'}
+q q:before {content: '\2018'}
+q q:after  {content: '\2019'}
+h1, h2, h3, h4, h5, h6 {
+  margin: .5em 0;
+  font-weight: 600;
+  letter-spacing: -.03em;
+  line-height: 1.2;
+  font-family: 'Fira Sans', 'Source Sans Pro', 'Open Sans', Roboto, 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Myriad Pro', 'Segoe UI', Myriad, Helvetica, 'Lucida Grande', 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, Geneva, Arial, sans-serif;
+  word-break: break-word;
+}
+h1 {
+  text-align: center;
+  font-size: 480%;
+  font-weight: 700;
+  line-height: 1;
+  color: #333;
+  text-shadow: white 0 -1px 0;
+}
+h1 + h2 {
+  margin-top: -1em;
+  margin-bottom: 1.5em;
+  font-size: 200%;
+  line-height: 1.4;
+  font-weight: 300;
+  text-align: center;
+  color: #777;
+}
+h2 {
+  font-size: 300%;
+}
+h3 {
+  font-size: 220%;
+}
+h4 {
+  font-size: 180%;
+}
+h5 {
+  font-size: 140%;
+}
+h6 {
+  font-size: 120%;
+}
+a {
+  text-decoration: none;
+  outline: none !important;
+  color: slateblue;
+}
+a:hover,
+a:focus {
+  color: darkslateblue;
+}
+hr {
+  border: none;
+  height: 1px;
+  background: #ccc;
+}
+li {
+  font-size: 12pt;
+  padding: .25em 0;
+}
+p {
+  margin: 0;
+  font-weight: 400;
+  font-size: 12pt;
+}
+* + p {
+  margin-top: .5em;
+}
+textarea {
+  width: 100%;
+  font-size: 12pt;
+  margin-bottom: 1em;
+  padding: 10px 8px;
+}
+blockquote {
+  margin: 1em auto 0 auto;
+  padding: 1em 2em;
+  position: relative;
+  font-family: 'Fira Sans', 'Source Sans Pro', 'Open Sans', Roboto, 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Myriad Pro', 'Segoe UI', Myriad, Helvetica, 'Lucida Grande', 'DejaVu Sans Condensed', 'Liberation Sans', 'Nimbus Sans L', Tahoma, Geneva, Arial, sans-serif;
+  color: #777;
+}
+blockquote:before {
+  content: '';
+  display: block;
+  width: 5px;
+  height: 100%;
+  background: currentColor;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: .5;
+}
+blockquote p {
+  font-size: 250%;
+  font-weight: 500;
+  font-style: italic;
+}
+blockquote li {
+  font-size: 160%;
+  font-style: italic;
+}
+blockquote p,
+blockquote li {
+  color: #333;
+}
+blockquote footer,
+blockquote cite {
+  display: block;
+  font-style: normal;
+  margin-top: .5em;
+  padding: 0;
+  color: currentColor;
+  font-size: 125%;
+  text-align: left;
+}
+blockquote footer:before,
+blockquote cite:before {
+  content: '— ';
+}
+footer {
+  font-size: 11pt;
+  text-align: center;
+  padding: 2em .5em;
+  color: #777;
+}
+a,
+input,
+textarea,
+button,
+label,
+iframe,
+audio,
+video {
+  touch-action: manipulation;
+}
+[class*="float-"] {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  cursor: default;
+  pointer-events: none;
+}
+[data-tooltip][class*="float-"]{
+  pointer-events: all;
+}
+@media (min-width: 500px) {
+  .float-left {
+    float: left;
+    margin: 0 .5em .5em 0;
+    max-width: 50%;
+  }
+  .float-right {
+    float: right;
+    margin: 0 0 .5em .5em;
+    max-width: 50%;
+  }
+}
+@media (max-width: 500px) {
+  html {
+    font-size: 7.5pt;
+  }
+}
+/* Default Theme */
+[data-theme=default] ::-moz-selection {
+  color: #fff !important;
+  text-shadow: #007931 1px 1px 1px !important;
+  background-color: #26ba62 !important;
+}
+[data-theme=default] ::-webkit-selection {
+  color: #fff !important;
+  text-shadow: #007931 1px 1px 1px !important;
+  background-color: #26ba62 !important;
+}
+[data-theme=default] ::selection {
+  color: #fff !important;
+  text-shadow: #007931 1px 1px 1px !important;
+  background-color: #26ba62 !important;
+}
+[data-theme=default] ::-webkit-input-placeholder {
+  color: rgba(0,0,0,.5) !important;
+}
+[data-theme=default] ::-moz-placeholder {
+  color: rgba(0,0,0,.5) !important;
+}
+[data-theme=default] :-ms-input-placeholder {
+  color: rgba(0,0,0,.5) !important;
+}
+[data-theme=default] :placeholder-shown {
+  color: rgba(0,0,0,.5) !important;
+}
+[data-theme=default] {
+  color: #333 !important;
+  background: rgba(0,0,0,.1) !important;
+  background: -moz-linear-gradient(top, rgba(0,0,0,0.3) 0%, rgba(0,0,0,.1) 100vh) !important;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.3)), color-stop(100vh,rgba(0,0,0,.1))) !important;
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0.3) 0%,rgba(0,0,0,.1) 100vh) !important;
+  background: -o-linear-gradient(top, rgba(0,0,0,0.3) 0%,rgba(0,0,0,.1) 100vh) !important;
+  background: -ms-linear-gradient(top, rgba(0,0,0,0.3) 0%,rgba(0,0,0,.1) 100vh) !important;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%,rgba(0,0,0,.1) 100vh) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bbbbbb00', endColorstr='#dddddd00',GradientType=0) !important;
+}
+[data-theme=default] h1,
+[data-theme=default] h2,
+[data-theme=default] h3,
+[data-theme=default] h4,
+[data-theme=default] h5,
+[data-theme=default] h6 {
+  color: #555 !important;
+}
+[data-theme=default] h1 {
+  color: #333 !important;
+  text-shadow: white 0 -1px 0;
+}
+[data-theme=default] h1 + h2 {
+  color: #777 !important;
+}
+[data-theme=default] a {
+  color: slateblue !important;
+}
+[data-theme=default] a:hover,
+[data-theme=default] a:focus {
+  color: darkslateblue !important;
+}
+
+[data-theme=default] hr {
+  background: #ccc !important;
+}
+[data-theme=default] blockquote {
+  color: #777 !important;
+}
+[data-theme=default] blockquote p,
+[data-theme=default] blockquote li {
+  color: #333 !important;
+}
+[data-theme=default] footer {
+  color: #777 !important;
+}
+/* Book Theme */
+[data-theme=book] {
+  color: #632;
+  background: tan;
+  box-shadow: inset burlywood 0 0 50vmin;
+  font-family: 'PT Serif', Cambria, 'Hoefler Text', Utopia, 'Liberation Serif', 'Nimbus Roman No9 L Regular', Times, 'Times New Roman', serif;
+}
+[data-theme=book] h1,
+[data-theme=book] h2,
+[data-theme=book] h3,
+[data-theme=book] h4,
+[data-theme=book] h5,
+[data-theme=book] h6 {
+  color: #742;
+  text-shadow: none;
+  font-family: 'Playfair Display', 'PT Serif', Cambria, 'Hoefler Text', Utopia, 'Liberation Serif', 'Nimbus Roman No9 L Regular', Times, 'Times New Roman', serif;
+  letter-spacing: 0;
+  font-weight: 700;
+}
+[data-theme=book] h1 {
+  color: #632;
+}
+[data-theme=book] h1 + h2 {
+  font-weight: 400;
+}
+[data-theme=book] blockquote {
+  color: #632;
+  font-family: 'Playfair Display', 'PT Serif', Cambria, 'Hoefler Text', Utopia, 'Liberation Serif', 'Nimbus Roman No9 L Regular', Times, 'Times New Roman', serif;
+}
+[data-theme=book] blockquote p {
+  color: #632;
+}
+[data-theme=book] blockquote li {
+  color: #632;
+  font-size: 160%;
+}
+[data-theme=book] a {
+  color: maroon;
+}
+[data-theme=book] a:focus,
+[data-theme=book] a:hover {
+  color: #c00;
+}
+[data-theme=book] hr {
+  background: #742;
+}
+[data-theme=book] footer {
+  color: #742;
+}
+[data-theme=book] footer a {
+  color: #632;
+}
+/* Code Theme */
+[data-theme=code] {
+  color: #839496;
+  background: #073642;
+}
+[data-theme=code] ::-moz-selection {
+  color: #002b36;
+  text-shadow: none !important;
+  background-color: #eee8d5 !important;
+}
+[data-theme=code] ::-webkit-selection {
+  color: #002b36;
+  text-shadow: none !important;
+  background-color: #eee8d5 !important;
+}
+[data-theme=code] ::selection {
+  color: #002b36;
+  text-shadow: none !important;
+  background-color: #eee8d5 !important;
+}
+[data-theme=code] ::-webkit-input-placeholder {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=code] :-moz-placeholder {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=code] ::-moz-placeholder {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=code] :-ms-input-placeholder {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=code] ::-ms-input-placeholder {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=code] :placeholder-shown {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=code] select {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=code] h1,
+[data-theme=code] h2,
+[data-theme=code] h3,
+[data-theme=code] h4,
+[data-theme=code] h5,
+[data-theme=code] h6 {
+  color: #839496;
+}
+[data-theme=code] h1 {
+  color: #eee8d5;
+  text-shadow: #002b36 0 2px 0;
+}
+[data-theme=code] a:focus,
+[data-theme=code] a:hover {
+  color: white;
+}
+[data-theme=code] blockquote {
+  color: #839496;
+}
+[data-theme=code] blockquote p {
+  color: #eee8d5;
+}
+[data-theme=code] blockquote li {
+  color: #eee8d5;
+  font-size: 160%;
+}
+[data-theme=code] hr {
+  background: #839496;
+}
+[data-theme=code] footer {
+  color: #839496;
+}
+[data-theme=code] footer a {
+  color: #eee8d5;
+}
+/* Dark Theme */
+[data-theme=dark] {
+  color: #ccc;
+  background: #333;
+  background: -moz-linear-gradient(top, #222 0%, #333 75vh);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#222), color-stop(75vh,#333));
+  background: -webkit-linear-gradient(top, #222 0%,#333 75vh);
+  background: -o-linear-gradient(top, #222 0%,#333 75vh);
+  background: -ms-linear-gradient(top, #222 0%,#333 75vh);
+  background: linear-gradient(to bottom, #222 0%,#333 75vh);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#22222200', endColorstr='#33333300',GradientType=0 );
+}
+[data-theme=dark] ::-moz-selection {
+  color: #fff;
+  text-shadow: #205 1px 1px 1px !important;
+  background-color: royalblue !important;
+}
+[data-theme=dark] ::-webkit-selection {
+  color: #fff;
+  text-shadow: #205 1px 1px 1px !important;
+  background-color: royalblue !important;
+}
+[data-theme=dark] ::selection {
+  color: #fff;
+  text-shadow: #205 1px 1px 1px !important;
+  background-color: royalblue !important;
+}
+[data-theme=dark] ::-webkit-input-placeholder {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=dark] :-moz-placeholder {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=dark] ::-moz-placeholder {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=dark] :-ms-input-placeholder {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=dark] ::-ms-input-placeholder {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=dark] :placeholder-shown {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=dark] select {
+  color: rgba(255,255,255,.3);
+}
+[data-theme=dark] h1,
+[data-theme=dark] h2,
+[data-theme=dark] h3,
+[data-theme=dark] h4,
+[data-theme=dark] h5,
+[data-theme=dark] h6 {
+  color: #aaa;
+}
+[data-theme=dark] h1 {
+  color: #eee;
+  text-shadow: #222 0 2px 0;
+}
+[data-theme=dark] blockquote p {
+  color: #eee;
+}
+[data-theme=dark] blockquote li {
+  color: #eee;
+  font-size: 160%;
+}
+[data-theme=dark] a {
+  color: royalblue;
+}
+[data-theme=dark] a:focus,
+[data-theme=dark] a:hover {
+  color: cornflowerblue;
+}
+[data-theme=dark] hr {
+  background: #555;
+}
+
+/* Ethan-specific stuff */
+
+body {
+  max-width: none;
+}
+header p {
+  font-size: 1.5em;
+  text-align: center;
+}
+figure {
+  margin: 1em 0;
+}
+figcaption {
+  margin-top: 0.5em;
+  text-align: center;
+}
+figure pre {
+  margin-bottom: 1em;
+}
+main {
+  margin: 0 auto;
+  max-width: 54em;
+  padding: 0 1em 2em;
+}
+p {
+  font-size: 1.45rem;
+  line-height: 2.25rem;
+  padding: 0 1em;
+}
+p code {
+  background-color: #ccc;
+  padding: 0 0.3em;
+  white-space: nowrap;
+}
+.CodeMirror {
+  height: auto;
+}
+.CodeMirror-lines {
+  font-size: 1.25em;
+  line-height: 1.75em;
+}
+.preload {
+  display: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+.table-top:not([no-transition]) pilatch-card {
+  transition-duration: var(--pilatch-card-transition-duration, 1s);
+}
+:root {
+  --table-top-height: 100vh;
+  --player-deck-scale: 0.25;
+  --player-deck-left: calc(50% - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --deck-stack-increment: 3px;
+  --placed-card-scale: 0.33;
+  --opponent-hand-scale: 0.25;
+  --opponent-hand-card-overlap: calc(var(--scaled-card-width) * var(--opponent-hand-scale) / 2);
+  --opponent-1-deck-left: calc(16.7% - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --opponent-1-deck-top: calc(var(--table-top-height) * 0.25);
+  --opponent-2-deck-left: calc(100% - 16.7% - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --opponent-2-deck-top: calc(var(--table-top-height) * 0.25);
+  --player-deck-top: calc(var(--table-top-height) * 0.85);
+}
+
+.table-top {
+  border: 1px dashed purple;
+  display: block;
+  height: var(--table-top-height);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.table-top pilatch-card {
+  position: absolute;
+  will-change: transform, left, top;
+}
+
+/* player */
+
+.player-hand {
+  top: calc(var(--table-top-height) - var(--scaled-card-height) / 3);
+}
+
+.hand-size-3 {
+  --card-gap: calc(100% / 3);
+}
+.hand-size-4 {
+  --card-gap: calc(100% / 4);
+}
+.hand-size-5 {
+  --card-gap: calc(100% / 5);
+}
+.hand-size-6 {
+  --card-gap: calc(100% / 6);
+}
+.hand-size-7 {
+  --card-gap: calc(100% / 7);
+}
+.hand-size-8 {
+  --card-gap: calc(100% / 8);
+}
+.hand-size-9 {
+  --card-gap: calc(100% / 9);
+}
+
+.card-0 {
+  left: calc(var(--card-gap) * 0);
+}
+.card-1 {
+  left: calc(var(--card-gap) * 1);
+}
+.card-2 {
+  left: calc(var(--card-gap) * 2);
+}
+.card-3 {
+  left: calc(var(--card-gap) * 3);
+}
+.card-4 {
+  left: calc(var(--card-gap) * 4);
+}
+.card-5 {
+  left: calc(var(--card-gap) * 5);
+}
+.card-6 {
+  left: calc(var(--card-gap) * 6);
+}
+.card-7 {
+  left: calc(var(--card-gap) * 7);
+}
+.card-8 {
+  left: calc(var(--card-gap) * 8);
+}
+.card-9 {
+  left: calc(var(--card-gap) * 9);
+}
+
+.player-placed-card-area {
+  left: calc(50% - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: calc(var(--table-top-height) * 0.6);
+  transform-origin: top left;
+  transform: scale(var(--placed-card-scale));
+}
+
+.player-deck, .opponent-1-deck, .opponent-2-deck {
+  transform: rotate(-90deg) scale(var(--player-deck-scale));
+  transform-origin: top left;
+}
+.player-deck.card-1 {
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 1);
+}
+.player-deck.card-2 {
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 2);
+}
+.player-deck.card-3 {
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 3);
+}
+.player-deck.card-4 {
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 4);
+}
+.player-deck.card-5, .player-deck {
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 5);
+}
+
+/* center */
+
+pilatch-card[binary] {
+  left: calc(50% - var(--scaled-card-height) * 0.5 / 2);
+  top: calc(var(--table-top-height) / 2 - var(--scaled-card-width) * 0.5 / 2);
+  transform: scale(0.5);
+  transform-origin: top left;
+}
+
+.claimed-suit {
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: calc(var(--table-top-height) / 2 - var(--scaled-card-width) * 0.5 / 2);
+  width: 33%;
+}
+
+.wins-in-a-row {
+  left: 66%;
+  position: absolute;
+  text-align: center;
+  top: calc(var(--table-top-height) / 2 - var(--scaled-card-width) * 0.5 / 2);
+  width: 33%;
+}
+
+/* opponents */
+
+.opponent-1-hand, .opponent-2-hand {
+  top: calc(var(--scaled-card-height) * var(--opponent-hand-scale) / -3);
+  transform: scale(var(--opponent-hand-scale));
+  transform-origin: top left;
+}
+
+/* opponent 1 */
+
+.opponent-1-hand.card-1 {
+  left: 0;
+  z-index: 0;
+}
+.opponent-1-hand.card-2 {
+  left: calc(var(--opponent-hand-card-overlap) * 1);
+  z-index: 1;
+}
+.opponent-1-hand.card-3 {
+  left: calc(var(--opponent-hand-card-overlap) * 2);
+  z-index: 2;
+}
+.opponent-1-hand.card-4 {
+  left: calc(var(--opponent-hand-card-overlap) * 3);
+  z-index: 2;
+}
+
+.opponent-1-placed-card-area { /* TODO use something like player.placed-card-area */
+  left: calc(16.7% - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: calc(var(--table-top-height) * 0.26);
+  transform-origin: top left;
+  transform: scale(var(--placed-card-scale));
+}
+
+.opponent-1-deck.card-1 {
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 1);
+}
+.opponent-1-deck.card-2 {
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 2);
+}
+.opponent-1-deck.card-3 {
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 3);
+}
+.opponent-1-deck.card-4 {
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 4);
+}
+.opponent-1-deck.card-5, .opponent-1-deck {
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 5);
+}
+
+/* opponent 2 */
+
+.opponent-2-hand.card-1 {
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 3);
+  z-index: 0;
+}
+.opponent-2-hand.card-2 {
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 2);
+  z-index: 1;
+}
+.opponent-2-hand.card-3 {
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 1);
+  z-index: 2;
+}
+.opponent-2-hand.card-4 {
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 0);
+  z-index: 2;
+}
+
+.opponent-2-placed-card-area { /* TODO use something like player.placed-card-area */
+  left: calc(100% - 16.7% - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: calc(var(--table-top-height) * 0.26);
+  transform-origin: top left;
+  transform: scale(var(--placed-card-scale));
+}
+
+.opponent-2-deck.card-1 {
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 1);
+}
+.opponent-2-deck.card-2 {
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 2);
+}
+.opponent-2-deck.card-3 {
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 3);
+}
+.opponent-2-deck.card-4 {
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 4);
+}
+.opponent-2-deck.card-5, .opponent-2-deck {
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 5);
+}
+
+:root {
+  --pilatch-card-scale: 1;
+  --pilatch-card-height: 350px;
+  --pilatch-card-width: 250px;
+}
+
+:root {
+  /*
+    TODO calculate scaled card height and width based on viewport width
+    TODO calculate the pilatch-card-scale based on the relationship between the card height and scaled height,
+    if possible, as pilatch-card.css uses that in a few places.
+  */
+  --scaled-card-height: 350px;
+  --scaled-card-height: calc(var(--pilatch-card-height) * var(--pilatch-card-scale));
+  --scaled-card-width: 250px;
+  --scaled-card-width: calc(var(--pilatch-card-width) * var(--pilatch-card-scale));
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.table-top:not([no-transition]) pilatch-card {
+  transition-duration: 1s;
+  transition-duration: var(--pilatch-card-transition-duration, 1s);
+}
+
+:root {
+  --table-top-height: 100vh;
+  --player-deck-scale: 0.25;
+  --player-deck-left: calc(50% - 43.75px);
+  --player-deck-left: calc(50% - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --deck-stack-increment: 3px;
+  --placed-card-scale: 0.33;
+  --opponent-hand-scale: 0.25;
+  --opponent-hand-card-overlap: 31.25px;
+  --opponent-hand-card-overlap: calc(var(--scaled-card-width) * var(--opponent-hand-scale) / 2);
+  --opponent-1-deck-left: calc(16.7% - 43.75px);
+  --opponent-1-deck-left: calc(16.7% - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --opponent-1-deck-top: 25vh;
+  --opponent-1-deck-top: calc(var(--table-top-height) * 0.25);
+  --opponent-2-deck-left: calc(83.3% - 43.75px);
+  --opponent-2-deck-left: calc(83.3% - var(--scaled-card-height) * var(--player-deck-scale) / 2);
+  --opponent-2-deck-top: 25vh;
+  --opponent-2-deck-top: calc(var(--table-top-height) * 0.25);
+  --player-deck-top: 85vh;
+  --player-deck-top: calc(var(--table-top-height) * 0.85);
+}
+
+.table-top {
+  border: 1px dashed purple;
+  display: block;
+  height: 100vh;
+  height: var(--table-top-height);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.table-top pilatch-card {
+  position: absolute;
+  will-change: transform, left, top;
+}
+
+/* player */
+
+.player-hand {
+  top: calc(100vh - 116.66667px);
+  top: calc(var(--table-top-height) - var(--scaled-card-height) / 3);
+}
+
+/* TODO refactor the hand-size and card-gap implementation so it'll work in IE. */
+
+.hand-size-3 {
+  --card-gap: 33.33333%;
+}
+
+.hand-size-4 {
+  --card-gap: 25%;
+}
+
+.hand-size-5 {
+  --card-gap: 20%;
+}
+
+.hand-size-6 {
+  --card-gap: 16.66667%;
+}
+
+.hand-size-7 {
+  --card-gap: 14.28571%;
+}
+
+.hand-size-8 {
+  --card-gap: 12.5%;
+}
+
+.hand-size-9 {
+  --card-gap: 11.11111%;
+}
+
+.card-0 {
+  left: calc(var(--card-gap) * 0);
+}
+
+.card-1 {
+  left: calc(var(--card-gap) * 1);
+}
+
+.card-2 {
+  left: calc(var(--card-gap) * 2);
+}
+
+.card-3 {
+  left: calc(var(--card-gap) * 3);
+}
+
+.card-4 {
+  left: calc(var(--card-gap) * 4);
+}
+
+.card-5 {
+  left: calc(var(--card-gap) * 5);
+}
+
+.card-6 {
+  left: calc(var(--card-gap) * 6);
+}
+
+.card-7 {
+  left: calc(var(--card-gap) * 7);
+}
+
+.card-8 {
+  left: calc(var(--card-gap) * 8);
+}
+
+.card-9 {
+  left: calc(var(--card-gap) * 9);
+}
+
+.player-placed-card-area {
+  left: calc(50% - 41.25px);
+  left: calc(50% - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: 60vh;
+  top: calc(var(--table-top-height) * 0.6);
+  transform-origin: top left;
+  transform: scale(0.33);
+  transform: scale(var(--placed-card-scale));
+}
+
+.player-deck, .opponent-1-deck, .opponent-2-deck {
+  transform: rotate(-90deg) scale(0.25);
+  transform: rotate(-90deg) scale(var(--player-deck-scale));
+  transform-origin: top left;
+}
+
+.player-deck.card-1 {
+  left: calc(50% - 40.75px);
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(85vh - 3px);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 1);
+}
+
+.player-deck.card-2 {
+  left: calc(50% - 37.75px);
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(85vh - 6px);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 2);
+}
+
+.player-deck.card-3 {
+  left: calc(50% - 34.75px);
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(85vh - 9px);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 3);
+}
+
+.player-deck.card-4 {
+  left: calc(50% - 31.75px);
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(85vh - 12px);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 4);
+}
+
+.player-deck.card-5, .player-deck {
+  left: calc(50% - 28.75px);
+  left: calc(var(--player-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(85vh - 15px);
+  top: calc(var(--player-deck-top) - var(--deck-stack-increment) * 5);
+}
+
+/* center */
+
+pilatch-card[binary] {
+  left: calc(50% - 87.5px);
+  left: calc(50% - var(--scaled-card-height) * 0.5 / 2);
+  top: calc(50vh - 62.5px);
+  top: calc(var(--table-top-height) / 2 - var(--scaled-card-width) * 0.5 / 2);
+  transform: scale(0.5);
+  transform-origin: top left;
+}
+
+.claimed-suit {
+  left: 0;
+  position: absolute;
+  text-align: center;
+  top: calc(50vh - 62.5px);
+  top: calc(var(--table-top-height) / 2 - var(--scaled-card-width) * 0.5 / 2);
+  width: 33%;
+}
+
+.wins-in-a-row {
+  left: 66%;
+  position: absolute;
+  text-align: center;
+  top: calc(50vh - 62.5px);
+  top: calc(var(--table-top-height) / 2 - var(--scaled-card-width) * 0.5 / 2);
+  width: 33%;
+}
+
+/* opponents */
+
+.opponent-1-hand, .opponent-2-hand {
+  top: -29.16667px;
+  top: calc(var(--scaled-card-height) * var(--opponent-hand-scale) / -3);
+  transform: scale(0.25);
+  transform: scale(var(--opponent-hand-scale));
+  transform-origin: top left;
+}
+
+/* opponent 1 */
+
+.opponent-1-hand.card-1 {
+  left: 0;
+  z-index: 0;
+}
+
+.opponent-1-hand.card-2 {
+  left: 31.25px;
+  left: calc(var(--opponent-hand-card-overlap) * 1);
+  z-index: 1;
+}
+
+.opponent-1-hand.card-3 {
+  left: 62.5px;
+  left: calc(var(--opponent-hand-card-overlap) * 2);
+  z-index: 2;
+}
+
+.opponent-1-hand.card-4 {
+  left: 93.75px;
+  left: calc(var(--opponent-hand-card-overlap) * 3);
+  z-index: 2;
+}
+
+.opponent-1-placed-card-area { /* TODO use something like player.placed-card-area */
+  left: calc(16.7% - 41.25px);
+  left: calc(16.7% - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: 26vh;
+  top: calc(var(--table-top-height) * 0.26);
+  transform-origin: top left;
+  transform: scale(0.33);
+  transform: scale(var(--placed-card-scale));
+}
+
+.opponent-1-deck.card-1 {
+  left: calc(16.7% - 40.75px);
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(25vh - 3px);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 1);
+}
+
+.opponent-1-deck.card-2 {
+  left: calc(16.7% - 37.75px);
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(25vh - 6px);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 2);
+}
+
+.opponent-1-deck.card-3 {
+  left: calc(16.7% - 34.75px);
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(25vh - 9px);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 3);
+}
+
+.opponent-1-deck.card-4 {
+  left: calc(16.7% - 31.75px);
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(25vh - 12px);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 4);
+}
+
+.opponent-1-deck.card-5, .opponent-1-deck {
+  left: calc(16.7% - 28.75px);
+  left: calc(var(--opponent-1-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(25vh - 15px);
+  top: calc(var(--opponent-1-deck-top) - var(--deck-stack-increment) * 5);
+}
+
+/* opponent 2 */
+
+.opponent-2-hand.card-1 {
+  left: calc(100% - 156.25px);
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 3);
+  z-index: 0;
+}
+
+.opponent-2-hand.card-2 {
+  left: calc(100% - 125px);
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 2);
+  z-index: 1;
+}
+
+.opponent-2-hand.card-3 {
+  left: calc(100% - 93.75px);
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 1);
+  z-index: 2;
+}
+
+.opponent-2-hand.card-4 {
+  left: calc(100% - 62.5px);
+  left: calc(100% - var(--scaled-card-width) * var(--opponent-hand-scale) - var(--opponent-hand-card-overlap) * 0);
+  z-index: 2;
+}
+
+.opponent-2-placed-card-area { /* TODO use something like player.placed-card-area */
+  left: calc(83.3% - 41.25px);
+  left: calc(83.3% - var(--scaled-card-width) * var(--placed-card-scale) / 2);
+  top: 26vh;
+  top: calc(var(--table-top-height) * 0.26);
+  transform-origin: top left;
+  transform: scale(0.33);
+  transform: scale(var(--placed-card-scale));
+}
+
+.opponent-2-deck.card-1 {
+  left: calc(83.3% - 40.75px);
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 1);
+  top: calc(25vh - 3px);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 1);
+}
+
+.opponent-2-deck.card-2 {
+  left: calc(83.3% - 37.75px);
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 2);
+  top: calc(25vh - 6px);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 2);
+}
+
+.opponent-2-deck.card-3 {
+  left: calc(83.3% - 34.75px);
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 3);
+  top: calc(25vh - 9px);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 3);
+}
+
+.opponent-2-deck.card-4 {
+  left: calc(83.3% - 31.75px);
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 4);
+  top: calc(25vh - 12px);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 4);
+}
+
+.opponent-2-deck.card-5, .opponent-2-deck {
+  left: calc(83.3% - 28.75px);
+  left: calc(var(--opponent-2-deck-left) + var(--deck-stack-increment) * 5);
+  top: calc(25vh - 15px);
+  top: calc(var(--opponent-2-deck-top) - var(--deck-stack-increment) * 5);
+}
+
+main .table-top, #demo, #naiveDemo {
+  --table-top-height: 400px;
+  height: 100vh;
+  height: var(--table-top-height);
+  margin-top: 1em;
+}
+
+main .player-placed-card-area {
+  top: 45px;
+}
+
+.player-hand {
+  top: 250px;
+}

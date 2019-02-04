@@ -21,5 +21,8 @@
     "cards"
   ],
   "author": "Ethan B. Martin",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "create-react-app": "^2.1.3"
+  }
 }
