@@ -96,7 +96,7 @@ class Hand extends Component {
     if (placedIndex === -1) { // no placed card yet
       return [0,1,2,3,4].map(index => {
         let cssClass = `player-hand hand-size-5 card-${index}`
-        return <pilatch-card suit="rock" rank={index + 1} up class={cssClass}></pilatch-card>
+        return <pilatch-card suit="rock" rank={index + 1} up class={cssClass} key={'card' + index}></pilatch-card>
       })
     }
 
@@ -114,7 +114,7 @@ class Hand extends Component {
             ? 'player-placed-card-area'
             : ''
         }`
-        return <pilatch-card suit="rock" rank={index + 1} up={index === placedIndex ? null : true} class={cssClass}></pilatch-card>
+        return <pilatch-card suit="rock" rank={index + 1} up={index === placedIndex ? null : true} class={cssClass} key={'card' + index}></pilatch-card>
       }).filter(Boolean)
     )
   }
