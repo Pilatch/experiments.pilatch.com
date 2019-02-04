@@ -15,6 +15,11 @@ class App extends React.Component {
           ? 0
           : this.state.placedIndex + 1,
       })
+    }, 2000)
+  }
+
+  componentDidUpdate() {
+    if (this.state.placedCard === null) {
       setTimeout(() => {
         this.setState({
           ...this.state,
@@ -23,29 +28,42 @@ class App extends React.Component {
             suit: 'rock',
           }
         })
-      }, 1000)
-    }, 1250)
+      }, 1250)
+    }
+  }
+
+  _renderWithDuplicates(options = {withHeading: false}) {
+    return (
+      <main>
+        {options.withHeading && <h2>duplicating placed cards in hand</h2>}
+        <div class="table-top">
+          <Hand placedIndex={this.state.placedIndex} placedCard={this.state.placedCard}/>
+          <PlacedCardArea placedCard={this.state.placedCard} />
+        </div>
+      </main>
+    )
+  }
+
+  _renderWithRemovals(options = {withHeading: false}) {
+    return (
+      <main>
+        {options.withHeading && <h2>deleting placed cards from hand</h2>}
+        <div class="table-top">
+          <Hand placedIndex={this.state.placedIndex} placedCard={this.state.placedCard} removePlaced={true}/>
+          <PlacedCardArea placedCard={this.state.placedCard} />
+        </div>
+      </main>
+    )
   }
 
   render() {
+    let showBoth = window.location.search.includes('showBoth')
+
     return (
       <section>
-        <h1>React</h1>
-        <main>
-          <h2>deleting placed cards from hand</h2>
-          <div class="table-top">
-            <Hand placedIndex={this.state.placedIndex} placedCard={this.state.placedCard} removePlaced={true}/>
-            <PlacedCardArea placedCard={this.state.placedCard} />
-          </div>
-        </main>
-        <hr/>
-        <main>
-          <h2>duplicating placed cards in hand</h2>
-          <div class="table-top">
-            <Hand placedIndex={this.state.placedIndex} placedCard={this.state.placedCard}/>
-            <PlacedCardArea placedCard={this.state.placedCard} />
-          </div>
-        </main>
+        {this._renderWithRemovals({withHeading: showBoth})}
+        {showBoth && <hr/> }
+        {showBoth && this._renderWithDuplicates({withHeading: showBoth})}
       </section>
     )
   }
