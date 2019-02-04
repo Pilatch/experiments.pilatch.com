@@ -61,6 +61,7 @@ class App extends React.Component {
 
     return (
       <section>
+        {showBoth && <p><a href="../src/App.js">Source code</a></p>}
         {this._renderWithRemovals({withHeading: showBoth})}
         {showBoth && <hr/> }
         {showBoth && this._renderWithDuplicates({withHeading: showBoth})}
