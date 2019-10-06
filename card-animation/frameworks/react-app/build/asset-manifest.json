@@ -1,13 +1,13 @@
 {
-  "main.css": "/card-animation/frameworks/react-app/build/static/css/main.78386b58.chunk.css",
-  "main.js": "/card-animation/frameworks/react-app/build/static/js/main.2a72d36c.chunk.js",
-  "main.js.map": "/card-animation/frameworks/react-app/build/static/js/main.2a72d36c.chunk.js.map",
+  "main.css": "/card-animation/frameworks/react-app/build/static/css/main.5c8ac1c0.chunk.css",
+  "main.js": "/card-animation/frameworks/react-app/build/static/js/main.e82a6441.chunk.js",
+  "main.js.map": "/card-animation/frameworks/react-app/build/static/js/main.e82a6441.chunk.js.map",
   "static/js/1.5cb9b55e.chunk.js": "/card-animation/frameworks/react-app/build/static/js/1.5cb9b55e.chunk.js",
   "static/js/1.5cb9b55e.chunk.js.map": "/card-animation/frameworks/react-app/build/static/js/1.5cb9b55e.chunk.js.map",
   "runtime~main.js": "/card-animation/frameworks/react-app/build/static/js/runtime~main.7005506d.js",
   "runtime~main.js.map": "/card-animation/frameworks/react-app/build/static/js/runtime~main.7005506d.js.map",
-  "static/css/main.78386b58.chunk.css.map": "/card-animation/frameworks/react-app/build/static/css/main.78386b58.chunk.css.map",
+  "static/css/main.5c8ac1c0.chunk.css.map": "/card-animation/frameworks/react-app/build/static/css/main.5c8ac1c0.chunk.css.map",
   "index.html": "/card-animation/frameworks/react-app/build/index.html",
-  "precache-manifest.06d3bccd190bcf7dfda26927c13ea388.js": "/card-animation/frameworks/react-app/build/precache-manifest.06d3bccd190bcf7dfda26927c13ea388.js",
+  "precache-manifest.6e6d3b6974e631e6f94ea5e4650d2b95.js": "/card-animation/frameworks/react-app/build/precache-manifest.6e6d3b6974e631e6f94ea5e4650d2b95.js",
   "service-worker.js": "/card-animation/frameworks/react-app/build/service-worker.js"
 }
