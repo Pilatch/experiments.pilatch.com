@@ -70,6 +70,8 @@ class App extends React.Component {
   }
 }
 
+const cardKey = card => `${card.rank}-of-${card.suit}`
+
 class PlacedCardArea extends Component {
   render() {
     let card = this.props.placedCard
@@ -77,12 +79,12 @@ class PlacedCardArea extends Component {
     if (card) {
       return (
         <>
-          <pilatch-card suit={card.suit} rank={card.rank} class="player-placed-card-area"></pilatch-card>
-          <pilatch-card nothing class="player-placed-card-area"></pilatch-card>
+          <pilatch-card suit={card.suit} rank={card.rank} class="player-placed-card-area" key={cardKey(card)}></pilatch-card>
+          <pilatch-card nothing class="player-placed-card-area" key="empty"></pilatch-card>
         </>
       )
     } else {
-      return <pilatch-card nothing class="player-placed-card-area"></pilatch-card>
+      return <pilatch-card nothing class="player-placed-card-area" key="empty"></pilatch-card>
     }
   }
 }
@@ -96,7 +98,7 @@ class Hand extends Component {
     if (placedIndex === -1) { // no placed card yet
       return [0,1,2,3,4].map(index => {
         let cssClass = `player-hand hand-size-5 card-${index}`
-        return <pilatch-card suit="rock" rank={index + 1} up class={cssClass} key={'card' + index}></pilatch-card>
+        return <pilatch-card suit="rock" rank={index + 1} up class={cssClass} key={`${index + 1}-of-rock`}></pilatch-card>
       })
     }
 
@@ -114,7 +116,7 @@ class Hand extends Component {
             ? 'player-placed-card-area'
             : ''
         }`
-        return <pilatch-card suit="rock" rank={index + 1} up={index === placedIndex ? null : true} class={cssClass} key={'card' + index}></pilatch-card>
+        return <pilatch-card suit="rock" rank={index + 1} up={index === placedIndex ? null : true} class={cssClass} key={`${index + 1}-of-rock`}></pilatch-card>
       }).filter(Boolean)
     )
   }
