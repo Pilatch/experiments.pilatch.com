@@ -1,40 +1,48 @@
 module Iterations.View exposing (view)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (attribute, class, href, id, placeholder, property, type_, value)
 import Html.Events exposing (onClick)
 import Iterations.Model exposing (..)
 
 
+view : Model -> Browser.Document Msg
 view model =
-    case model.implementation of
-        NoneChosen ->
-            main_ []
-                [ header []
-                    [ h1 [] [ text "Iterative Development" ]
-                    , p [] [ text "Experiments and refinements I went through to make animations work with virtual DOM." ]
-                    ]
-                , p [ class "iteration-buttons" ]
-                    [ button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ]
-                    , button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ]
-                    , button [ type_ "button", onClick <| ChooseImplementation DisablingTransitions ] [ text "Disabling Transitions" ]
-                    , button [ type_ "button", onClick <| ChooseImplementation Collapsed ] [ text "Collapsed" ]
-                    ]
-                , p [] [ a [ href "index.html" ] [ text "Back to explanation" ] ]
-                , p [] [ sourceCodezLink ]
-                ]
+    let
+        html =
+            case model.implementation of
+                NoneChosen ->
+                    main_ []
+                        [ header []
+                            [ h1 [] [ text "Iterative Development" ]
+                            , p [] [ text "Experiments and refinements I went through to make animations work with virtual DOM." ]
+                            ]
+                        , p [ class "iteration-buttons" ]
+                            [ button [ type_ "button", onClick <| ChooseImplementation Naive ] [ text "Naïve" ]
+                            , button [ type_ "button", onClick <| ChooseImplementation InvisibleCard ] [ text "Invisible Card" ]
+                            , button [ type_ "button", onClick <| ChooseImplementation DisablingTransitions ] [ text "Disabling Transitions" ]
+                            , button [ type_ "button", onClick <| ChooseImplementation Collapsed ] [ text "Collapsed" ]
+                            ]
+                        , p [] [ a [ href "index.html" ] [ text "Back to explanation" ] ]
+                        , p [] [ sourceCodezLink ]
+                        ]
 
-        Naive ->
-            naiveImplementation model.animationNumber
+                Naive ->
+                    naiveImplementation model.animationNumber
 
-        InvisibleCard ->
-            invisibleCardImplementation model.animationNumber
+                InvisibleCard ->
+                    invisibleCardImplementation model.animationNumber
 
-        DisablingTransitions ->
-            disablingTransitionsImplementation model.animationNumber
+                DisablingTransitions ->
+                    disablingTransitionsImplementation model.animationNumber
 
-        Collapsed ->
-            collapsedImplementation model.animationNumber
+                Collapsed ->
+                    collapsedImplementation model.animationNumber
+    in
+    { title = "Iterations"
+    , body = [ html ]
+    }
 
 
 emptyArea =

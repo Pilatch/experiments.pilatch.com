@@ -4855,37 +4855,15 @@ function _Browser_load(url)
 	}));
 }
 var author$project$Iterations$Model$NoneChosen = {$: 'NoneChosen'};
-var author$project$Iterations$Main$update = F2(
-	function (msg, model) {
-		switch (msg.$) {
-			case 'ChooseImplementation':
-				var implementation = msg.a;
-				return _Utils_update(
-					model,
-					{animationNumber: 0, implementation: implementation});
-			case 'DoAnimation':
-				var animationNumber = msg.a;
-				return _Utils_update(
-					model,
-					{animationNumber: animationNumber});
-			default:
-				return _Utils_update(
-					model,
-					{animationNumber: 0, implementation: author$project$Iterations$Model$NoneChosen});
-		}
-	});
-var author$project$Iterations$Model$ChooseImplementation = function (a) {
-	return {$: 'ChooseImplementation', a: a};
+var elm$core$Basics$False = {$: 'False'};
+var elm$core$Basics$True = {$: 'True'};
+var elm$core$Result$isOk = function (result) {
+	if (result.$ === 'Ok') {
+		return true;
+	} else {
+		return false;
+	}
 };
-var author$project$Iterations$Model$Collapsed = {$: 'Collapsed'};
-var author$project$Iterations$Model$DisablingTransitions = {$: 'DisablingTransitions'};
-var author$project$Iterations$Model$InvisibleCard = {$: 'InvisibleCard'};
-var author$project$Iterations$Model$Naive = {$: 'Naive'};
-var elm$core$Array$branchFactor = 32;
-var elm$core$Array$Array_elm_builtin = F4(
-	function (a, b, c, d) {
-		return {$: 'Array_elm_builtin', a: a, b: b, c: c, d: d};
-	});
 var elm$core$Basics$EQ = {$: 'EQ'};
 var elm$core$Basics$GT = {$: 'GT'};
 var elm$core$Basics$LT = {$: 'LT'};
@@ -4966,6 +4944,11 @@ var elm$core$Array$foldr = F3(
 var elm$core$Array$toList = function (array) {
 	return A3(elm$core$Array$foldr, elm$core$List$cons, _List_Nil, array);
 };
+var elm$core$Array$branchFactor = 32;
+var elm$core$Array$Array_elm_builtin = F4(
+	function (a, b, c, d) {
+		return {$: 'Array_elm_builtin', a: a, b: b, c: c, d: d};
+	});
 var elm$core$Basics$ceiling = _Basics_ceiling;
 var elm$core$Basics$fdiv = _Basics_fdiv;
 var elm$core$Basics$logBase = F2(
@@ -5090,7 +5073,6 @@ var elm$core$Array$builderToArray = F2(
 				builder.tail);
 		}
 	});
-var elm$core$Basics$False = {$: 'False'};
 var elm$core$Basics$idiv = _Basics_idiv;
 var elm$core$Basics$lt = _Utils_lt;
 var elm$core$Elm$JsArray$initialize = _JsArray_initialize;
@@ -5142,14 +5124,6 @@ var elm$core$Result$Err = function (a) {
 };
 var elm$core$Result$Ok = function (a) {
 	return {$: 'Ok', a: a};
-};
-var elm$core$Basics$True = {$: 'True'};
-var elm$core$Result$isOk = function (result) {
-	if (result.$ === 'Ok') {
-		return true;
-	} else {
-		return false;
-	}
 };
 var elm$json$Json$Decode$Failure = F2(
 	function (a, b) {
@@ -5356,6 +5330,37 @@ var elm$json$Json$Decode$errorToStringHelp = F2(
 			}
 		}
 	});
+var elm$core$Platform$Cmd$batch = _Platform_batch;
+var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
+var author$project$Iterations$Main$update = F2(
+	function (msg, model) {
+		var newModel = function () {
+			switch (msg.$) {
+				case 'ChooseImplementation':
+					var implementation = msg.a;
+					return _Utils_update(
+						model,
+						{animationNumber: 0, implementation: implementation});
+				case 'DoAnimation':
+					var animationNumber = msg.a;
+					return _Utils_update(
+						model,
+						{animationNumber: animationNumber});
+				default:
+					return _Utils_update(
+						model,
+						{animationNumber: 0, implementation: author$project$Iterations$Model$NoneChosen});
+			}
+		}();
+		return _Utils_Tuple2(newModel, elm$core$Platform$Cmd$none);
+	});
+var author$project$Iterations$Model$ChooseImplementation = function (a) {
+	return {$: 'ChooseImplementation', a: a};
+};
+var author$project$Iterations$Model$Collapsed = {$: 'Collapsed'};
+var author$project$Iterations$Model$DisablingTransitions = {$: 'DisablingTransitions'};
+var author$project$Iterations$Model$InvisibleCard = {$: 'InvisibleCard'};
+var author$project$Iterations$Model$Naive = {$: 'Naive'};
 var elm$json$Json$Encode$string = _Json_wrap;
 var elm$core$Basics$identity = function (x) {
 	return x;
@@ -6033,127 +6038,130 @@ var elm$html$Html$main_ = _VirtualDom_node('main');
 var elm$html$Html$p = _VirtualDom_node('p');
 var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
 var author$project$Iterations$View$view = function (model) {
-	var _n0 = model.implementation;
-	switch (_n0.$) {
-		case 'NoneChosen':
-			return A2(
-				elm$html$Html$main_,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						elm$html$Html$header,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								elm$html$Html$h1,
-								_List_Nil,
-								_List_fromArray(
-									[
-										elm$html$Html$text('Iterative Development')
-									])),
-								A2(
-								elm$html$Html$p,
-								_List_Nil,
-								_List_fromArray(
-									[
-										elm$html$Html$text('Experiments and refinements I went through to make animations work with virtual DOM.')
-									]))
-							])),
-						A2(
-						elm$html$Html$p,
-						_List_fromArray(
-							[
-								elm$html$Html$Attributes$class('iteration-buttons')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								elm$html$Html$button,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$type_('button'),
-										elm$html$Html$Events$onClick(
-										author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$Naive))
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('Naïve')
-									])),
-								A2(
-								elm$html$Html$button,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$type_('button'),
-										elm$html$Html$Events$onClick(
-										author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$InvisibleCard))
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('Invisible Card')
-									])),
-								A2(
-								elm$html$Html$button,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$type_('button'),
-										elm$html$Html$Events$onClick(
-										author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$DisablingTransitions))
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('Disabling Transitions')
-									])),
-								A2(
-								elm$html$Html$button,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$type_('button'),
-										elm$html$Html$Events$onClick(
-										author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$Collapsed))
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('Collapsed')
-									]))
-							])),
-						A2(
-						elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								elm$html$Html$a,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$href('index.html')
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('Back to explanation')
-									]))
-							])),
-						A2(
-						elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[author$project$Iterations$View$sourceCodezLink]))
-					]));
-		case 'Naive':
-			return author$project$Iterations$View$naiveImplementation(model.animationNumber);
-		case 'InvisibleCard':
-			return author$project$Iterations$View$invisibleCardImplementation(model.animationNumber);
-		case 'DisablingTransitions':
-			return author$project$Iterations$View$disablingTransitionsImplementation(model.animationNumber);
-		default:
-			return author$project$Iterations$View$collapsedImplementation(model.animationNumber);
-	}
+	var html = function () {
+		var _n0 = model.implementation;
+		switch (_n0.$) {
+			case 'NoneChosen':
+				return A2(
+					elm$html$Html$main_,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							elm$html$Html$header,
+							_List_Nil,
+							_List_fromArray(
+								[
+									A2(
+									elm$html$Html$h1,
+									_List_Nil,
+									_List_fromArray(
+										[
+											elm$html$Html$text('Iterative Development')
+										])),
+									A2(
+									elm$html$Html$p,
+									_List_Nil,
+									_List_fromArray(
+										[
+											elm$html$Html$text('Experiments and refinements I went through to make animations work with virtual DOM.')
+										]))
+								])),
+							A2(
+							elm$html$Html$p,
+							_List_fromArray(
+								[
+									elm$html$Html$Attributes$class('iteration-buttons')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									elm$html$Html$button,
+									_List_fromArray(
+										[
+											elm$html$Html$Attributes$type_('button'),
+											elm$html$Html$Events$onClick(
+											author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$Naive))
+										]),
+									_List_fromArray(
+										[
+											elm$html$Html$text('Naïve')
+										])),
+									A2(
+									elm$html$Html$button,
+									_List_fromArray(
+										[
+											elm$html$Html$Attributes$type_('button'),
+											elm$html$Html$Events$onClick(
+											author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$InvisibleCard))
+										]),
+									_List_fromArray(
+										[
+											elm$html$Html$text('Invisible Card')
+										])),
+									A2(
+									elm$html$Html$button,
+									_List_fromArray(
+										[
+											elm$html$Html$Attributes$type_('button'),
+											elm$html$Html$Events$onClick(
+											author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$DisablingTransitions))
+										]),
+									_List_fromArray(
+										[
+											elm$html$Html$text('Disabling Transitions')
+										])),
+									A2(
+									elm$html$Html$button,
+									_List_fromArray(
+										[
+											elm$html$Html$Attributes$type_('button'),
+											elm$html$Html$Events$onClick(
+											author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$Collapsed))
+										]),
+									_List_fromArray(
+										[
+											elm$html$Html$text('Collapsed')
+										]))
+								])),
+							A2(
+							elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[
+									A2(
+									elm$html$Html$a,
+									_List_fromArray(
+										[
+											elm$html$Html$Attributes$href('index.html')
+										]),
+									_List_fromArray(
+										[
+											elm$html$Html$text('Back to explanation')
+										]))
+								])),
+							A2(
+							elm$html$Html$p,
+							_List_Nil,
+							_List_fromArray(
+								[author$project$Iterations$View$sourceCodezLink]))
+						]));
+			case 'Naive':
+				return author$project$Iterations$View$naiveImplementation(model.animationNumber);
+			case 'InvisibleCard':
+				return author$project$Iterations$View$invisibleCardImplementation(model.animationNumber);
+			case 'DisablingTransitions':
+				return author$project$Iterations$View$disablingTransitionsImplementation(model.animationNumber);
+			default:
+				return author$project$Iterations$View$collapsedImplementation(model.animationNumber);
+		}
+	}();
+	return {
+		body: _List_fromArray(
+			[html]),
+		title: 'Iterations'
+	};
 };
-var elm$core$Platform$Cmd$batch = _Platform_batch;
-var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
-var elm$core$Platform$Sub$batch = _Platform_batch;
-var elm$core$Platform$Sub$none = elm$core$Platform$Sub$batch(_List_Nil);
 var elm$browser$Browser$External = function (a) {
 	return {$: 'External', a: a};
 };
@@ -10372,27 +10380,19 @@ var elm$url$Url$fromString = function (str) {
 		elm$url$Url$Https,
 		A2(elm$core$String$dropLeft, 8, str)) : elm$core$Maybe$Nothing);
 };
-var elm$browser$Browser$sandbox = function (impl) {
-	return _Browser_element(
-		{
-			init: function (_n0) {
-				return _Utils_Tuple2(impl.init, elm$core$Platform$Cmd$none);
-			},
-			subscriptions: function (_n1) {
-				return elm$core$Platform$Sub$none;
-			},
-			update: F2(
-				function (msg, model) {
-					return _Utils_Tuple2(
-						A2(impl.update, msg, model),
-						elm$core$Platform$Cmd$none);
-				}),
-			view: impl.view
-		});
-};
-var author$project$Iterations$Main$main = elm$browser$Browser$sandbox(
+var elm$browser$Browser$document = _Browser_document;
+var elm$core$Platform$Sub$batch = _Platform_batch;
+var elm$core$Platform$Sub$none = elm$core$Platform$Sub$batch(_List_Nil);
+var author$project$Iterations$Main$main = elm$browser$Browser$document(
 	{
-		init: {animationNumber: 0, implementation: author$project$Iterations$Model$NoneChosen},
+		init: function (_n0) {
+			return _Utils_Tuple2(
+				{animationNumber: 0, implementation: author$project$Iterations$Model$NoneChosen},
+				elm$core$Platform$Cmd$none);
+		},
+		subscriptions: function (_n1) {
+			return elm$core$Platform$Sub$none;
+		},
 		update: author$project$Iterations$Main$update,
 		view: author$project$Iterations$View$view
 	});
