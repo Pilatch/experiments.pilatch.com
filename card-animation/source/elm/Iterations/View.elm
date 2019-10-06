@@ -1,9 +1,9 @@
 module Iterations.View exposing (view)
 
-import Iterations.Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (attribute, class, href, id, placeholder, property, type_, value)
 import Html.Events exposing (onClick)
+import Iterations.Model exposing (..)
 
 
 view model =
@@ -164,7 +164,7 @@ render animationNumber comment cards =
     section []
         [ div [ class "interaction" ]
             [ next (animationNumber + 1)
-            , text <| comment ++ ". Animation: " ++ toString (animationNumber + 1)
+            , text <| comment ++ ". Animation: " ++ String.fromInt (animationNumber + 1)
             ]
         , tableTop
             cards
@@ -175,7 +175,7 @@ renderNoTransition animationNumber comment cards =
     section []
         [ div [ class "interaction" ]
             [ next (animationNumber + 1)
-            , text <| comment ++ ". Animation: " ++ toString (animationNumber + 1)
+            , text <| comment ++ ". Animation: " ++ String.fromInt (animationNumber + 1)
             ]
         , tableTop1 noTransition
             cards

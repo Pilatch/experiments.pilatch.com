@@ -1,4 +1,4 @@
-module Card exposing (Card(..), Facing(..), webComponent)
+module Card exposing (Card(..), Facing(..), cardToString, webComponent)
 
 import Html exposing (node)
 import Html.Attributes exposing (attribute)
@@ -93,18 +93,33 @@ webComponent attrs facing card =
                 ++ [ attribute "suit" <| suitToString data.suit
                    , attribute "rank" <| rankToString data.rank
                    ]
-                ++ case facing of
-                    Up ->
-                        [ attribute "up" "" ]
+                ++ (case facing of
+                        Up ->
+                            [ attribute "up" "" ]
 
-                    Down ->
-                        []
+                        Down ->
+                            []
+                   )
     in
-        node "pilatch-card" attributes []
+    node "pilatch-card" attributes []
 
 
-facingToString facing =
-    toString facing |> String.toLower
+facingToString_ facing =
+    case facing of
+        Up ->
+            "Up"
+
+        Down ->
+            "Down"
+
+
+cardToString : Card -> String
+cardToString card =
+    let
+        data =
+            cardToData card
+    in
+    rankToString data.rank ++ suitToString data.suit
 
 
 rankToString rank =
@@ -155,8 +170,20 @@ rankToString rank =
             "15"
 
 
+suitToString_ suit =
+    case suit of
+        Rock ->
+            "Rock"
+
+        Paper ->
+            "Paper"
+
+        Scissors ->
+            "Scissors"
+
+
 suitToString suit =
-    toString suit |> String.toLower
+    suitToString_ suit |> String.toLower
 
 
 cardToData card =

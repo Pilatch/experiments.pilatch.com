@@ -281,12 +281,15 @@ frameTwo =
 
     if (customPropertiesSupported) {
       if (demoNode && startDemos.spriteLoaded && !startDemos.demoStarted) {
-        Elm.Explanation.Main.embed(demoNode, Math.floor(Math.random() * 10000))
+        Elm.Explanation.Main.init({
+          node: demoNode,
+          flags: Math.floor(Math.random() * 10000)
+        })
         startDemos.demoStarted = true
       }
 
       if (naiveDemoNode && startDemos.spriteLoaded && !startDemos.naiveDemoStarted) {
-        Elm.Explanation.Naive.embed(naiveDemoNode)
+        //Elm.Explanation.Naive.init({node: naiveDemoNode})
         startDemos.naiveDemoStarted = true
       }
     } else {

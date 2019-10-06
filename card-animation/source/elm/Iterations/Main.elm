@@ -1,15 +1,16 @@
 module Iterations.Main exposing (main)
 
+import Browser
 import Html exposing (button, p, section, text)
 import Html.Attributes exposing (type_)
 import Html.Events exposing (onClick)
-import Iterations.View as View
 import Iterations.Model exposing (..)
+import Iterations.View as View
 
 
 main =
-    Html.beginnerProgram
-        { model = { animationNumber = 0, implementation = NoneChosen }
+    Browser.sandbox
+        { init = { animationNumber = 0, implementation = NoneChosen }
         , view = View.view
         , update = update
         }

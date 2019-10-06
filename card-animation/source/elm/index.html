@@ -1,3 +1,13 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Explanation.Main</title>
+</head>
+
+<body>
+<div id="elm-f0111bc4e658d0f98db96260c16f7e49"></div>
+<script>
 (function(scope){
 'use strict';
 
@@ -839,6 +849,210 @@ var _Basics_xor = F2(function(a, b) { return a !== b; });
 
 
 
+// TASKS
+
+function _Scheduler_succeed(value)
+{
+	return {
+		$: 0,
+		a: value
+	};
+}
+
+function _Scheduler_fail(error)
+{
+	return {
+		$: 1,
+		a: error
+	};
+}
+
+function _Scheduler_binding(callback)
+{
+	return {
+		$: 2,
+		b: callback,
+		c: null
+	};
+}
+
+var _Scheduler_andThen = F2(function(callback, task)
+{
+	return {
+		$: 3,
+		b: callback,
+		d: task
+	};
+});
+
+var _Scheduler_onError = F2(function(callback, task)
+{
+	return {
+		$: 4,
+		b: callback,
+		d: task
+	};
+});
+
+function _Scheduler_receive(callback)
+{
+	return {
+		$: 5,
+		b: callback
+	};
+}
+
+
+// PROCESSES
+
+var _Scheduler_guid = 0;
+
+function _Scheduler_rawSpawn(task)
+{
+	var proc = {
+		$: 0,
+		e: _Scheduler_guid++,
+		f: task,
+		g: null,
+		h: []
+	};
+
+	_Scheduler_enqueue(proc);
+
+	return proc;
+}
+
+function _Scheduler_spawn(task)
+{
+	return _Scheduler_binding(function(callback) {
+		callback(_Scheduler_succeed(_Scheduler_rawSpawn(task)));
+	});
+}
+
+function _Scheduler_rawSend(proc, msg)
+{
+	proc.h.push(msg);
+	_Scheduler_enqueue(proc);
+}
+
+var _Scheduler_send = F2(function(proc, msg)
+{
+	return _Scheduler_binding(function(callback) {
+		_Scheduler_rawSend(proc, msg);
+		callback(_Scheduler_succeed(_Utils_Tuple0));
+	});
+});
+
+function _Scheduler_kill(proc)
+{
+	return _Scheduler_binding(function(callback) {
+		var task = proc.f;
+		if (task.$ === 2 && task.c)
+		{
+			task.c();
+		}
+
+		proc.f = null;
+
+		callback(_Scheduler_succeed(_Utils_Tuple0));
+	});
+}
+
+
+/* STEP PROCESSES
+
+type alias Process =
+  { $ : tag
+  , id : unique_id
+  , root : Task
+  , stack : null | { $: SUCCEED | FAIL, a: callback, b: stack }
+  , mailbox : [msg]
+  }
+
+*/
+
+
+var _Scheduler_working = false;
+var _Scheduler_queue = [];
+
+
+function _Scheduler_enqueue(proc)
+{
+	_Scheduler_queue.push(proc);
+	if (_Scheduler_working)
+	{
+		return;
+	}
+	_Scheduler_working = true;
+	while (proc = _Scheduler_queue.shift())
+	{
+		_Scheduler_step(proc);
+	}
+	_Scheduler_working = false;
+}
+
+
+function _Scheduler_step(proc)
+{
+	while (proc.f)
+	{
+		var rootTag = proc.f.$;
+		if (rootTag === 0 || rootTag === 1)
+		{
+			while (proc.g && proc.g.$ !== rootTag)
+			{
+				proc.g = proc.g.i;
+			}
+			if (!proc.g)
+			{
+				return;
+			}
+			proc.f = proc.g.b(proc.f.a);
+			proc.g = proc.g.i;
+		}
+		else if (rootTag === 2)
+		{
+			proc.f.c = proc.f.b(function(newRoot) {
+				proc.f = newRoot;
+				_Scheduler_enqueue(proc);
+			});
+			return;
+		}
+		else if (rootTag === 5)
+		{
+			if (proc.h.length === 0)
+			{
+				return;
+			}
+			proc.f = proc.f.b(proc.h.shift());
+		}
+		else // if (rootTag === 3 || rootTag === 4)
+		{
+			proc.g = {
+				$: rootTag === 3 ? 0 : 1,
+				b: proc.f.b,
+				i: proc.g
+			};
+			proc.f = proc.f.d;
+		}
+	}
+}
+
+
+
+function _Process_sleep(time)
+{
+	return _Scheduler_binding(function(callback) {
+		var id = setTimeout(function() {
+			callback(_Scheduler_succeed(_Utils_Tuple0));
+		}, time);
+
+		return function() { clearTimeout(id); };
+	});
+}
+
+
+
 function _Char_toCode(char)
 {
 	var code = char.charCodeAt(0);
@@ -1628,210 +1842,6 @@ var _Json_encodeNull = _Json_wrap(null);
 
 
 
-// TASKS
-
-function _Scheduler_succeed(value)
-{
-	return {
-		$: 0,
-		a: value
-	};
-}
-
-function _Scheduler_fail(error)
-{
-	return {
-		$: 1,
-		a: error
-	};
-}
-
-function _Scheduler_binding(callback)
-{
-	return {
-		$: 2,
-		b: callback,
-		c: null
-	};
-}
-
-var _Scheduler_andThen = F2(function(callback, task)
-{
-	return {
-		$: 3,
-		b: callback,
-		d: task
-	};
-});
-
-var _Scheduler_onError = F2(function(callback, task)
-{
-	return {
-		$: 4,
-		b: callback,
-		d: task
-	};
-});
-
-function _Scheduler_receive(callback)
-{
-	return {
-		$: 5,
-		b: callback
-	};
-}
-
-
-// PROCESSES
-
-var _Scheduler_guid = 0;
-
-function _Scheduler_rawSpawn(task)
-{
-	var proc = {
-		$: 0,
-		e: _Scheduler_guid++,
-		f: task,
-		g: null,
-		h: []
-	};
-
-	_Scheduler_enqueue(proc);
-
-	return proc;
-}
-
-function _Scheduler_spawn(task)
-{
-	return _Scheduler_binding(function(callback) {
-		callback(_Scheduler_succeed(_Scheduler_rawSpawn(task)));
-	});
-}
-
-function _Scheduler_rawSend(proc, msg)
-{
-	proc.h.push(msg);
-	_Scheduler_enqueue(proc);
-}
-
-var _Scheduler_send = F2(function(proc, msg)
-{
-	return _Scheduler_binding(function(callback) {
-		_Scheduler_rawSend(proc, msg);
-		callback(_Scheduler_succeed(_Utils_Tuple0));
-	});
-});
-
-function _Scheduler_kill(proc)
-{
-	return _Scheduler_binding(function(callback) {
-		var task = proc.f;
-		if (task.$ === 2 && task.c)
-		{
-			task.c();
-		}
-
-		proc.f = null;
-
-		callback(_Scheduler_succeed(_Utils_Tuple0));
-	});
-}
-
-
-/* STEP PROCESSES
-
-type alias Process =
-  { $ : tag
-  , id : unique_id
-  , root : Task
-  , stack : null | { $: SUCCEED | FAIL, a: callback, b: stack }
-  , mailbox : [msg]
-  }
-
-*/
-
-
-var _Scheduler_working = false;
-var _Scheduler_queue = [];
-
-
-function _Scheduler_enqueue(proc)
-{
-	_Scheduler_queue.push(proc);
-	if (_Scheduler_working)
-	{
-		return;
-	}
-	_Scheduler_working = true;
-	while (proc = _Scheduler_queue.shift())
-	{
-		_Scheduler_step(proc);
-	}
-	_Scheduler_working = false;
-}
-
-
-function _Scheduler_step(proc)
-{
-	while (proc.f)
-	{
-		var rootTag = proc.f.$;
-		if (rootTag === 0 || rootTag === 1)
-		{
-			while (proc.g && proc.g.$ !== rootTag)
-			{
-				proc.g = proc.g.i;
-			}
-			if (!proc.g)
-			{
-				return;
-			}
-			proc.f = proc.g.b(proc.f.a);
-			proc.g = proc.g.i;
-		}
-		else if (rootTag === 2)
-		{
-			proc.f.c = proc.f.b(function(newRoot) {
-				proc.f = newRoot;
-				_Scheduler_enqueue(proc);
-			});
-			return;
-		}
-		else if (rootTag === 5)
-		{
-			if (proc.h.length === 0)
-			{
-				return;
-			}
-			proc.f = proc.f.b(proc.h.shift());
-		}
-		else // if (rootTag === 3 || rootTag === 4)
-		{
-			proc.g = {
-				$: rootTag === 3 ? 0 : 1,
-				b: proc.f.b,
-				i: proc.g
-			};
-			proc.f = proc.f.d;
-		}
-	}
-}
-
-
-
-function _Process_sleep(time)
-{
-	return _Scheduler_binding(function(callback) {
-		var id = setTimeout(function() {
-			callback(_Scheduler_succeed(_Utils_Tuple0));
-		}, time);
-
-		return function() { clearTimeout(id); };
-	});
-}
-
-
-
 
 // PROGRAMS
 
@@ -2295,6 +2305,43 @@ function _Platform_mergeExportsDebug(moduleName, obj, exports)
 			: (obj[name] = exports[name]);
 	}
 }
+
+
+
+var _Bitwise_and = F2(function(a, b)
+{
+	return a & b;
+});
+
+var _Bitwise_or = F2(function(a, b)
+{
+	return a | b;
+});
+
+var _Bitwise_xor = F2(function(a, b)
+{
+	return a ^ b;
+});
+
+function _Bitwise_complement(a)
+{
+	return ~a;
+};
+
+var _Bitwise_shiftLeftBy = F2(function(offset, a)
+{
+	return a << offset;
+});
+
+var _Bitwise_shiftRightBy = F2(function(offset, a)
+{
+	return a >> offset;
+});
+
+var _Bitwise_shiftRightZfBy = F2(function(offset, a)
+{
+	return a >>> offset;
+});
 
 
 
@@ -3855,41 +3902,105 @@ function _VirtualDom_dekey(keyedNode)
 }
 
 
+// CREATE
 
-var _Bitwise_and = F2(function(a, b)
+var _Regex_never = /.^/;
+
+var _Regex_fromStringWith = F2(function(options, string)
 {
-	return a & b;
+	var flags = 'g';
+	if (options.multiline) { flags += 'm'; }
+	if (options.caseInsensitive) { flags += 'i'; }
+
+	try
+	{
+		return elm$core$Maybe$Just(new RegExp(string, flags));
+	}
+	catch(error)
+	{
+		return elm$core$Maybe$Nothing;
+	}
 });
 
-var _Bitwise_or = F2(function(a, b)
+
+// USE
+
+var _Regex_contains = F2(function(re, string)
 {
-	return a | b;
+	return string.match(re) !== null;
 });
 
-var _Bitwise_xor = F2(function(a, b)
+
+var _Regex_findAtMost = F3(function(n, re, str)
 {
-	return a ^ b;
+	var out = [];
+	var number = 0;
+	var string = str;
+	var lastIndex = re.lastIndex;
+	var prevLastIndex = -1;
+	var result;
+	while (number++ < n && (result = re.exec(string)))
+	{
+		if (prevLastIndex == re.lastIndex) break;
+		var i = result.length - 1;
+		var subs = new Array(i);
+		while (i > 0)
+		{
+			var submatch = result[i];
+			subs[--i] = submatch
+				? elm$core$Maybe$Just(submatch)
+				: elm$core$Maybe$Nothing;
+		}
+		out.push(A4(elm$regex$Regex$Match, result[0], result.index, number, _List_fromArray(subs)));
+		prevLastIndex = re.lastIndex;
+	}
+	re.lastIndex = lastIndex;
+	return _List_fromArray(out);
 });
 
-function _Bitwise_complement(a)
-{
-	return ~a;
-};
 
-var _Bitwise_shiftLeftBy = F2(function(offset, a)
+var _Regex_replaceAtMost = F4(function(n, re, replacer, string)
 {
-	return a << offset;
+	var count = 0;
+	function jsReplacer(match)
+	{
+		if (count++ >= n)
+		{
+			return match;
+		}
+		var i = arguments.length - 3;
+		var submatches = new Array(i);
+		while (i > 0)
+		{
+			var submatch = arguments[i];
+			submatches[--i] = submatch
+				? elm$core$Maybe$Just(submatch)
+				: elm$core$Maybe$Nothing;
+		}
+		return replacer(A4(elm$regex$Regex$Match, match, arguments[arguments.length - 2], count, _List_fromArray(submatches)));
+	}
+	return string.replace(re, jsReplacer);
 });
 
-var _Bitwise_shiftRightBy = F2(function(offset, a)
+var _Regex_splitAtMost = F3(function(n, re, str)
 {
-	return a >> offset;
+	var string = str;
+	var out = [];
+	var start = re.lastIndex;
+	var restoreLastIndex = re.lastIndex;
+	while (n--)
+	{
+		var result = re.exec(string);
+		if (!result) break;
+		out.push(string.slice(start, result.index));
+		start = re.lastIndex;
+	}
+	out.push(string.slice(start));
+	re.lastIndex = restoreLastIndex;
+	return _List_fromArray(out);
 });
 
-var _Bitwise_shiftRightZfBy = F2(function(offset, a)
-{
-	return a >>> offset;
-});
+var _Regex_infinity = Infinity;
 
 
 
@@ -4854,37 +4965,19 @@ function _Browser_load(url)
 		}
 	}));
 }
-var author$project$Iterations$Model$NoneChosen = {$: 'NoneChosen'};
-var author$project$Iterations$Main$update = F2(
-	function (msg, model) {
-		switch (msg.$) {
-			case 'ChooseImplementation':
-				var implementation = msg.a;
-				return _Utils_update(
-					model,
-					{animationNumber: 0, implementation: implementation});
-			case 'DoAnimation':
-				var animationNumber = msg.a;
-				return _Utils_update(
-					model,
-					{animationNumber: animationNumber});
-			default:
-				return _Utils_update(
-					model,
-					{animationNumber: 0, implementation: author$project$Iterations$Model$NoneChosen});
-		}
-	});
-var author$project$Iterations$Model$ChooseImplementation = function (a) {
-	return {$: 'ChooseImplementation', a: a};
+var author$project$Card$AceOfPaper = {$: 'AceOfPaper'};
+var author$project$Card$JackOfRock = {$: 'JackOfRock'};
+var author$project$Card$JokerOfScissors = {$: 'JokerOfScissors'};
+var author$project$Card$KingOfScissors = {$: 'KingOfScissors'};
+var author$project$Card$QueenOfPaper = {$: 'QueenOfPaper'};
+var author$project$Card$TenOfRock = {$: 'TenOfRock'};
+var author$project$Explanation$Model$NoTransitionRearrange = {$: 'NoTransitionRearrange'};
+var author$project$Explanation$Model$DemoPlaceCard = function (a) {
+	return {$: 'DemoPlaceCard', a: a};
 };
-var author$project$Iterations$Model$Collapsed = {$: 'Collapsed'};
-var author$project$Iterations$Model$DisablingTransitions = {$: 'DisablingTransitions'};
-var author$project$Iterations$Model$InvisibleCard = {$: 'InvisibleCard'};
-var author$project$Iterations$Model$Naive = {$: 'Naive'};
-var elm$core$Array$branchFactor = 32;
-var elm$core$Array$Array_elm_builtin = F4(
-	function (a, b, c, d) {
-		return {$: 'Array_elm_builtin', a: a, b: b, c: c, d: d};
+var elm$core$Basics$apL = F2(
+	function (f, x) {
+		return f(x);
 	});
 var elm$core$Basics$EQ = {$: 'EQ'};
 var elm$core$Basics$GT = {$: 'GT'};
@@ -4966,24 +5059,18 @@ var elm$core$Array$foldr = F3(
 var elm$core$Array$toList = function (array) {
 	return A3(elm$core$Array$foldr, elm$core$List$cons, _List_Nil, array);
 };
-var elm$core$Basics$ceiling = _Basics_ceiling;
-var elm$core$Basics$fdiv = _Basics_fdiv;
-var elm$core$Basics$logBase = F2(
-	function (base, number) {
-		return _Basics_log(number) / _Basics_log(base);
-	});
-var elm$core$Basics$toFloat = _Basics_toFloat;
-var elm$core$Array$shiftStep = elm$core$Basics$ceiling(
-	A2(elm$core$Basics$logBase, 2, elm$core$Array$branchFactor));
-var elm$core$Elm$JsArray$empty = _JsArray_empty;
-var elm$core$Array$empty = A4(elm$core$Array$Array_elm_builtin, 0, elm$core$Array$shiftStep, elm$core$Elm$JsArray$empty, elm$core$Elm$JsArray$empty);
-var elm$core$Array$Leaf = function (a) {
-	return {$: 'Leaf', a: a};
+var elm$core$Basics$sub = _Basics_sub;
+var elm$core$Process$sleep = _Process_sleep;
+var elm$core$Basics$identity = function (x) {
+	return x;
 };
-var elm$core$Array$SubTree = function (a) {
-	return {$: 'SubTree', a: a};
+var elm$core$Task$Perform = function (a) {
+	return {$: 'Perform', a: a};
 };
-var elm$core$Elm$JsArray$initializeFromList = _JsArray_initializeFromList;
+var elm$core$Task$succeed = _Scheduler_succeed;
+var elm$core$Task$init = elm$core$Task$succeed(_Utils_Tuple0);
+var elm$core$Basics$add = _Basics_add;
+var elm$core$Basics$gt = _Utils_gt;
 var elm$core$List$foldl = F3(
 	function (func, acc, list) {
 		foldl:
@@ -5006,6 +5093,144 @@ var elm$core$List$foldl = F3(
 var elm$core$List$reverse = function (list) {
 	return A3(elm$core$List$foldl, elm$core$List$cons, _List_Nil, list);
 };
+var elm$core$List$foldrHelper = F4(
+	function (fn, acc, ctr, ls) {
+		if (!ls.b) {
+			return acc;
+		} else {
+			var a = ls.a;
+			var r1 = ls.b;
+			if (!r1.b) {
+				return A2(fn, a, acc);
+			} else {
+				var b = r1.a;
+				var r2 = r1.b;
+				if (!r2.b) {
+					return A2(
+						fn,
+						a,
+						A2(fn, b, acc));
+				} else {
+					var c = r2.a;
+					var r3 = r2.b;
+					if (!r3.b) {
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(fn, c, acc)));
+					} else {
+						var d = r3.a;
+						var r4 = r3.b;
+						var res = (ctr > 500) ? A3(
+							elm$core$List$foldl,
+							fn,
+							acc,
+							elm$core$List$reverse(r4)) : A4(elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
+						return A2(
+							fn,
+							a,
+							A2(
+								fn,
+								b,
+								A2(
+									fn,
+									c,
+									A2(fn, d, res))));
+					}
+				}
+			}
+		}
+	});
+var elm$core$List$foldr = F3(
+	function (fn, acc, ls) {
+		return A4(elm$core$List$foldrHelper, fn, acc, 0, ls);
+	});
+var elm$core$List$map = F2(
+	function (f, xs) {
+		return A3(
+			elm$core$List$foldr,
+			F2(
+				function (x, acc) {
+					return A2(
+						elm$core$List$cons,
+						f(x),
+						acc);
+				}),
+			_List_Nil,
+			xs);
+	});
+var elm$core$Basics$apR = F2(
+	function (x, f) {
+		return f(x);
+	});
+var elm$core$Task$andThen = _Scheduler_andThen;
+var elm$core$Task$map = F2(
+	function (func, taskA) {
+		return A2(
+			elm$core$Task$andThen,
+			function (a) {
+				return elm$core$Task$succeed(
+					func(a));
+			},
+			taskA);
+	});
+var elm$core$Task$map2 = F3(
+	function (func, taskA, taskB) {
+		return A2(
+			elm$core$Task$andThen,
+			function (a) {
+				return A2(
+					elm$core$Task$andThen,
+					function (b) {
+						return elm$core$Task$succeed(
+							A2(func, a, b));
+					},
+					taskB);
+			},
+			taskA);
+	});
+var elm$core$Task$sequence = function (tasks) {
+	return A3(
+		elm$core$List$foldr,
+		elm$core$Task$map2(elm$core$List$cons),
+		elm$core$Task$succeed(_List_Nil),
+		tasks);
+};
+var elm$core$Basics$False = {$: 'False'};
+var elm$core$Basics$True = {$: 'True'};
+var elm$core$Result$isOk = function (result) {
+	if (result.$ === 'Ok') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var elm$core$Array$branchFactor = 32;
+var elm$core$Array$Array_elm_builtin = F4(
+	function (a, b, c, d) {
+		return {$: 'Array_elm_builtin', a: a, b: b, c: c, d: d};
+	});
+var elm$core$Basics$ceiling = _Basics_ceiling;
+var elm$core$Basics$fdiv = _Basics_fdiv;
+var elm$core$Basics$logBase = F2(
+	function (base, number) {
+		return _Basics_log(number) / _Basics_log(base);
+	});
+var elm$core$Basics$toFloat = _Basics_toFloat;
+var elm$core$Array$shiftStep = elm$core$Basics$ceiling(
+	A2(elm$core$Basics$logBase, 2, elm$core$Array$branchFactor));
+var elm$core$Elm$JsArray$empty = _JsArray_empty;
+var elm$core$Array$empty = A4(elm$core$Array$Array_elm_builtin, 0, elm$core$Array$shiftStep, elm$core$Elm$JsArray$empty, elm$core$Elm$JsArray$empty);
+var elm$core$Array$Leaf = function (a) {
+	return {$: 'Leaf', a: a};
+};
+var elm$core$Array$SubTree = function (a) {
+	return {$: 'SubTree', a: a};
+};
+var elm$core$Elm$JsArray$initializeFromList = _JsArray_initializeFromList;
 var elm$core$Array$compressNodes = F2(
 	function (nodes, acc) {
 		compressNodes:
@@ -5028,10 +5253,6 @@ var elm$core$Array$compressNodes = F2(
 			}
 		}
 	});
-var elm$core$Basics$apR = F2(
-	function (x, f) {
-		return f(x);
-	});
 var elm$core$Basics$eq = _Utils_equal;
 var elm$core$Tuple$first = function (_n0) {
 	var x = _n0.a;
@@ -5053,19 +5274,12 @@ var elm$core$Array$treeFromBuilder = F2(
 			}
 		}
 	});
-var elm$core$Basics$add = _Basics_add;
-var elm$core$Basics$apL = F2(
-	function (f, x) {
-		return f(x);
-	});
 var elm$core$Basics$floor = _Basics_floor;
-var elm$core$Basics$gt = _Utils_gt;
 var elm$core$Basics$max = F2(
 	function (x, y) {
 		return (_Utils_cmp(x, y) > 0) ? x : y;
 	});
 var elm$core$Basics$mul = _Basics_mul;
-var elm$core$Basics$sub = _Basics_sub;
 var elm$core$Elm$JsArray$length = _JsArray_length;
 var elm$core$Array$builderToArray = F2(
 	function (reverseNodeList, builder) {
@@ -5090,7 +5304,6 @@ var elm$core$Array$builderToArray = F2(
 				builder.tail);
 		}
 	});
-var elm$core$Basics$False = {$: 'False'};
 var elm$core$Basics$idiv = _Basics_idiv;
 var elm$core$Basics$lt = _Utils_lt;
 var elm$core$Elm$JsArray$initialize = _JsArray_initialize;
@@ -5142,14 +5355,6 @@ var elm$core$Result$Err = function (a) {
 };
 var elm$core$Result$Ok = function (a) {
 	return {$: 'Ok', a: a};
-};
-var elm$core$Basics$True = {$: 'True'};
-var elm$core$Result$isOk = function (result) {
-	if (result.$ === 'Ok') {
-		return true;
-	} else {
-		return false;
-	}
 };
 var elm$json$Json$Decode$Failure = F2(
 	function (a, b) {
@@ -5356,929 +5561,6 @@ var elm$json$Json$Decode$errorToStringHelp = F2(
 			}
 		}
 	});
-var elm$json$Json$Encode$string = _Json_wrap;
-var elm$core$Basics$identity = function (x) {
-	return x;
-};
-var elm$json$Json$Decode$map = _Json_map1;
-var elm$json$Json$Decode$map2 = _Json_map2;
-var elm$json$Json$Decode$succeed = _Json_succeed;
-var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
-	switch (handler.$) {
-		case 'Normal':
-			return 0;
-		case 'MayStopPropagation':
-			return 1;
-		case 'MayPreventDefault':
-			return 2;
-		default:
-			return 3;
-	}
-};
-var elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			elm$json$Json$Encode$string(string));
-	});
-var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
-var author$project$Iterations$View$card0 = elm$html$Html$Attributes$class('player-hand hand-size-4 card-0');
-var author$project$Iterations$View$card1 = elm$html$Html$Attributes$class('player-hand hand-size-4 card-1');
-var author$project$Iterations$View$card2 = elm$html$Html$Attributes$class('player-hand hand-size-4 card-2');
-var author$project$Iterations$View$card3 = elm$html$Html$Attributes$class('player-hand hand-size-4 card-3');
-var elm$virtual_dom$VirtualDom$attribute = F2(
-	function (key, value) {
-		return A2(
-			_VirtualDom_attribute,
-			_VirtualDom_noOnOrFormAction(key),
-			_VirtualDom_noJavaScriptOrHtmlUri(value));
-	});
-var elm$html$Html$Attributes$attribute = elm$virtual_dom$VirtualDom$attribute;
-var author$project$Iterations$View$blank = A2(elm$html$Html$Attributes$attribute, 'nothing', '');
-var elm$virtual_dom$VirtualDom$node = function (tag) {
-	return _VirtualDom_node(
-		_VirtualDom_noScript(tag));
-};
-var elm$html$Html$node = elm$virtual_dom$VirtualDom$node;
-var author$project$Iterations$View$pCard = function (attributes) {
-	return A3(elm$html$Html$node, 'pilatch-card', attributes, _List_Nil);
-};
-var author$project$Iterations$View$placedAreaClass = elm$html$Html$Attributes$class('player-placed-card-area');
-var author$project$Iterations$View$emptyArea = author$project$Iterations$View$pCard(
-	_List_fromArray(
-		[author$project$Iterations$View$placedAreaClass, author$project$Iterations$View$blank]));
-var author$project$Iterations$View$rank = elm$html$Html$Attributes$attribute('rank');
-var author$project$Iterations$View$suit = elm$html$Html$Attributes$attribute('suit');
-var author$project$Iterations$View$up = A2(elm$html$Html$Attributes$attribute, 'up', '');
-var author$project$Iterations$View$fiveOfPaper = function (attribute) {
-	return author$project$Iterations$View$pCard(
-		_List_fromArray(
-			[
-				attribute,
-				author$project$Iterations$View$up,
-				author$project$Iterations$View$rank('5'),
-				author$project$Iterations$View$suit('paper')
-			]));
-};
-var author$project$Iterations$View$fiveOfPaper2 = F2(
-	function (attribute1, attribute2) {
-		return author$project$Iterations$View$pCard(
-			_List_fromArray(
-				[
-					attribute1,
-					attribute2,
-					author$project$Iterations$View$up,
-					author$project$Iterations$View$rank('5'),
-					author$project$Iterations$View$suit('paper')
-				]));
-	});
-var author$project$Iterations$View$fiveOfPaperDown2 = F2(
-	function (attribute1, attribute2) {
-		return author$project$Iterations$View$pCard(
-			_List_fromArray(
-				[
-					attribute1,
-					attribute2,
-					author$project$Iterations$View$rank('5'),
-					author$project$Iterations$View$suit('paper')
-				]));
-	});
-var author$project$Iterations$View$kingOfRock = function (attribute) {
-	return author$project$Iterations$View$pCard(
-		_List_fromArray(
-			[
-				attribute,
-				author$project$Iterations$View$up,
-				author$project$Iterations$View$rank('13'),
-				author$project$Iterations$View$suit('rock')
-			]));
-};
-var author$project$Iterations$View$kingOfRock2 = F2(
-	function (attribute1, attribute2) {
-		return author$project$Iterations$View$pCard(
-			_List_fromArray(
-				[
-					attribute1,
-					attribute2,
-					author$project$Iterations$View$up,
-					author$project$Iterations$View$rank('13'),
-					author$project$Iterations$View$suit('rock')
-				]));
-	});
-var author$project$Iterations$View$noTransition = A2(elm$html$Html$Attributes$attribute, 'no-transition', '');
-var author$project$Iterations$View$queenOfScissors = function (attribute) {
-	return author$project$Iterations$View$pCard(
-		_List_fromArray(
-			[
-				attribute,
-				author$project$Iterations$View$up,
-				author$project$Iterations$View$rank('12'),
-				author$project$Iterations$View$suit('scissors')
-			]));
-};
-var author$project$Iterations$View$queenOfScissors2 = F2(
-	function (attribute1, attribute2) {
-		return author$project$Iterations$View$pCard(
-			_List_fromArray(
-				[
-					attribute1,
-					attribute2,
-					author$project$Iterations$View$up,
-					author$project$Iterations$View$rank('12'),
-					author$project$Iterations$View$suit('scissors')
-				]));
-	});
-var author$project$Iterations$Model$DoAnimation = function (a) {
-	return {$: 'DoAnimation', a: a};
-};
-var elm$html$Html$button = _VirtualDom_node('button');
-var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
-var elm$virtual_dom$VirtualDom$Normal = function (a) {
-	return {$: 'Normal', a: a};
-};
-var elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
-var elm$html$Html$Events$on = F2(
-	function (event, decoder) {
-		return A2(
-			elm$virtual_dom$VirtualDom$on,
-			event,
-			elm$virtual_dom$VirtualDom$Normal(decoder));
-	});
-var elm$html$Html$Events$onClick = function (msg) {
-	return A2(
-		elm$html$Html$Events$on,
-		'click',
-		elm$json$Json$Decode$succeed(msg));
-};
-var author$project$Iterations$View$next = function (animationNumber) {
-	return A2(
-		elm$html$Html$button,
-		_List_fromArray(
-			[
-				elm$html$Html$Events$onClick(
-				author$project$Iterations$Model$DoAnimation(animationNumber))
-			]),
-		_List_fromArray(
-			[
-				elm$html$Html$text('NEXT')
-			]));
-};
-var elm$html$Html$div = _VirtualDom_node('div');
-var author$project$Iterations$View$tableTop = elm$html$Html$div(
-	_List_fromArray(
-		[
-			elm$html$Html$Attributes$class('table-top')
-		]));
-var elm$html$Html$section = _VirtualDom_node('section');
-var author$project$Iterations$View$render = F3(
-	function (animationNumber, comment, cards) {
-		return A2(
-			elm$html$Html$section,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					elm$html$Html$div,
-					_List_fromArray(
-						[
-							elm$html$Html$Attributes$class('interaction')
-						]),
-					_List_fromArray(
-						[
-							author$project$Iterations$View$next(animationNumber + 1),
-							elm$html$Html$text(
-							comment + ('. Animation: ' + elm$core$String$fromInt(animationNumber + 1)))
-						])),
-					author$project$Iterations$View$tableTop(cards)
-				]));
-	});
-var author$project$Iterations$View$tableTop1 = function (attribute) {
-	return elm$html$Html$div(
-		_List_fromArray(
-			[
-				attribute,
-				elm$html$Html$Attributes$class('table-top')
-			]));
-};
-var author$project$Iterations$View$renderNoTransition = F3(
-	function (animationNumber, comment, cards) {
-		return A2(
-			elm$html$Html$section,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					elm$html$Html$div,
-					_List_fromArray(
-						[
-							elm$html$Html$Attributes$class('interaction')
-						]),
-					_List_fromArray(
-						[
-							author$project$Iterations$View$next(animationNumber + 1),
-							elm$html$Html$text(
-							comment + ('. Animation: ' + elm$core$String$fromInt(animationNumber + 1)))
-						])),
-					A2(author$project$Iterations$View$tableTop1, author$project$Iterations$View$noTransition, cards)
-				]));
-	});
-var author$project$Iterations$Model$StartOver = {$: 'StartOver'};
-var author$project$Iterations$View$startOver = A2(
-	elm$html$Html$section,
-	_List_Nil,
-	_List_fromArray(
-		[
-			A2(
-			elm$html$Html$button,
-			_List_fromArray(
-				[
-					elm$html$Html$Events$onClick(author$project$Iterations$Model$StartOver)
-				]),
-			_List_fromArray(
-				[
-					elm$html$Html$text('START OVER')
-				])),
-			author$project$Iterations$View$tableTop(_List_Nil)
-		]));
-var author$project$Iterations$View$threeOfRock = function (attribute) {
-	return author$project$Iterations$View$pCard(
-		_List_fromArray(
-			[
-				attribute,
-				author$project$Iterations$View$up,
-				author$project$Iterations$View$rank('3'),
-				author$project$Iterations$View$suit('rock')
-			]));
-};
-var author$project$Iterations$View$threeOfRock2 = F2(
-	function (attribute1, attribute2) {
-		return author$project$Iterations$View$pCard(
-			_List_fromArray(
-				[
-					attribute1,
-					attribute2,
-					author$project$Iterations$View$up,
-					author$project$Iterations$View$rank('3'),
-					author$project$Iterations$View$suit('rock')
-				]));
-	});
-var author$project$Iterations$View$collapsedImplementation = function (animationNumber) {
-	switch (animationNumber) {
-		case 0:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'Initial setup with four cards in hand and an empty placed card area',
-				_List_fromArray(
-					[
-						A2(author$project$Iterations$View$queenOfScissors2, author$project$Iterations$View$card0, author$project$Iterations$View$noTransition),
-						A2(author$project$Iterations$View$fiveOfPaper2, author$project$Iterations$View$card1, author$project$Iterations$View$noTransition),
-						A2(author$project$Iterations$View$kingOfRock2, author$project$Iterations$View$card2, author$project$Iterations$View$noTransition),
-						A2(author$project$Iterations$View$threeOfRock2, author$project$Iterations$View$card3, author$project$Iterations$View$noTransition),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 1:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'add new attributes/classes to make the five of paper card animate, and slide cards in hand to the left',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$pCard(
-						_List_fromArray(
-							[
-								author$project$Iterations$View$card1,
-								author$project$Iterations$View$placedAreaClass,
-								author$project$Iterations$View$rank('5'),
-								author$project$Iterations$View$suit('paper')
-							])),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card1),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 2:
-			return A3(
-				author$project$Iterations$View$renderNoTransition,
-				animationNumber,
-				'move it in the DOM with transitions disabled in CSS',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						A2(author$project$Iterations$View$kingOfRock2, author$project$Iterations$View$card1, author$project$Iterations$View$noTransition),
-						A2(author$project$Iterations$View$threeOfRock2, author$project$Iterations$View$card2, author$project$Iterations$View$noTransition),
-						A2(author$project$Iterations$View$fiveOfPaperDown2, author$project$Iterations$View$placedAreaClass, author$project$Iterations$View$noTransition),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 3:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'return five of paper to end of hand',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card1),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$fiveOfPaper(author$project$Iterations$View$card3),
-						author$project$Iterations$View$emptyArea
-					]));
-		default:
-			return author$project$Iterations$View$startOver;
-	}
-};
-var author$project$Iterations$View$fiveOfPaperDown = function (attribute) {
-	return author$project$Iterations$View$pCard(
-		_List_fromArray(
-			[
-				attribute,
-				author$project$Iterations$View$rank('5'),
-				author$project$Iterations$View$suit('paper')
-			]));
-};
-var author$project$Iterations$View$disablingTransitionsImplementation = function (animationNumber) {
-	switch (animationNumber) {
-		case 0:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'Initial setup with four cards in hand and an empty placed card area',
-				_List_fromArray(
-					[
-						A2(author$project$Iterations$View$queenOfScissors2, author$project$Iterations$View$card0, author$project$Iterations$View$noTransition),
-						A2(author$project$Iterations$View$fiveOfPaper2, author$project$Iterations$View$card1, author$project$Iterations$View$noTransition),
-						A2(author$project$Iterations$View$kingOfRock2, author$project$Iterations$View$card2, author$project$Iterations$View$noTransition),
-						A2(author$project$Iterations$View$threeOfRock2, author$project$Iterations$View$card3, author$project$Iterations$View$noTransition),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 1:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'add new attributes/classes to make the five of paper card animate',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$pCard(
-						_List_fromArray(
-							[
-								author$project$Iterations$View$card1,
-								author$project$Iterations$View$placedAreaClass,
-								author$project$Iterations$View$rank('5'),
-								author$project$Iterations$View$suit('paper')
-							])),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card3),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 2:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'remove classes from animated card\'s previous spot in hand',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$fiveOfPaperDown(author$project$Iterations$View$placedAreaClass),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card3),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 3:
-			return A3(
-				author$project$Iterations$View$renderNoTransition,
-				animationNumber,
-				'move it in the DOM with transitions disabled in CSS',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						A2(author$project$Iterations$View$kingOfRock2, author$project$Iterations$View$card2, author$project$Iterations$View$noTransition),
-						A2(author$project$Iterations$View$threeOfRock2, author$project$Iterations$View$card3, author$project$Iterations$View$noTransition),
-						A2(author$project$Iterations$View$fiveOfPaperDown2, author$project$Iterations$View$placedAreaClass, author$project$Iterations$View$noTransition),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 4:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'slide the cards in hand to the left',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card1),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$fiveOfPaperDown(author$project$Iterations$View$placedAreaClass),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 5:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'return five of paper to end of hand',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card1),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$fiveOfPaper(author$project$Iterations$View$card3),
-						author$project$Iterations$View$emptyArea
-					]));
-		default:
-			return author$project$Iterations$View$startOver;
-	}
-};
-var author$project$Iterations$View$hidden = A2(elm$html$Html$Attributes$attribute, 'hidden', '');
-var author$project$Iterations$View$invisible = author$project$Iterations$View$pCard(
-	_List_fromArray(
-		[author$project$Iterations$View$hidden]));
-var author$project$Iterations$View$invisibleCardImplementation = function (animationNumber) {
-	switch (animationNumber) {
-		case 0:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'Initial setup with invisible card between placed area and hand',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$fiveOfPaper(author$project$Iterations$View$card1),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card3),
-						author$project$Iterations$View$invisible,
-						author$project$Iterations$View$emptyArea
-					]));
-		case 1:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'Swap invisible card with card to move\'s attributes, and hide the original (clicked card)',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$fiveOfPaper(author$project$Iterations$View$hidden),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card3),
-						author$project$Iterations$View$fiveOfPaper(author$project$Iterations$View$card1),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 2:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'add new attributes/classes to make the card animate',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$invisible,
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card3),
-						author$project$Iterations$View$pCard(
-						_List_fromArray(
-							[
-								author$project$Iterations$View$card1,
-								author$project$Iterations$View$placedAreaClass,
-								author$project$Iterations$View$rank('5'),
-								author$project$Iterations$View$suit('paper')
-							])),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 3:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'remove classes from animated card\'s previous spot',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$invisible,
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card3),
-						author$project$Iterations$View$fiveOfPaperDown(author$project$Iterations$View$placedAreaClass),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 4:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'remaining hand slides left',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$hidden),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card1),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$fiveOfPaperDown(author$project$Iterations$View$placedAreaClass),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 5:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'move invisible card down one notch',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card1),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$hidden),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$fiveOfPaperDown(author$project$Iterations$View$placedAreaClass),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 6:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'move invisible card down again',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card1),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$hidden),
-						author$project$Iterations$View$fiveOfPaperDown(author$project$Iterations$View$placedAreaClass),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 7:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'return five of paper to end of hand',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card1),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$invisible,
-						author$project$Iterations$View$fiveOfPaper(author$project$Iterations$View$card3),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 8:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'swap invisible card to initial spot',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card1),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$fiveOfPaper(author$project$Iterations$View$card3),
-						author$project$Iterations$View$invisible,
-						author$project$Iterations$View$emptyArea
-					]));
-		default:
-			return author$project$Iterations$View$startOver;
-	}
-};
-var author$project$Iterations$View$naiveImplementation = function (animationNumber) {
-	switch (animationNumber) {
-		case 0:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'Initial setup with four cards in hand and an empty placed card area',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$fiveOfPaper(author$project$Iterations$View$card1),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card3),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 1:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'add new attributes/classes to make the five of paper card animate',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$pCard(
-						_List_fromArray(
-							[
-								author$project$Iterations$View$card1,
-								author$project$Iterations$View$placedAreaClass,
-								author$project$Iterations$View$rank('5'),
-								author$project$Iterations$View$suit('paper')
-							])),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card3),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 2:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'remove classes from animated card\'s previous spot in hand',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$fiveOfPaperDown(author$project$Iterations$View$placedAreaClass),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card3),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 3:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'rearrange cards to match new layout',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card1),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$fiveOfPaperDown(author$project$Iterations$View$placedAreaClass),
-						author$project$Iterations$View$emptyArea
-					]));
-		case 4:
-			return A3(
-				author$project$Iterations$View$render,
-				animationNumber,
-				'return five of paper to end of hand',
-				_List_fromArray(
-					[
-						author$project$Iterations$View$queenOfScissors(author$project$Iterations$View$card0),
-						author$project$Iterations$View$kingOfRock(author$project$Iterations$View$card1),
-						author$project$Iterations$View$threeOfRock(author$project$Iterations$View$card2),
-						author$project$Iterations$View$fiveOfPaper(author$project$Iterations$View$card3),
-						author$project$Iterations$View$emptyArea
-					]));
-		default:
-			return author$project$Iterations$View$startOver;
-	}
-};
-var elm$html$Html$a = _VirtualDom_node('a');
-var elm$html$Html$Attributes$href = function (url) {
-	return A2(
-		elm$html$Html$Attributes$stringProperty,
-		'href',
-		_VirtualDom_noJavaScriptUri(url));
-};
-var author$project$Iterations$View$sourceCodezLink = A2(
-	elm$html$Html$a,
-	_List_fromArray(
-		[
-			elm$html$Html$Attributes$href('https://github.com/Pilatch/experiments.pilatch.com/tree/master/card-animation')
-		]),
-	_List_fromArray(
-		[
-			elm$html$Html$text('Source codez')
-		]));
-var elm$html$Html$h1 = _VirtualDom_node('h1');
-var elm$html$Html$header = _VirtualDom_node('header');
-var elm$html$Html$main_ = _VirtualDom_node('main');
-var elm$html$Html$p = _VirtualDom_node('p');
-var elm$html$Html$Attributes$type_ = elm$html$Html$Attributes$stringProperty('type');
-var author$project$Iterations$View$view = function (model) {
-	var _n0 = model.implementation;
-	switch (_n0.$) {
-		case 'NoneChosen':
-			return A2(
-				elm$html$Html$main_,
-				_List_Nil,
-				_List_fromArray(
-					[
-						A2(
-						elm$html$Html$header,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								elm$html$Html$h1,
-								_List_Nil,
-								_List_fromArray(
-									[
-										elm$html$Html$text('Iterative Development')
-									])),
-								A2(
-								elm$html$Html$p,
-								_List_Nil,
-								_List_fromArray(
-									[
-										elm$html$Html$text('Experiments and refinements I went through to make animations work with virtual DOM.')
-									]))
-							])),
-						A2(
-						elm$html$Html$p,
-						_List_fromArray(
-							[
-								elm$html$Html$Attributes$class('iteration-buttons')
-							]),
-						_List_fromArray(
-							[
-								A2(
-								elm$html$Html$button,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$type_('button'),
-										elm$html$Html$Events$onClick(
-										author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$Naive))
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('Naïve')
-									])),
-								A2(
-								elm$html$Html$button,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$type_('button'),
-										elm$html$Html$Events$onClick(
-										author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$InvisibleCard))
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('Invisible Card')
-									])),
-								A2(
-								elm$html$Html$button,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$type_('button'),
-										elm$html$Html$Events$onClick(
-										author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$DisablingTransitions))
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('Disabling Transitions')
-									])),
-								A2(
-								elm$html$Html$button,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$type_('button'),
-										elm$html$Html$Events$onClick(
-										author$project$Iterations$Model$ChooseImplementation(author$project$Iterations$Model$Collapsed))
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('Collapsed')
-									]))
-							])),
-						A2(
-						elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[
-								A2(
-								elm$html$Html$a,
-								_List_fromArray(
-									[
-										elm$html$Html$Attributes$href('index.html')
-									]),
-								_List_fromArray(
-									[
-										elm$html$Html$text('Back to explanation')
-									]))
-							])),
-						A2(
-						elm$html$Html$p,
-						_List_Nil,
-						_List_fromArray(
-							[author$project$Iterations$View$sourceCodezLink]))
-					]));
-		case 'Naive':
-			return author$project$Iterations$View$naiveImplementation(model.animationNumber);
-		case 'InvisibleCard':
-			return author$project$Iterations$View$invisibleCardImplementation(model.animationNumber);
-		case 'DisablingTransitions':
-			return author$project$Iterations$View$disablingTransitionsImplementation(model.animationNumber);
-		default:
-			return author$project$Iterations$View$collapsedImplementation(model.animationNumber);
-	}
-};
-var elm$core$Platform$Cmd$batch = _Platform_batch;
-var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
-var elm$core$Platform$Sub$batch = _Platform_batch;
-var elm$core$Platform$Sub$none = elm$core$Platform$Sub$batch(_List_Nil);
-var elm$browser$Browser$External = function (a) {
-	return {$: 'External', a: a};
-};
-var elm$browser$Browser$Internal = function (a) {
-	return {$: 'Internal', a: a};
-};
-var elm$browser$Browser$Dom$NotFound = function (a) {
-	return {$: 'NotFound', a: a};
-};
-var elm$core$Basics$never = function (_n0) {
-	never:
-	while (true) {
-		var nvr = _n0.a;
-		var $temp$_n0 = nvr;
-		_n0 = $temp$_n0;
-		continue never;
-	}
-};
-var elm$core$Task$Perform = function (a) {
-	return {$: 'Perform', a: a};
-};
-var elm$core$Task$succeed = _Scheduler_succeed;
-var elm$core$Task$init = elm$core$Task$succeed(_Utils_Tuple0);
-var elm$core$List$foldrHelper = F4(
-	function (fn, acc, ctr, ls) {
-		if (!ls.b) {
-			return acc;
-		} else {
-			var a = ls.a;
-			var r1 = ls.b;
-			if (!r1.b) {
-				return A2(fn, a, acc);
-			} else {
-				var b = r1.a;
-				var r2 = r1.b;
-				if (!r2.b) {
-					return A2(
-						fn,
-						a,
-						A2(fn, b, acc));
-				} else {
-					var c = r2.a;
-					var r3 = r2.b;
-					if (!r3.b) {
-						return A2(
-							fn,
-							a,
-							A2(
-								fn,
-								b,
-								A2(fn, c, acc)));
-					} else {
-						var d = r3.a;
-						var r4 = r3.b;
-						var res = (ctr > 500) ? A3(
-							elm$core$List$foldl,
-							fn,
-							acc,
-							elm$core$List$reverse(r4)) : A4(elm$core$List$foldrHelper, fn, acc, ctr + 1, r4);
-						return A2(
-							fn,
-							a,
-							A2(
-								fn,
-								b,
-								A2(
-									fn,
-									c,
-									A2(fn, d, res))));
-					}
-				}
-			}
-		}
-	});
-var elm$core$List$foldr = F3(
-	function (fn, acc, ls) {
-		return A4(elm$core$List$foldrHelper, fn, acc, 0, ls);
-	});
-var elm$core$List$map = F2(
-	function (f, xs) {
-		return A3(
-			elm$core$List$foldr,
-			F2(
-				function (x, acc) {
-					return A2(
-						elm$core$List$cons,
-						f(x),
-						acc);
-				}),
-			_List_Nil,
-			xs);
-	});
-var elm$core$Task$andThen = _Scheduler_andThen;
-var elm$core$Task$map = F2(
-	function (func, taskA) {
-		return A2(
-			elm$core$Task$andThen,
-			function (a) {
-				return elm$core$Task$succeed(
-					func(a));
-			},
-			taskA);
-	});
-var elm$core$Task$map2 = F3(
-	function (func, taskA, taskB) {
-		return A2(
-			elm$core$Task$andThen,
-			function (a) {
-				return A2(
-					elm$core$Task$andThen,
-					function (b) {
-						return elm$core$Task$succeed(
-							A2(func, a, b));
-					},
-					taskB);
-			},
-			taskA);
-	});
-var elm$core$Task$sequence = function (tasks) {
-	return A3(
-		elm$core$List$foldr,
-		elm$core$Task$map2(elm$core$List$cons),
-		elm$core$Task$succeed(_List_Nil),
-		tasks);
-};
 var elm$core$Platform$sendToApp = _Platform_sendToApp;
 var elm$core$Task$spawnCmd = F2(
 	function (router, _n0) {
@@ -6320,6 +5602,771 @@ var elm$core$Task$perform = F2(
 			elm$core$Task$Perform(
 				A2(elm$core$Task$map, toMessage, task)));
 	});
+var elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
+var elm$random$Random$Seed = F2(
+	function (a, b) {
+		return {$: 'Seed', a: a, b: b};
+	});
+var elm$random$Random$next = function (_n0) {
+	var state0 = _n0.a;
+	var incr = _n0.b;
+	return A2(elm$random$Random$Seed, ((state0 * 1664525) + incr) >>> 0, incr);
+};
+var elm$random$Random$initialSeed = function (x) {
+	var _n0 = elm$random$Random$next(
+		A2(elm$random$Random$Seed, 0, 1013904223));
+	var state1 = _n0.a;
+	var incr = _n0.b;
+	var state2 = (state1 + x) >>> 0;
+	return elm$random$Random$next(
+		A2(elm$random$Random$Seed, state2, incr));
+};
+var elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var elm$core$Bitwise$and = _Bitwise_and;
+var elm$random$Random$Generator = function (a) {
+	return {$: 'Generator', a: a};
+};
+var elm$core$Bitwise$xor = _Bitwise_xor;
+var elm$random$Random$peel = function (_n0) {
+	var state = _n0.a;
+	var word = (state ^ (state >>> ((state >>> 28) + 4))) * 277803737;
+	return ((word >>> 22) ^ word) >>> 0;
+};
+var elm$random$Random$int = F2(
+	function (a, b) {
+		return elm$random$Random$Generator(
+			function (seed0) {
+				var _n0 = (_Utils_cmp(a, b) < 0) ? _Utils_Tuple2(a, b) : _Utils_Tuple2(b, a);
+				var lo = _n0.a;
+				var hi = _n0.b;
+				var range = (hi - lo) + 1;
+				if (!((range - 1) & range)) {
+					return _Utils_Tuple2(
+						(((range - 1) & elm$random$Random$peel(seed0)) >>> 0) + lo,
+						elm$random$Random$next(seed0));
+				} else {
+					var threshhold = (((-range) >>> 0) % range) >>> 0;
+					var accountForBias = function (seed) {
+						accountForBias:
+						while (true) {
+							var x = elm$random$Random$peel(seed);
+							var seedN = elm$random$Random$next(seed);
+							if (_Utils_cmp(x, threshhold) < 0) {
+								var $temp$seed = seedN;
+								seed = $temp$seed;
+								continue accountForBias;
+							} else {
+								return _Utils_Tuple2((x % range) + lo, seedN);
+							}
+						}
+					};
+					return accountForBias(seed0);
+				}
+			});
+	});
+var elm$random$Random$step = F2(
+	function (_n0, seed) {
+		var generator = _n0.a;
+		return generator(seed);
+	});
+var author$project$Explanation$Model$initialCommand = F2(
+	function (seedInt, handSize) {
+		var _n0 = A2(
+			elm$random$Random$step,
+			A2(elm$random$Random$int, 0, handSize - 1),
+			elm$random$Random$initialSeed(seedInt));
+		var cardIndex = _n0.a;
+		var steppedSeed = _n0.b;
+		return _Utils_Tuple2(
+			A2(
+				elm$core$Task$perform,
+				function (_n1) {
+					return author$project$Explanation$Model$DemoPlaceCard(cardIndex);
+				},
+				elm$core$Process$sleep(2000)),
+			steppedSeed);
+	});
+var author$project$Explanation$Model$initial = F2(
+	function (hand, seedInt) {
+		var _n0 = A2(
+			author$project$Explanation$Model$initialCommand,
+			seedInt,
+			elm$core$List$length(hand));
+		var command = _n0.a;
+		var steppedSeed = _n0.b;
+		return _Utils_Tuple2(
+			{
+				animationStep: author$project$Explanation$Model$NoTransitionRearrange,
+				hand: hand,
+				maxHandSize: elm$core$List$length(hand),
+				placed: elm$core$Maybe$Nothing,
+				seed: elm$random$Random$initialSeed(seedInt)
+			},
+			command);
+	});
+var author$project$Explanation$Model$DemoRearrange = function (a) {
+	return {$: 'DemoRearrange', a: a};
+};
+var author$project$Explanation$Model$PlaceCard = function (a) {
+	return {$: 'PlaceCard', a: a};
+};
+var author$project$Explanation$Model$RearrangeAfterAnimation = F2(
+	function (a, b) {
+		return {$: 'RearrangeAfterAnimation', a: a, b: b};
+	});
+var elm$core$Debug$log = _Debug_log;
+var elm$core$List$drop = F2(
+	function (n, list) {
+		drop:
+		while (true) {
+			if (n <= 0) {
+				return list;
+			} else {
+				if (!list.b) {
+					return list;
+				} else {
+					var x = list.a;
+					var xs = list.b;
+					var $temp$n = n - 1,
+						$temp$list = xs;
+					n = $temp$n;
+					list = $temp$list;
+					continue drop;
+				}
+			}
+		}
+	});
+var elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return elm$core$Maybe$Just(x);
+	} else {
+		return elm$core$Maybe$Nothing;
+	}
+};
+var elm_community$list_extra$List$Extra$getAt = F2(
+	function (idx, xs) {
+		return (idx < 0) ? elm$core$Maybe$Nothing : elm$core$List$head(
+			A2(elm$core$List$drop, idx, xs));
+	});
+var author$project$Explanation$Update$update = F2(
+	function (msg, model) {
+		var x = A2(elm$core$Debug$log, 'SHIT', 1);
+		if (msg.$ === 'DemoPlaceCard') {
+			var handIndex = msg.a;
+			var nextPlaced = A2(elm_community$list_extra$List$Extra$getAt, handIndex, model.hand);
+			var nextHand = A2(elm$core$Debug$log, 'ethan', model.hand);
+			var newModel = _Utils_update(
+				model,
+				{
+					animationStep: author$project$Explanation$Model$PlaceCard(handIndex)
+				});
+			var command = A2(
+				elm$core$Task$perform,
+				function (_n1) {
+					return author$project$Explanation$Model$DemoRearrange(
+						A2(author$project$Explanation$Model$RearrangeAfterAnimation, nextHand, nextPlaced));
+				},
+				elm$core$Process$sleep(1250));
+			return _Utils_Tuple2(newModel, command);
+		} else {
+			var rearrangeMsg = msg.a;
+			var hand = rearrangeMsg.a;
+			var placed = rearrangeMsg.b;
+			var _n3 = function () {
+				var _n4 = A2(
+					elm$random$Random$step,
+					A2(
+						elm$random$Random$int,
+						0,
+						elm$core$List$length(hand) - 1),
+					model.seed);
+				var placeCardIndex = _n4.a;
+				var newSeed = _n4.b;
+				return _Utils_Tuple2(
+					A2(
+						elm$core$Task$perform,
+						function (_n5) {
+							return author$project$Explanation$Model$DemoPlaceCard(placeCardIndex);
+						},
+						elm$core$Process$sleep(1250)),
+					newSeed);
+			}();
+			var command = _n3.a;
+			var seed = _n3.b;
+			var newModel = _Utils_update(
+				model,
+				{animationStep: author$project$Explanation$Model$NoTransitionRearrange, hand: hand, placed: placed, seed: seed});
+			return _Utils_Tuple2(newModel, command);
+		}
+	});
+var author$project$Card$Down = {$: 'Down'};
+var author$project$Card$Up = {$: 'Up'};
+var author$project$Card$Ace = {$: 'Ace'};
+var author$project$Card$Eight = {$: 'Eight'};
+var author$project$Card$Five = {$: 'Five'};
+var author$project$Card$Four = {$: 'Four'};
+var author$project$Card$Jack = {$: 'Jack'};
+var author$project$Card$Joker = {$: 'Joker'};
+var author$project$Card$King = {$: 'King'};
+var author$project$Card$Nine = {$: 'Nine'};
+var author$project$Card$One = {$: 'One'};
+var author$project$Card$Paper = {$: 'Paper'};
+var author$project$Card$Queen = {$: 'Queen'};
+var author$project$Card$Rock = {$: 'Rock'};
+var author$project$Card$Scissors = {$: 'Scissors'};
+var author$project$Card$Seven = {$: 'Seven'};
+var author$project$Card$Six = {$: 'Six'};
+var author$project$Card$Ten = {$: 'Ten'};
+var author$project$Card$Three = {$: 'Three'};
+var author$project$Card$Two = {$: 'Two'};
+var author$project$Card$cardToData = function (card) {
+	switch (card.$) {
+		case 'OneOfPaper':
+			return {rank: author$project$Card$One, suit: author$project$Card$Paper};
+		case 'TwoOfPaper':
+			return {rank: author$project$Card$Two, suit: author$project$Card$Paper};
+		case 'ThreeOfPaper':
+			return {rank: author$project$Card$Three, suit: author$project$Card$Paper};
+		case 'FourOfPaper':
+			return {rank: author$project$Card$Four, suit: author$project$Card$Paper};
+		case 'FiveOfPaper':
+			return {rank: author$project$Card$Five, suit: author$project$Card$Paper};
+		case 'SixOfPaper':
+			return {rank: author$project$Card$Six, suit: author$project$Card$Paper};
+		case 'SevenOfPaper':
+			return {rank: author$project$Card$Seven, suit: author$project$Card$Paper};
+		case 'EightOfPaper':
+			return {rank: author$project$Card$Eight, suit: author$project$Card$Paper};
+		case 'NineOfPaper':
+			return {rank: author$project$Card$Nine, suit: author$project$Card$Paper};
+		case 'TenOfPaper':
+			return {rank: author$project$Card$Ten, suit: author$project$Card$Paper};
+		case 'JackOfPaper':
+			return {rank: author$project$Card$Jack, suit: author$project$Card$Paper};
+		case 'QueenOfPaper':
+			return {rank: author$project$Card$Queen, suit: author$project$Card$Paper};
+		case 'KingOfPaper':
+			return {rank: author$project$Card$King, suit: author$project$Card$Paper};
+		case 'AceOfPaper':
+			return {rank: author$project$Card$Ace, suit: author$project$Card$Paper};
+		case 'JokerOfPaper':
+			return {rank: author$project$Card$Joker, suit: author$project$Card$Paper};
+		case 'OneOfRock':
+			return {rank: author$project$Card$One, suit: author$project$Card$Rock};
+		case 'TwoOfRock':
+			return {rank: author$project$Card$Two, suit: author$project$Card$Rock};
+		case 'ThreeOfRock':
+			return {rank: author$project$Card$Three, suit: author$project$Card$Rock};
+		case 'FourOfRock':
+			return {rank: author$project$Card$Four, suit: author$project$Card$Rock};
+		case 'FiveOfRock':
+			return {rank: author$project$Card$Five, suit: author$project$Card$Rock};
+		case 'SixOfRock':
+			return {rank: author$project$Card$Six, suit: author$project$Card$Rock};
+		case 'SevenOfRock':
+			return {rank: author$project$Card$Seven, suit: author$project$Card$Rock};
+		case 'EightOfRock':
+			return {rank: author$project$Card$Eight, suit: author$project$Card$Rock};
+		case 'NineOfRock':
+			return {rank: author$project$Card$Nine, suit: author$project$Card$Rock};
+		case 'TenOfRock':
+			return {rank: author$project$Card$Ten, suit: author$project$Card$Rock};
+		case 'JackOfRock':
+			return {rank: author$project$Card$Jack, suit: author$project$Card$Rock};
+		case 'QueenOfRock':
+			return {rank: author$project$Card$Queen, suit: author$project$Card$Rock};
+		case 'KingOfRock':
+			return {rank: author$project$Card$King, suit: author$project$Card$Rock};
+		case 'AceOfRock':
+			return {rank: author$project$Card$Ace, suit: author$project$Card$Rock};
+		case 'JokerOfRock':
+			return {rank: author$project$Card$Joker, suit: author$project$Card$Rock};
+		case 'OneOfScissors':
+			return {rank: author$project$Card$One, suit: author$project$Card$Scissors};
+		case 'TwoOfScissors':
+			return {rank: author$project$Card$Two, suit: author$project$Card$Scissors};
+		case 'ThreeOfScissors':
+			return {rank: author$project$Card$Three, suit: author$project$Card$Scissors};
+		case 'FourOfScissors':
+			return {rank: author$project$Card$Four, suit: author$project$Card$Scissors};
+		case 'FiveOfScissors':
+			return {rank: author$project$Card$Five, suit: author$project$Card$Scissors};
+		case 'SixOfScissors':
+			return {rank: author$project$Card$Six, suit: author$project$Card$Scissors};
+		case 'SevenOfScissors':
+			return {rank: author$project$Card$Seven, suit: author$project$Card$Scissors};
+		case 'EightOfScissors':
+			return {rank: author$project$Card$Eight, suit: author$project$Card$Scissors};
+		case 'NineOfScissors':
+			return {rank: author$project$Card$Nine, suit: author$project$Card$Scissors};
+		case 'TenOfScissors':
+			return {rank: author$project$Card$Ten, suit: author$project$Card$Scissors};
+		case 'JackOfScissors':
+			return {rank: author$project$Card$Jack, suit: author$project$Card$Scissors};
+		case 'QueenOfScissors':
+			return {rank: author$project$Card$Queen, suit: author$project$Card$Scissors};
+		case 'KingOfScissors':
+			return {rank: author$project$Card$King, suit: author$project$Card$Scissors};
+		case 'AceOfScissors':
+			return {rank: author$project$Card$Ace, suit: author$project$Card$Scissors};
+		default:
+			return {rank: author$project$Card$Joker, suit: author$project$Card$Scissors};
+	}
+};
+var author$project$Card$rankToString = function (rank) {
+	switch (rank.$) {
+		case 'One':
+			return '1';
+		case 'Two':
+			return '2';
+		case 'Three':
+			return '3';
+		case 'Four':
+			return '4';
+		case 'Five':
+			return '5';
+		case 'Six':
+			return '6';
+		case 'Seven':
+			return '7';
+		case 'Eight':
+			return '8';
+		case 'Nine':
+			return '9';
+		case 'Ten':
+			return '10';
+		case 'Jack':
+			return '11';
+		case 'Queen':
+			return '12';
+		case 'King':
+			return '13';
+		case 'Ace':
+			return '14';
+		default:
+			return '15';
+	}
+};
+var author$project$Card$suitToString_ = function (suit) {
+	switch (suit.$) {
+		case 'Rock':
+			return 'Rock';
+		case 'Paper':
+			return 'Paper';
+		default:
+			return 'Scissors';
+	}
+};
+var elm$core$String$toLower = _String_toLower;
+var author$project$Card$suitToString = function (suit) {
+	return elm$core$String$toLower(
+		author$project$Card$suitToString_(suit));
+};
+var elm$json$Json$Decode$map = _Json_map1;
+var elm$json$Json$Decode$map2 = _Json_map2;
+var elm$json$Json$Decode$succeed = _Json_succeed;
+var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
+	switch (handler.$) {
+		case 'Normal':
+			return 0;
+		case 'MayStopPropagation':
+			return 1;
+		case 'MayPreventDefault':
+			return 2;
+		default:
+			return 3;
+	}
+};
+var elm$virtual_dom$VirtualDom$node = function (tag) {
+	return _VirtualDom_node(
+		_VirtualDom_noScript(tag));
+};
+var elm$html$Html$node = elm$virtual_dom$VirtualDom$node;
+var elm$virtual_dom$VirtualDom$attribute = F2(
+	function (key, value) {
+		return A2(
+			_VirtualDom_attribute,
+			_VirtualDom_noOnOrFormAction(key),
+			_VirtualDom_noJavaScriptOrHtmlUri(value));
+	});
+var elm$html$Html$Attributes$attribute = elm$virtual_dom$VirtualDom$attribute;
+var author$project$Card$webComponent = F3(
+	function (attrs, facing, card) {
+		var data = author$project$Card$cardToData(card);
+		var attributes = _Utils_ap(
+			attrs,
+			_Utils_ap(
+				_List_fromArray(
+					[
+						A2(
+						elm$html$Html$Attributes$attribute,
+						'suit',
+						author$project$Card$suitToString(data.suit)),
+						A2(
+						elm$html$Html$Attributes$attribute,
+						'rank',
+						author$project$Card$rankToString(data.rank))
+					]),
+				function () {
+					if (facing.$ === 'Up') {
+						return _List_fromArray(
+							[
+								A2(elm$html$Html$Attributes$attribute, 'up', '')
+							]);
+					} else {
+						return _List_Nil;
+					}
+				}()));
+		return A3(elm$html$Html$node, 'pilatch-card', attributes, _List_Nil);
+	});
+var elm$json$Json$Encode$string = _Json_wrap;
+var elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			elm$json$Json$Encode$string(string));
+	});
+var elm$html$Html$Attributes$class = elm$html$Html$Attributes$stringProperty('className');
+var elm$core$Array$fromListHelp = F3(
+	function (list, nodeList, nodeListSize) {
+		fromListHelp:
+		while (true) {
+			var _n0 = A2(elm$core$Elm$JsArray$initializeFromList, elm$core$Array$branchFactor, list);
+			var jsArray = _n0.a;
+			var remainingItems = _n0.b;
+			if (_Utils_cmp(
+				elm$core$Elm$JsArray$length(jsArray),
+				elm$core$Array$branchFactor) < 0) {
+				return A2(
+					elm$core$Array$builderToArray,
+					true,
+					{nodeList: nodeList, nodeListSize: nodeListSize, tail: jsArray});
+			} else {
+				var $temp$list = remainingItems,
+					$temp$nodeList = A2(
+					elm$core$List$cons,
+					elm$core$Array$Leaf(jsArray),
+					nodeList),
+					$temp$nodeListSize = nodeListSize + 1;
+				list = $temp$list;
+				nodeList = $temp$nodeList;
+				nodeListSize = $temp$nodeListSize;
+				continue fromListHelp;
+			}
+		}
+	});
+var elm$core$Array$fromList = function (list) {
+	if (!list.b) {
+		return elm$core$Array$empty;
+	} else {
+		return A3(elm$core$Array$fromListHelp, list, _List_Nil, 0);
+	}
+};
+var elm$regex$Regex$Match = F4(
+	function (match, index, number, submatches) {
+		return {index: index, match: match, number: number, submatches: submatches};
+	});
+var elm$regex$Regex$replace = _Regex_replaceAtMost(_Regex_infinity);
+var elm$core$Array$bitMask = 4294967295 >>> (32 - elm$core$Array$shiftStep);
+var elm$core$Elm$JsArray$unsafeGet = _JsArray_unsafeGet;
+var elm$core$Array$getHelp = F3(
+	function (shift, index, tree) {
+		getHelp:
+		while (true) {
+			var pos = elm$core$Array$bitMask & (index >>> shift);
+			var _n0 = A2(elm$core$Elm$JsArray$unsafeGet, pos, tree);
+			if (_n0.$ === 'SubTree') {
+				var subTree = _n0.a;
+				var $temp$shift = shift - elm$core$Array$shiftStep,
+					$temp$index = index,
+					$temp$tree = subTree;
+				shift = $temp$shift;
+				index = $temp$index;
+				tree = $temp$tree;
+				continue getHelp;
+			} else {
+				var values = _n0.a;
+				return A2(elm$core$Elm$JsArray$unsafeGet, elm$core$Array$bitMask & index, values);
+			}
+		}
+	});
+var elm$core$Bitwise$shiftLeftBy = _Bitwise_shiftLeftBy;
+var elm$core$Array$tailIndex = function (len) {
+	return (len >>> 5) << 5;
+};
+var elm$core$Basics$ge = _Utils_ge;
+var elm$core$Array$get = F2(
+	function (index, _n0) {
+		var len = _n0.a;
+		var startShift = _n0.b;
+		var tree = _n0.c;
+		var tail = _n0.d;
+		return ((index < 0) || (_Utils_cmp(index, len) > -1)) ? elm$core$Maybe$Nothing : ((_Utils_cmp(
+			index,
+			elm$core$Array$tailIndex(len)) > -1) ? elm$core$Maybe$Just(
+			A2(elm$core$Elm$JsArray$unsafeGet, elm$core$Array$bitMask & index, tail)) : elm$core$Maybe$Just(
+			A3(elm$core$Array$getHelp, startShift, index, tree)));
+	});
+var elm$core$Basics$composeL = F3(
+	function (g, f, x) {
+		return g(
+			f(x));
+	});
+var elm$core$Maybe$andThen = F2(
+	function (callback, maybeValue) {
+		if (maybeValue.$ === 'Just') {
+			var value = maybeValue.a;
+			return callback(value);
+		} else {
+			return elm$core$Maybe$Nothing;
+		}
+	});
+var elm$core$Maybe$withDefault = F2(
+	function (_default, maybe) {
+		if (maybe.$ === 'Just') {
+			var value = maybe.a;
+			return value;
+		} else {
+			return _default;
+		}
+	});
+var elm$core$String$length = _String_length;
+var elm$core$String$slice = _String_slice;
+var elm$core$String$dropLeft = F2(
+	function (n, string) {
+		return (n < 1) ? string : A3(
+			elm$core$String$slice,
+			n,
+			elm$core$String$length(string),
+			string);
+	});
+var elm$core$String$dropRight = F2(
+	function (n, string) {
+		return (n < 1) ? string : A3(elm$core$String$slice, 0, -n, string);
+	});
+var elm$core$String$toInt = _String_toInt;
+var lukewestby$elm_string_interpolate$String$Interpolate$applyInterpolation = F2(
+	function (replacements, _n0) {
+		var match = _n0.match;
+		var ordinalString = A2(
+			elm$core$Basics$composeL,
+			elm$core$String$dropLeft(1),
+			elm$core$String$dropRight(1))(match);
+		return A2(
+			elm$core$Maybe$withDefault,
+			'',
+			A2(
+				elm$core$Maybe$andThen,
+				function (value) {
+					return A2(elm$core$Array$get, value, replacements);
+				},
+				elm$core$String$toInt(ordinalString)));
+	});
+var elm$regex$Regex$fromStringWith = _Regex_fromStringWith;
+var elm$regex$Regex$fromString = function (string) {
+	return A2(
+		elm$regex$Regex$fromStringWith,
+		{caseInsensitive: false, multiline: false},
+		string);
+};
+var elm$regex$Regex$never = _Regex_never;
+var lukewestby$elm_string_interpolate$String$Interpolate$interpolationRegex = A2(
+	elm$core$Maybe$withDefault,
+	elm$regex$Regex$never,
+	elm$regex$Regex$fromString('\\{\\d+\\}'));
+var lukewestby$elm_string_interpolate$String$Interpolate$interpolate = F2(
+	function (string, args) {
+		var asArray = elm$core$Array$fromList(args);
+		return A3(
+			elm$regex$Regex$replace,
+			lukewestby$elm_string_interpolate$String$Interpolate$interpolationRegex,
+			lukewestby$elm_string_interpolate$String$Interpolate$applyInterpolation(asArray),
+			string);
+	});
+var author$project$Explanation$View$handClass = F2(
+	function (maxHandSize, handIndex) {
+		return elm$html$Html$Attributes$class(
+			A2(
+				lukewestby$elm_string_interpolate$String$Interpolate$interpolate,
+				'player-hand hand-size-{0} card-{1}',
+				_List_fromArray(
+					[
+						elm$core$String$fromInt(maxHandSize),
+						elm$core$String$fromInt(handIndex)
+					])));
+	});
+var author$project$Explanation$View$noTransition = A2(elm$html$Html$Attributes$attribute, 'no-transition', '');
+var author$project$Explanation$View$placedClass = elm$html$Html$Attributes$class('player-placed-card-area');
+var author$project$Explanation$View$hand = F3(
+	function (step, maxHandSize, cards) {
+		switch (step.$) {
+			case 'PlaceCard':
+				var handIndex = step.a;
+				var mapper = F2(
+					function (listIndex, card) {
+						var facing = _Utils_eq(listIndex, handIndex) ? author$project$Card$Down : author$project$Card$Up;
+						var cardNumber = (_Utils_cmp(listIndex, handIndex) < 1) ? listIndex : (listIndex - 1);
+						var attributes = _Utils_ap(
+							_List_fromArray(
+								[
+									A2(author$project$Explanation$View$handClass, maxHandSize, cardNumber)
+								]),
+							_Utils_eq(handIndex, listIndex) ? _List_fromArray(
+								[author$project$Explanation$View$placedClass]) : _List_Nil);
+						return A3(author$project$Card$webComponent, attributes, facing, card);
+					});
+				return A2(elm$core$List$indexedMap, mapper, cards);
+			case 'NoTransitionRearrange':
+				var mapper = F2(
+					function (handIndex, card) {
+						return A3(
+							author$project$Card$webComponent,
+							_List_fromArray(
+								[
+									A2(author$project$Explanation$View$handClass, maxHandSize, handIndex),
+									author$project$Explanation$View$noTransition
+								]),
+							author$project$Card$Up,
+							card);
+					});
+				return A2(elm$core$List$indexedMap, mapper, cards);
+			default:
+				var mapper = F2(
+					function (handIndex, card) {
+						return A3(
+							author$project$Card$webComponent,
+							_List_fromArray(
+								[
+									A2(author$project$Explanation$View$handClass, maxHandSize, handIndex)
+								]),
+							author$project$Card$Up,
+							card);
+					});
+				return A2(elm$core$List$indexedMap, mapper, cards);
+		}
+	});
+var author$project$Explanation$View$placedCardArea = F4(
+	function (step, maxHandSize, currentHandSize, maybeCard) {
+		var placed = function () {
+			if (maybeCard.$ === 'Nothing') {
+				return _List_Nil;
+			} else {
+				var card = maybeCard.a;
+				switch (step.$) {
+					case 'PlaceCard':
+						var handIndex = step.a;
+						return _List_fromArray(
+							[
+								A3(
+								author$project$Card$webComponent,
+								_List_fromArray(
+									[
+										A2(author$project$Explanation$View$handClass, maxHandSize, currentHandSize - 1)
+									]),
+								author$project$Card$Up,
+								card)
+							]);
+					case 'NoTransitionRearrange':
+						return _List_fromArray(
+							[
+								A3(
+								author$project$Card$webComponent,
+								_List_fromArray(
+									[author$project$Explanation$View$placedClass, author$project$Explanation$View$noTransition]),
+								author$project$Card$Down,
+								card)
+							]);
+					default:
+						return _List_fromArray(
+							[
+								A3(
+								author$project$Card$webComponent,
+								_List_fromArray(
+									[author$project$Explanation$View$placedClass]),
+								author$project$Card$Down,
+								card)
+							]);
+				}
+			}
+		}();
+		var emptyArea = _List_fromArray(
+			[
+				A3(
+				elm$html$Html$node,
+				'pilatch-card',
+				_List_fromArray(
+					[
+						author$project$Explanation$View$placedClass,
+						A2(elm$html$Html$Attributes$attribute, 'nothing', '')
+					]),
+				_List_Nil)
+			]);
+		return _Utils_ap(placed, emptyArea);
+	});
+var elm$core$List$append = F2(
+	function (xs, ys) {
+		if (!ys.b) {
+			return xs;
+		} else {
+			return A3(elm$core$List$foldr, elm$core$List$cons, ys, xs);
+		}
+	});
+var elm$core$List$concat = function (lists) {
+	return A3(elm$core$List$foldr, elm$core$List$append, _List_Nil, lists);
+};
+var elm$html$Html$section = _VirtualDom_node('section');
+var author$project$Explanation$View$view = function (model) {
+	var classes = _List_fromArray(
+		[
+			elm$html$Html$Attributes$class('table-top')
+		]);
+	var attributes = function () {
+		var _n0 = model.animationStep;
+		if (_n0.$ === 'NoTransitionRearrange') {
+			return _List_fromArray(
+				[author$project$Explanation$View$noTransition]);
+		} else {
+			return _List_Nil;
+		}
+	}();
+	return A2(
+		elm$html$Html$section,
+		_Utils_ap(classes, attributes),
+		elm$core$List$concat(
+			_List_fromArray(
+				[
+					A3(author$project$Explanation$View$hand, model.animationStep, model.maxHandSize, model.hand),
+					A4(
+					author$project$Explanation$View$placedCardArea,
+					model.animationStep,
+					model.maxHandSize,
+					elm$core$List$length(model.hand),
+					model.placed)
+				])));
+};
+var elm$browser$Browser$External = function (a) {
+	return {$: 'External', a: a};
+};
+var elm$browser$Browser$Internal = function (a) {
+	return {$: 'Internal', a: a};
+};
+var elm$browser$Browser$Dom$NotFound = function (a) {
+	return {$: 'NotFound', a: a};
+};
+var elm$core$Basics$never = function (_n0) {
+	never:
+	while (true) {
+		var nvr = _n0.a;
+		var $temp$_n0 = nvr;
+		_n0 = $temp$_n0;
+		continue never;
+	}
+};
 var elm$browser$Debugger$Expando$ArraySeq = {$: 'ArraySeq'};
 var elm$browser$Debugger$Expando$Constructor = F3(
 	function (a, b, c) {
@@ -6378,6 +6425,8 @@ var elm$browser$Debugger$Overlay$Choose = F2(
 var elm$browser$Debugger$Overlay$goodNews1 = '\nThe good news is that having values like this in your message type is not\nso great in the long run. You are better off using simpler data, like\n';
 var elm$browser$Debugger$Overlay$goodNews2 = '\nfunction can pattern match on that data and call whatever functions, JSON\ndecoders, etc. you need. This makes the code much more explicit and easy to\nfollow for other readers (or you in a few months!)\n';
 var elm$html$Html$code = _VirtualDom_node('code');
+var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
 var elm$browser$Debugger$Overlay$viewCode = function (name) {
 	return A2(
 		elm$html$Html$code,
@@ -6449,7 +6498,15 @@ var elm$browser$Debugger$Overlay$viewProblemType = function (_n0) {
 					A2(elm$core$List$map, elm$browser$Debugger$Overlay$problemToString, problems)) + '.'))
 			]));
 };
+var elm$html$Html$a = _VirtualDom_node('a');
+var elm$html$Html$p = _VirtualDom_node('p');
 var elm$html$Html$ul = _VirtualDom_node('ul');
+var elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
 var elm$browser$Debugger$Overlay$viewBadMetadata = function (_n0) {
 	var message = _n0.message;
 	var problems = _n0.problems;
@@ -6499,8 +6556,27 @@ var elm$browser$Debugger$Overlay$viewBadMetadata = function (_n0) {
 };
 var elm$browser$Debugger$Overlay$Cancel = {$: 'Cancel'};
 var elm$browser$Debugger$Overlay$Proceed = {$: 'Proceed'};
+var elm$html$Html$button = _VirtualDom_node('button');
+var elm$html$Html$div = _VirtualDom_node('div');
 var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
+var elm$virtual_dom$VirtualDom$Normal = function (a) {
+	return {$: 'Normal', a: a};
+};
+var elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			elm$virtual_dom$VirtualDom$on,
+			event,
+			elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		elm$html$Html$Events$on,
+		'click',
+		elm$json$Json$Decode$succeed(msg));
+};
 var elm$browser$Debugger$Overlay$viewButtons = function (buttons) {
 	var btn = F2(
 		function (msg, string) {
@@ -7046,15 +7122,10 @@ var elm$browser$Debugger$Expando$seqTypeToString = F2(
 				return 'Array(' + (elm$core$String$fromInt(n) + ')');
 		}
 	});
-var elm$core$String$slice = _String_slice;
 var elm$core$String$left = F2(
 	function (n, string) {
 		return (n < 1) ? '' : A3(elm$core$String$slice, 0, n, string);
 	});
-var elm$core$String$length = _String_length;
-var elm$core$Basics$negate = function (n) {
-	return -n;
-};
 var elm$core$String$right = F2(
 	function (n, string) {
 		return (n < 1) ? '' : A3(
@@ -7124,15 +7195,6 @@ var elm$core$Dict$isEmpty = function (dict) {
 		return false;
 	}
 };
-var elm$core$Maybe$withDefault = F2(
-	function (_default, maybe) {
-		if (maybe.$ === 'Just') {
-			var value = maybe.a;
-			return value;
-		} else {
-			return _default;
-		}
-	});
 var elm$browser$Debugger$Expando$viewExtraTiny = function (value) {
 	if (value.$ === 'Record') {
 		var record = value.b;
@@ -7281,11 +7343,6 @@ var elm$browser$Debugger$Expando$viewTinyRecordHelp = F3(
 									otherHtmls)))));
 			}
 		}
-	});
-var elm$core$Basics$composeL = F3(
-	function (g, f, x) {
-		return g(
-			f(x));
 	});
 var elm$core$Tuple$second = function (_n0) {
 	var y = _n0.b;
@@ -8426,17 +8483,6 @@ var elm$core$Dict$values = function (dict) {
 		_List_Nil,
 		dict);
 };
-var elm$core$List$append = F2(
-	function (xs, ys) {
-		if (!ys.b) {
-			return xs;
-		} else {
-			return A3(elm$core$List$foldr, elm$core$List$cons, ys, xs);
-		}
-	});
-var elm$core$List$concat = function (lists) {
-	return A3(elm$core$List$foldr, elm$core$List$append, _List_Nil, lists);
-};
 var elm$core$List$concatMap = F2(
 	function (f, list) {
 		return elm$core$List$concat(
@@ -9228,41 +9274,6 @@ var elm$browser$Debugger$History$Snapshot = F2(
 	function (model, messages) {
 		return {messages: messages, model: model};
 	});
-var elm$core$Array$fromListHelp = F3(
-	function (list, nodeList, nodeListSize) {
-		fromListHelp:
-		while (true) {
-			var _n0 = A2(elm$core$Elm$JsArray$initializeFromList, elm$core$Array$branchFactor, list);
-			var jsArray = _n0.a;
-			var remainingItems = _n0.b;
-			if (_Utils_cmp(
-				elm$core$Elm$JsArray$length(jsArray),
-				elm$core$Array$branchFactor) < 0) {
-				return A2(
-					elm$core$Array$builderToArray,
-					true,
-					{nodeList: nodeList, nodeListSize: nodeListSize, tail: jsArray});
-			} else {
-				var $temp$list = remainingItems,
-					$temp$nodeList = A2(
-					elm$core$List$cons,
-					elm$core$Array$Leaf(jsArray),
-					nodeList),
-					$temp$nodeListSize = nodeListSize + 1;
-				list = $temp$list;
-				nodeList = $temp$nodeList;
-				nodeListSize = $temp$nodeListSize;
-				continue fromListHelp;
-			}
-		}
-	});
-var elm$core$Array$fromList = function (list) {
-	if (!list.b) {
-		return elm$core$Array$empty;
-	} else {
-		return A3(elm$core$Array$fromListHelp, list, _List_Nil, 0);
-	}
-};
 var elm$browser$Debugger$History$addRecent = F3(
 	function (msg, newModel, _n0) {
 		var model = _n0.model;
@@ -9287,13 +9298,8 @@ var elm$browser$Debugger$History$addRecent = F3(
 				A2(elm$core$List$cons, msg, messages),
 				numMessages + 1));
 	});
-var elm$core$Bitwise$shiftRightZfBy = _Bitwise_shiftRightZfBy;
-var elm$core$Array$bitMask = 4294967295 >>> (32 - elm$core$Array$shiftStep);
-var elm$core$Basics$ge = _Utils_ge;
-var elm$core$Bitwise$and = _Bitwise_and;
 var elm$core$Elm$JsArray$push = _JsArray_push;
 var elm$core$Elm$JsArray$singleton = _JsArray_singleton;
-var elm$core$Elm$JsArray$unsafeGet = _JsArray_unsafeGet;
 var elm$core$Elm$JsArray$unsafeSet = _JsArray_unsafeSet;
 var elm$core$Array$insertTailInTree = F4(
 	function (shift, index, tail, tree) {
@@ -9330,7 +9336,6 @@ var elm$core$Array$insertTailInTree = F4(
 			}
 		}
 	});
-var elm$core$Bitwise$shiftLeftBy = _Bitwise_shiftLeftBy;
 var elm$core$Array$unsafeReplaceTail = F2(
 	function (newTail, _n0) {
 		var len = _n0.a;
@@ -9430,42 +9435,6 @@ var elm$browser$Debugger$History$undone = function (getResult) {
 		}
 	}
 };
-var elm$core$Array$getHelp = F3(
-	function (shift, index, tree) {
-		getHelp:
-		while (true) {
-			var pos = elm$core$Array$bitMask & (index >>> shift);
-			var _n0 = A2(elm$core$Elm$JsArray$unsafeGet, pos, tree);
-			if (_n0.$ === 'SubTree') {
-				var subTree = _n0.a;
-				var $temp$shift = shift - elm$core$Array$shiftStep,
-					$temp$index = index,
-					$temp$tree = subTree;
-				shift = $temp$shift;
-				index = $temp$index;
-				tree = $temp$tree;
-				continue getHelp;
-			} else {
-				var values = _n0.a;
-				return A2(elm$core$Elm$JsArray$unsafeGet, elm$core$Array$bitMask & index, values);
-			}
-		}
-	});
-var elm$core$Array$tailIndex = function (len) {
-	return (len >>> 5) << 5;
-};
-var elm$core$Array$get = F2(
-	function (index, _n0) {
-		var len = _n0.a;
-		var startShift = _n0.b;
-		var tree = _n0.c;
-		var tail = _n0.d;
-		return ((index < 0) || (_Utils_cmp(index, len) > -1)) ? elm$core$Maybe$Nothing : ((_Utils_cmp(
-			index,
-			elm$core$Array$tailIndex(len)) > -1) ? elm$core$Maybe$Just(
-			A2(elm$core$Elm$JsArray$unsafeGet, elm$core$Array$bitMask & index, tail)) : elm$core$Maybe$Just(
-			A3(elm$core$Array$getHelp, startShift, index, tree)));
-	});
 var elm$browser$Debugger$History$get = F3(
 	function (update, index, history) {
 		get:
@@ -9693,6 +9662,8 @@ var elm$browser$Debugger$Overlay$BadImport = function (a) {
 };
 var elm$browser$Debugger$Report$CorruptHistory = {$: 'CorruptHistory'};
 var elm$browser$Debugger$Overlay$corruptImport = elm$browser$Debugger$Overlay$BadImport(elm$browser$Debugger$Report$CorruptHistory);
+var elm$core$Platform$Cmd$batch = _Platform_batch;
+var elm$core$Platform$Cmd$none = elm$core$Platform$Cmd$batch(_List_Nil);
 var elm$browser$Debugger$Main$loadNewHistory = F3(
 	function (rawHistory, update, model) {
 		var pureUserUpdate = F2(
@@ -10250,14 +10221,6 @@ var elm$core$Set$foldr = F3(
 			initialState,
 			dict);
 	});
-var elm$core$String$dropLeft = F2(
-	function (n, string) {
-		return (n < 1) ? string : A3(
-			elm$core$String$slice,
-			n,
-			elm$core$String$length(string),
-			string);
-	});
 var elm$core$String$startsWith = _String_startsWith;
 var elm$url$Url$Http = {$: 'Http'};
 var elm$url$Url$Https = {$: 'Https'};
@@ -10265,7 +10228,6 @@ var elm$core$String$indexes = _String_indexes;
 var elm$core$String$isEmpty = function (string) {
 	return string === '';
 };
-var elm$core$String$toInt = _String_toInt;
 var elm$url$Url$Url = F6(
 	function (protocol, host, port_, path, query, fragment) {
 		return {fragment: fragment, host: host, path: path, port_: port_, protocol: protocol, query: query};
@@ -10372,29 +10334,26 @@ var elm$url$Url$fromString = function (str) {
 		elm$url$Url$Https,
 		A2(elm$core$String$dropLeft, 8, str)) : elm$core$Maybe$Nothing);
 };
-var elm$browser$Browser$sandbox = function (impl) {
-	return _Browser_element(
-		{
-			init: function (_n0) {
-				return _Utils_Tuple2(impl.init, elm$core$Platform$Cmd$none);
-			},
-			subscriptions: function (_n1) {
-				return elm$core$Platform$Sub$none;
-			},
-			update: F2(
-				function (msg, model) {
-					return _Utils_Tuple2(
-						A2(impl.update, msg, model),
-						elm$core$Platform$Cmd$none);
-				}),
-			view: impl.view
-		});
-};
-var author$project$Iterations$Main$main = elm$browser$Browser$sandbox(
+var elm$browser$Browser$element = _Browser_element;
+var elm$core$Platform$Sub$batch = _Platform_batch;
+var elm$core$Platform$Sub$none = elm$core$Platform$Sub$batch(_List_Nil);
+var elm$json$Json$Decode$int = _Json_decodeInt;
+var author$project$Explanation$Main$main = elm$browser$Browser$element(
 	{
-		init: {animationNumber: 0, implementation: author$project$Iterations$Model$NoneChosen},
-		update: author$project$Iterations$Main$update,
-		view: author$project$Iterations$View$view
+		init: author$project$Explanation$Model$initial(
+			_List_fromArray(
+				[author$project$Card$AceOfPaper, author$project$Card$KingOfScissors, author$project$Card$TenOfRock, author$project$Card$QueenOfPaper, author$project$Card$JackOfRock, author$project$Card$JokerOfScissors])),
+		subscriptions: elm$core$Basics$always(elm$core$Platform$Sub$none),
+		update: author$project$Explanation$Update$update,
+		view: author$project$Explanation$View$view
 	});
-_Platform_export({'Iterations':{'Main':{'init':author$project$Iterations$Main$main(
-	elm$json$Json$Decode$succeed(_Utils_Tuple0))({"versions":{"elm":"0.19.0"},"types":{"message":"Iterations.Model.Msg","aliases":{},"unions":{"Iterations.Model.Msg":{"args":[],"tags":{"ChooseImplementation":["Iterations.Model.Implementation"],"DoAnimation":["Basics.Int"],"StartOver":[]}},"Iterations.Model.Implementation":{"args":[],"tags":{"NoneChosen":[],"Naive":[],"InvisibleCard":[],"DisablingTransitions":[],"Collapsed":[]}},"Basics.Int":{"args":[],"tags":{"Int":[]}}}}})}}});}(this));
+_Platform_export({'Explanation':{'Main':{'init':author$project$Explanation$Main$main(elm$json$Json$Decode$int)({"versions":{"elm":"0.19.0"},"types":{"message":"Explanation.Model.Msg","aliases":{"Explanation.Model.HandIndex":{"args":[],"type":"Basics.Int"}},"unions":{"Explanation.Model.Msg":{"args":[],"tags":{"DemoPlaceCard":["Explanation.Model.HandIndex"],"DemoRearrange":["Explanation.Model.RearrangeMsg"]}},"Explanation.Model.RearrangeMsg":{"args":[],"tags":{"RearrangeAfterAnimation":["List.List Card.Card","Maybe.Maybe Card.Card"]}},"Basics.Int":{"args":[],"tags":{"Int":[]}},"Card.Card":{"args":[],"tags":{"OneOfPaper":[],"TwoOfPaper":[],"ThreeOfPaper":[],"FourOfPaper":[],"FiveOfPaper":[],"SixOfPaper":[],"SevenOfPaper":[],"EightOfPaper":[],"NineOfPaper":[],"TenOfPaper":[],"JackOfPaper":[],"QueenOfPaper":[],"KingOfPaper":[],"AceOfPaper":[],"JokerOfPaper":[],"OneOfRock":[],"TwoOfRock":[],"ThreeOfRock":[],"FourOfRock":[],"FiveOfRock":[],"SixOfRock":[],"SevenOfRock":[],"EightOfRock":[],"NineOfRock":[],"TenOfRock":[],"JackOfRock":[],"QueenOfRock":[],"KingOfRock":[],"AceOfRock":[],"JokerOfRock":[],"OneOfScissors":[],"TwoOfScissors":[],"ThreeOfScissors":[],"FourOfScissors":[],"FiveOfScissors":[],"SixOfScissors":[],"SevenOfScissors":[],"EightOfScissors":[],"NineOfScissors":[],"TenOfScissors":[],"JackOfScissors":[],"QueenOfScissors":[],"KingOfScissors":[],"AceOfScissors":[],"JokerOfScissors":[]}},"List.List":{"args":["a"],"tags":{}},"Maybe.Maybe":{"args":["a"],"tags":{"Just":["a"],"Nothing":[]}}}}})}}});}(this));
+
+var app = Elm.Explanation.Main.init({ node: document.getElementById("elm-f0111bc4e658d0f98db96260c16f7e49") });
+if (document.getElementById("elm-f0111bc4e658d0f98db96260c16f7e49"))
+{
+  document.getElementById("elm-f0111bc4e658d0f98db96260c16f7e49").innerText = 'This is a headless program, meaning there is nothing to show here.\n\nI started the program anyway though, and you can access it as `app` in the developer console.';
+}
+</script>
+</body>
+</html>
