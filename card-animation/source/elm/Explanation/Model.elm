@@ -9,7 +9,7 @@ import Task
 initial handCards seedInt =
     let
         ( command, steppedSeed ) =
-            initialCommand seedInt <| List.length handCards
+            placeRandomCard 1250 (Random.initialSeed seedInt) <| List.length handCards
     in
     ( { hand =
             { cards = handCards
@@ -20,18 +20,10 @@ initial handCards seedInt =
             { animation = NoPlacedAnimation
             , maybeCard = Nothing
             }
-      , seed = Random.initialSeed seedInt
+      , seed = steppedSeed
       }
     , command
     )
-
-
-initialCommand seedInt handSize =
-    let
-        ( cardIndex, steppedSeed ) =
-            Random.step (Random.int 0 <| handSize - 1) <| Random.initialSeed seedInt
-    in
-    ( Task.perform (\_ -> PlaceCard cardIndex) (Process.sleep 1250), steppedSeed )
 
 
 type alias Model =
@@ -74,3 +66,18 @@ type alias CardFromHand =
 type Msg
     = PlaceCard HandIndex
     | Rearrange CardFromHand ReturnedPlacedCard HandIndex
+
+
+nextMsg : Float -> Msg -> Cmd Msg
+nextMsg delay msg =
+    Task.perform
+        (always msg)
+        (Process.sleep delay)
+
+
+placeRandomCard delay seed handSize =
+    let
+        ( cardIndex, steppedSeed ) =
+            Random.step (Random.int 0 <| handSize - 1) seed
+    in
+    ( nextMsg delay <| PlaceCard cardIndex, steppedSeed )

@@ -5,16 +5,15 @@ import Explanation.Model exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (attribute, class)
 import Html.Keyed
-import List.Extra
 import String.Interpolate exposing (interpolate)
 
 
 view : Model -> Html Msg
 view model =
-    section [ class "table-top" ]
-        [ div [] <| viewPlaced model
-        , Html.Keyed.node "div" [] <| viewHand model
-        ]
+    Html.Keyed.node "section" [ class "table-top" ] <|
+        [ ( "empty-placed-card-area", emptyArea ) ]
+            ++ viewHand model
+            ++ viewPlaced model
 
 
 viewHand : Model -> List ( String, Html Msg )
@@ -42,26 +41,25 @@ viewHand model =
         model.hand.cards
 
 
-viewPlaced : Model -> List (Html Msg)
+viewPlaced : Model -> List ( String, Html Msg )
 viewPlaced model =
-    emptyArea
-        ++ (case model.placed.maybeCard of
-                Nothing ->
-                    []
+    case model.placed.maybeCard of
+        Nothing ->
+            []
 
-                Just placedCard ->
-                    case model.placed.animation of
-                        DuplicateAtPlaced handCard ->
-                            -- probably don't need handClass
-                            -- handClass model.maxHandSize <| List.length model.hand.cards
-                            [ webComponent [ noTransition, placedClass ] Down handCard ]
+        Just placedCard ->
+            case model.placed.animation of
+                DuplicateAtPlaced handCard ->
+                    [ ( cardToString handCard, webComponent [ noTransition, placedClass ] Down handCard ) ]
 
-                        ReturnPlacedCardToHand ->
-                            [ webComponent [ placedClass, handClass model.maxHandSize <| List.length model.hand.cards ] Up placedCard ]
+                ReturnPlacedCardToHand ->
+                    [ ( cardToString placedCard
+                      , webComponent [ handClass model.maxHandSize <| List.length model.hand.cards - 1 ] Up placedCard
+                      )
+                    ]
 
-                        NoPlacedAnimation ->
-                            [ webComponent [ noTransition, placedClass ] Down placedCard ]
-           )
+                NoPlacedAnimation ->
+                    [ ( cardToString placedCard, webComponent [ noTransition, placedClass ] Down placedCard ) ]
 
 
 
@@ -69,7 +67,7 @@ viewPlaced model =
 
 
 emptyArea =
-    [ node "pilatch-card" [ placedClass, attribute "nothing" "" ] [] ]
+    node "pilatch-card" [ placedClass, attribute "nothing" "" ] []
 
 
 handClass maxHandSize handIndex =

@@ -29,9 +29,9 @@ update msg model =
                                     , maybeCard = Nothing
                                     }
 
-                                Just _ ->
+                                Just placedCardToReturn ->
                                     { animation = ReturnPlacedCardToHand
-                                    , maybeCard = model.placed.maybeCard
+                                    , maybeCard = Just placedCardToReturn
                                     }
 
                         newModel =
@@ -64,15 +64,11 @@ update msg model =
                     { animation = NoHandAnimation
                     , cards = newHandCards
                     }
+
+                ( command, newSeed ) =
+                    placeRandomCard 1250 model.seed <| List.length newHandCards
             in
-            ( { model | placed = newPlaced, hand = newHand }, Cmd.none )
-
-
-nextMsg : Float -> Msg -> Cmd Msg
-nextMsg delay msg =
-    Task.perform
-        (always msg)
-        (Process.sleep delay)
+            ( { model | placed = newPlaced, hand = newHand, seed = newSeed }, command )
 
 
 
