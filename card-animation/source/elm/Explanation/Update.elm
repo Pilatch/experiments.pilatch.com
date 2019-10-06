@@ -1,85 +1,85 @@
-module Explanation.Update exposing (naiveUpdate, update)
+module Explanation.Update exposing (update)
 
 import Explanation.Model exposing (..)
+import List.Extra
 import Process
 import Random
 import Task
-import List.Extra
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        DemoPlaceCard handIndex ->
-            let
-                newModel =
-                    { model | animationStep = PlaceCard handIndex }
+        PlaceCard handIndex ->
+            case List.Extra.getAt handIndex model.hand.cards of
+                Nothing ->
+                    ( model, Cmd.none )
 
-                nextPlaced =
-                    List.Extra.getAt handIndex model.hand
-
-                nextHand =
-                    case model.placed of
-                        Nothing ->
-                            List.Extra.removeAt handIndex model.hand
-
-                        Just card ->
-                            (List.Extra.removeAt handIndex model.hand) ++ [ card ]
-
-                command =
-                    Task.perform (\_ -> DemoRearrange <| RearrangeAfterAnimation nextHand nextPlaced) (Process.sleep 1250)
-            in
-                ( newModel, command )
-
-        DemoRearrange rearrangeMsg ->
-            case rearrangeMsg of
-                RearrangeAfterAnimation hand placed ->
+                Just cardToPlace ->
                     let
-                        ( command, seed ) =
-                            let
-                                ( placeCardIndex, newSeed ) =
-                                    Random.step (Random.int 0 <| (List.length hand) - 1) model.seed
-                            in
-                                ( Task.perform (\_ -> DemoPlaceCard placeCardIndex) (Process.sleep 1250), newSeed )
+                        newHand =
+                            { animation = PlaceHandCard handIndex
+                            , cards = model.hand.cards
+                            }
+
+                        newPlaced =
+                            case model.placed.maybeCard of
+                                Nothing ->
+                                    { animation = NoPlacedAnimation
+                                    , maybeCard = Nothing
+                                    }
+
+                                Just placedCardToReturn ->
+                                    { animation = ReturnPlacedCardToHand
+                                    , maybeCard = Just placedCardToReturn
+                                    }
 
                         newModel =
-                            { model | hand = hand, placed = placed, animationStep = NoTransitionRearrange, seed = seed }
-                    in
-                        ( newModel, command )
+                            { model | hand = newHand, placed = newPlaced }
 
-
-naiveUpdate : Msg -> Model -> ( Model, Cmd Msg )
-naiveUpdate msg model =
-    case msg of
-        DemoPlaceCard handIndex ->
-            let
-                newModel =
-                    { model | animationStep = PlaceCard handIndex }
-
-                nextPlaced =
-                    List.Extra.getAt handIndex model.hand
-
-                nextHand =
-                    case model.placed of
-                        Nothing ->
-                            List.Extra.removeAt handIndex model.hand
-
-                        Just card ->
-                            (List.Extra.removeAt handIndex model.hand) ++ [ card ]
-
-                command =
-                    Task.perform (\_ -> DemoRearrange <| RearrangeAfterAnimation nextHand nextPlaced) (Process.sleep 2500)
-            in
-                ( newModel, command )
-
-        DemoRearrange rearrangeMsg ->
-            case rearrangeMsg of
-                RearrangeAfterAnimation hand placed ->
-                    let
                         command =
-                            Task.perform (\_ -> DemoPlaceCard 0) (Process.sleep 2500)
-
-                        newModel =
-                            { model | hand = hand, placed = placed, animationStep = NaiveRearrange }
+                            nextMsg 1250 <| Rearrange cardToPlace model.placed.maybeCard handIndex
                     in
-                        ( newModel, command )
+                    ( newModel, command )
+
+        Rearrange cardFromHand returnedPlacedCard placedHandIndex ->
+            let
+                newPlaced =
+                    { animation = DuplicateAtPlaced cardFromHand
+                    , maybeCard = Just cardFromHand
+                    }
+
+                handCardsWithoutPlaced =
+                    List.Extra.removeAt placedHandIndex model.hand.cards
+
+                newHandCards =
+                    case returnedPlacedCard of
+                        Nothing ->
+                            handCardsWithoutPlaced
+
+                        Just returnedCard ->
+                            handCardsWithoutPlaced ++ [ returnedCard ]
+
+                newHand =
+                    { animation = NoHandAnimation
+                    , cards = newHandCards
+                    }
+
+                ( command, newSeed ) =
+                    placeRandomCard 1250 model.seed <| List.length newHandCards
+            in
+            ( { model | placed = newPlaced, hand = newHand, seed = newSeed }, command )
+
+
+
+{-
+   Msg - PlaceCard
+   Add "placed" class to card at hand index. Shift other cards to left. If there's a placed card, add the hand-at-index class to it.
+       Needs to know: hand-index of placed card, and number of cards in hand
+
+   Msg - Rearrange
+   Keep the hand as-is (like PlaceCard) and no-transition duplicate the placed card at the placed area.
+   If a card was coming from placed, that needs to be duplicated at the hand too.
+       Needs to know: same as above, but also Maybe Card from placed
+
+-}

@@ -6,63 +6,78 @@ import Random
 import Task
 
 
-initial hand seedInt =
+initial handCards seedInt =
     let
         ( command, steppedSeed ) =
-            initialCommand seedInt <| List.length hand
+            placeRandomCard 1250 (Random.initialSeed seedInt) <| List.length handCards
     in
-        ( { animationStep = NoTransitionRearrange
-          , hand = hand
-          , maxHandSize = List.length hand
-          , placed = Nothing
-          , seed = Random.initialSeed seedInt
-          }
-        , command
-        )
-
-
-initialNoSeed hand =
-    ( { animationStep = NoTransitionRearrange
-      , hand = hand
-      , maxHandSize = List.length hand
-      , placed = Nothing
-      , seed = Random.initialSeed 8675309
+    ( { hand =
+            { cards = handCards
+            , animation = NoHandAnimation
+            }
+      , maxHandSize = List.length handCards
+      , placed =
+            { animation = NoPlacedAnimation
+            , maybeCard = Nothing
+            }
+      , seed = steppedSeed
       }
-    , Task.perform (\_ -> DemoPlaceCard 0) (Process.sleep 2500)
+    , command
     )
 
 
-initialCommand seedInt handSize =
-    let
-        ( cardIndex, steppedSeed ) =
-            Random.step (Random.int 0 <| handSize - 1) <| Random.initialSeed seedInt
-    in
-        ( Task.perform (\_ -> DemoPlaceCard cardIndex) (Process.sleep 2000), steppedSeed )
-
-
 type alias Model =
-    { animationStep : AnimationStep
-    , hand : List Card
+    { hand :
+        { animation : HandAnimation
+        , cards : List Card
+        }
     , maxHandSize : Int
-    , placed : Maybe Card
+    , placed :
+        { animation : PlacedAnimation
+        , maybeCard : Maybe Card
+        }
     , seed : Random.Seed
     }
+
+
+type HandAnimation
+    = PlaceHandCard HandIndex
+    | NoHandAnimation
+
+
+type PlacedAnimation
+    = DuplicateAtPlaced Card
+    | ReturnPlacedCardToHand
+    | NoPlacedAnimation
 
 
 type alias HandIndex =
     Int
 
 
-type AnimationStep
-    = PlaceCard HandIndex
-    | NoTransitionRearrange
-    | NaiveRearrange
+type alias ReturnedPlacedCard =
+    Maybe Card
+
+
+type alias CardFromHand =
+    Card
 
 
 type Msg
-    = DemoPlaceCard HandIndex
-    | DemoRearrange RearrangeMsg
+    = PlaceCard HandIndex
+    | Rearrange CardFromHand ReturnedPlacedCard HandIndex
 
 
-type RearrangeMsg
-    = RearrangeAfterAnimation (List Card) (Maybe Card)
+nextMsg : Float -> Msg -> Cmd Msg
+nextMsg delay msg =
+    Task.perform
+        (always msg)
+        (Process.sleep delay)
+
+
+placeRandomCard delay seed handSize =
+    let
+        ( cardIndex, steppedSeed ) =
+            Random.step (Random.int 0 <| handSize - 1) seed
+    in
+    ( nextMsg delay <| PlaceCard cardIndex, steppedSeed )

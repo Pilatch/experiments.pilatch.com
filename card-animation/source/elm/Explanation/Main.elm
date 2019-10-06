@@ -1,18 +1,16 @@
 module Explanation.Main exposing (..)
 
+import Browser
 import Card exposing (Card(..))
 import Explanation.Model as Model
-import Explanation.View as View
 import Explanation.Update as Update
-import Html
-import Task
-import Process
+import Explanation.View as View
 
 
 main =
-    Html.programWithFlags
+    Browser.element
         { init = Model.initial [ AceOfPaper, KingOfScissors, TenOfRock, QueenOfPaper, JackOfRock, JokerOfScissors ]
         , view = View.view
         , update = Update.update
-        , subscriptions = \_ -> Sub.none
+        , subscriptions = always Sub.none
         }
