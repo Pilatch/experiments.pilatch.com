@@ -236,6 +236,12 @@ frameTwo =
 --></code-mirror>
       <figcaption>How to only have animations when we want them</figcaption>
     </figure>
+    <p>
+      I also needed to use keyed HTML elements. See <a href="https://package.elm-lang.org/packages/elm/html/latest/Html-Keyed">Html.Keyed</a> in Elm.
+      To make that work as desired, it's important to assign highly representative keys to the elements.
+      For example, assigning a key of <code>hand-card-1</code> wouldn't help because the cards in hand get rearranged, causing the first card to be different between iterations.
+      Instead a key like <code>Ace-of-Scissors</code> would track that card as it moved around the table.
+    </p>
     <h2>Another option</h2>
     <p>
       While experimenting with React I stumbled upon a lazy approach.
